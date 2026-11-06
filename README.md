@@ -44,3 +44,16 @@ Copy `.env.example` to `.env.local` when configuring integrations. Never commit 
 7. Wildcard domain routing and production hardening
 
 Demo dashboard figures are illustrative only and are not connected to a live database or payment provider.
+## Storage capacity rules
+
+Storage is a persistent capacity ceiling, not a monthly upload credit:
+- Each new tenant receives 2 GiB of included capacity. Month 6 is still 2 GiB, not 12 GiB.
+- Upload reservations count the original uploaded byte size, even when image derivatives are compressed.
+- A full tenant is blocked from reserving another upload until files are deleted or capacity is purchased.
+- A deletion releases the original upload size exactly once. Failed reservations can also be released.
+- A verified storage purchase adds permanent capacity and is idempotent by payment reference; it does not reset usage.
+- The database separately records optimised derivative bytes and total physical media footprint.
+
+The database migration is `database/migrations/002_storage_capacity.sql`. The server-side accounting helpers are in `lib/storage-quota.ts` and `lib/tenant-media.ts`. Call these helpers only from a server route after resolving the tenant from a verified session. Do not accept tenant IDs from browser input.
+
+**Integration status:** the storage schema and accounting functions are deployed to Neon, and the image optimisation/quota orchestration helpers are in the repository. The project still needs its authenticated upload/delete API routes and tenant-facing storage UI wired to these helpers. The current image pipeline is not a 100 MB direct-upload endpoint; Vercel's request-body limits require a direct-to-object-storage upload flow for that size. Video transcoding is not implemented yet.
