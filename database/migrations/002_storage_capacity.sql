@@ -217,14 +217,8 @@ create policy tenant_storage_events_isolation on public.tenant_storage_events
 
 create or replace function public.get_tenant_storage_capacity(p_tenant_id uuid)
 returns table(capacity_bytes bigint, used_bytes bigint, available_bytes bigint)
-language plpgsql security definer set search_path = public as $
-begin
-  perform set_config('app.tenant_id', p_tenant_id::text, true);
-  return query
-    select a.capacity_bytes, a.used_bytes, greatest(a.capacity_bytes - a.used_bytes, 0)
-    from public.tenant_storage_accounts a where a.tenant_id = p_tenant_id;
-end;
-$;
+language sql security definer set search_path = public
+as 'WITH tenant_context AS MATERIALIZED (SELECT set_config(''app.tenant_id'', $1::text, true)) SELECT a.capacity_bytes, a.used_bytes, greatest(a.capacity_bytes - a.used_bytes, 0) FROM tenant_context CROSS JOIN public.tenant_storage_accounts a WHERE a.tenant_id = $1';
 
 revoke all on function public.get_tenant_storage_capacity(uuid) from public;
 revoke all on function public.reserve_media_upload(uuid,text,bigint,text) from public;
