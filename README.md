@@ -55,6 +55,6 @@ Storage is a persistent usage meter against a capacity ceiling:
 - Deleting a file releases its original upload size exactly once.
 - The database records add-on billing periods and payment references; payment webhook verification must be the only route that activates or renews paid add-ons.
 
-The schema migration is `database/migrations/002_storage_capacity.sql`; monthly add-ons are introduced by `database/migrations/003_monthly_storage_addons.sql`. Server-side helpers are in `lib/storage-quota.ts` and `lib/tenant-media.ts`.
+The base schema is `database/migrations/002_storage_capacity.sql`; expiring monthly add-ons and effective-capacity enforcement are introduced by `database/migrations/003_monthly_storage_addons.sql`. Server-side helpers are in `lib/storage-quota.ts` and `lib/tenant-media.ts`.
 
 **Admin integration status:** the database now supports monthly add-on plans and tenant subscriptions. The existing master dashboard is still a visual foundation with illustrative demo records; its master-owner authentication and secure plan-management UI/API are not implemented yet. I will not expose unauthenticated admin controls or pretend the current dashboard changes are persisted. Authenticated upload/delete routes, payment webhooks, tenant-facing quota display, and admin controls still need to be wired before this is production-ready.
