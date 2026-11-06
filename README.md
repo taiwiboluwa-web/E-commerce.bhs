@@ -46,14 +46,15 @@ Copy `.env.example` to `.env.local` when configuring integrations. Never commit 
 Demo dashboard figures are illustrative only and are not connected to a live database or payment provider.
 ## Storage capacity rules
 
-Storage is a persistent capacity ceiling, not a monthly upload credit:
-- Each new tenant receives 2 GiB of included capacity. Month 6 is still 2 GiB, not 12 GiB.
+Storage is a persistent usage meter against a capacity ceiling:
+- Each tenant receives 2 GiB of included capacity. It does not accumulate or reset monthly.
+- The platform owner can configure monthly storage add-on plans (for example, +1 GiB/month or +5 GiB/month), their prices, and availability.
+- A tenant receives add-on capacity only while its paid subscription period is active. Capacity expires at the end of that period unless renewed.
+- If an add-on expires while usage is above the remaining capacity, files are retained and remain accessible, but new uploads are blocked until usage is below the active capacity or the add-on is renewed.
 - Upload reservations count the original uploaded byte size, even when image derivatives are compressed.
-- A full tenant is blocked from reserving another upload until files are deleted or capacity is purchased.
-- A deletion releases the original upload size exactly once. Failed reservations can also be released.
-- A verified storage purchase adds permanent capacity and is idempotent by payment reference; it does not reset usage.
-- The database separately records optimised derivative bytes and total physical media footprint.
+- Deleting a file releases its original upload size exactly once.
+- The database records add-on billing periods and payment references; payment webhook verification must be the only route that activates or renews paid add-ons.
 
-The database migration is `database/migrations/002_storage_capacity.sql`. The server-side accounting helpers are in `lib/storage-quota.ts` and `lib/tenant-media.ts`. Call these helpers only from a server route after resolving the tenant from a verified session. Do not accept tenant IDs from browser input.
+The schema migration is `database/migrations/002_storage_capacity.sql`; monthly add-ons are introduced by `database/migrations/003_monthly_storage_addons.sql`. Server-side helpers are in `lib/storage-quota.ts` and `lib/tenant-media.ts`.
 
-**Integration status:** the storage schema and accounting functions are deployed to Neon, and the image optimisation/quota orchestration helpers are in the repository. The project still needs its authenticated upload/delete API routes and tenant-facing storage UI wired to these helpers. The current image pipeline is not a 100 MB direct-upload endpoint; Vercel's request-body limits require a direct-to-object-storage upload flow for that size. Video transcoding is not implemented yet.
+**Admin integration status:** the database now supports monthly add-on plans and tenant subscriptions. The existing master dashboard is still a visual foundation with illustrative demo records; its master-owner authentication and secure plan-management UI/API are not implemented yet. I will not expose unauthenticated admin controls or pretend the current dashboard changes are persisted. Authenticated upload/delete routes, payment webhooks, tenant-facing quota display, and admin controls still need to be wired before this is production-ready.
