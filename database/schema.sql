@@ -200,6 +200,7 @@ create index if not exists tenant_storage_events_tenant_created_idx
 create or replace function public.ensure_tenant_storage_account()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
+  perform set_config('app.tenant_id', new.id::text, true);
   insert into public.tenant_storage_accounts(tenant_id) values (new.id)
   on conflict (tenant_id) do nothing;
   return new;
@@ -225,6 +226,7 @@ language plpgsql security definer set search_path = public as $$
 declare
   v_asset_id uuid;
 begin
+  perform set_config('app.tenant_id', p_tenant_id::text, true);
   if p_media_type not in ('image','video') or p_original_size_bytes <= 0
      or p_idempotency_key is null or length(trim(p_idempotency_key)) = 0 then
     raise exception 'INVALID_STORAGE_RESERVATION';
@@ -264,8 +266,9 @@ create or replace function public.finalize_media_upload(
   p_optimized_size_bytes bigint,
   p_storage_footprint_bytes bigint
 ) returns boolean
-language plpgsql security definer set search_path = public as $$
+language plpgsql security definer set search_path = public as $
 begin
+  perform set_config('app.tenant_id', p_tenant_id::text, true);
   update public.media_assets
   set status = 'active',
       original_object_key = p_original_object_key,
@@ -287,6 +290,7 @@ language plpgsql security definer set search_path = public as $$
 declare
   v_original_size bigint;
 begin
+  perform set_config('app.tenant_id', p_tenant_id::text, true);
   if p_final_status not in ('deleted','failed') then
     raise exception 'INVALID_MEDIA_RELEASE_STATUS';
   end if;
@@ -321,6 +325,7 @@ declare
   v_inserted bigint;
   v_capacity bigint;
 begin
+  perform set_config('app.tenant_id', p_tenant_id::text, true);
   if p_added_bytes <= 0 or p_payment_reference is null or length(trim(p_payment_reference)) = 0 then
     raise exception 'INVALID_STORAGE_PURCHASE';
   end if;
@@ -365,6 +370,19 @@ create policy tenant_storage_events_isolation on public.tenant_storage_events
   using (tenant_id = nullif(current_setting('app.tenant_id', true), '')::uuid)
   with check (tenant_id = nullif(current_setting('app.tenant_id', true), '')::uuid);
 
+
+create or replace function public.get_tenant_storage_capacity(p_tenant_id uuid)
+returns table(capacity_bytes bigint, used_bytes bigint, available_bytes bigint)
+language plpgsql security definer set search_path = public as $
+begin
+  perform set_config('app.tenant_id', p_tenant_id::text, true);
+  return query
+    select a.capacity_bytes, a.used_bytes, greatest(a.capacity_bytes - a.used_bytes, 0)
+    from public.tenant_storage_accounts a where a.tenant_id = p_tenant_id;
+end;
+$;
+
+revoke all on function public.get_tenant_storage_capacity(uuid) from public;
 revoke all on function public.reserve_media_upload(uuid,text,bigint,text) from public;
 revoke all on function public.finalize_media_upload(uuid,uuid,text,jsonb,bigint,bigint) from public;
 revoke all on function public.release_media_upload(uuid,uuid,text) from public;
