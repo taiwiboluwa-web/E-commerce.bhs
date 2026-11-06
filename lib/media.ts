@@ -4,7 +4,7 @@ import sharp from "sharp";
 
 const ORIGINALS_BUCKET = "bhs-commerce-media";
 const OPTIMIZED_BUCKET = "bhs-commerce-optimized";
-const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
+const MAX_UPLOAD_BYTES = 100 * 1024 * 1024;
 const WIDTHS = [480, 960, 1600] as const;
 
 const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
@@ -23,7 +23,7 @@ function getStorageClient() {
   });
 }
 
-export type StoredImageVariant = { width: number; avifUrl: string; webpUrl: string };
+export type StoredImageVariant = { width: number; avifUrl: string; webpUrl: string; avifBytes: number; webpBytes: number };
 
 export type StoredImage = {
   id: string;
@@ -32,6 +32,8 @@ export type StoredImage = {
   height: number;
   variants: StoredImageVariant[];
   fallbackUrl: string;
+  originalBytes: number;
+  optimizedBytes: number;
 };
 
 /**
@@ -45,7 +47,7 @@ export async function storeOptimizedImage(input: {
 }): Promise<StoredImage> {
   const { buffer, contentType, tenantId } = input;
   if (!allowedTypes.has(contentType)) throw new Error("Unsupported image format.");
-  if (!buffer.length || buffer.length > MAX_UPLOAD_BYTES) throw new Error("Image must be smaller than 15 MB.");
+  if (!buffer.length || buffer.length > MAX_UPLOAD_BYTES) throw new Error("Image must be 100 MB or smaller.");
 
   const id = randomUUID();
   const extension = ({ "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/avif": "avif" } as const)[contentType as "image/jpeg" | "image/png" | "image/webp" | "image/avif"];
@@ -83,7 +85,7 @@ export async function storeOptimizedImage(input: {
       client.send(new PutObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key: avifKey, Body: avif, ContentType: "image/avif", CacheControl: "public, max-age=31536000, immutable" })),
       client.send(new PutObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key: webpKey, Body: webp, ContentType: "image/webp", CacheControl: "public, max-age=31536000, immutable" })),
     ]);
-    variants.push({ width: actualWidth, avifUrl: publicUrl(avifKey), webpUrl: publicUrl(webpKey) });
+    variants.push({ width: actualWidth, avifUrl: publicUrl(avifKey), webpUrl: publicUrl(webpKey), avifBytes: avif.length, webpBytes: webp.length });
   }
 
   const largest = variants[variants.length - 1];
@@ -94,5 +96,7 @@ export async function storeOptimizedImage(input: {
     height: metadata.height,
     variants,
     fallbackUrl: largest.webpUrl,
+    originalBytes: buffer.byteLength,
+    optimizedBytes: variants.reduce((total, variant) => total + variant.avifBytes + variant.webpBytes, 0),
   };
 }
