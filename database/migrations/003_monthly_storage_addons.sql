@@ -122,3 +122,5 @@ CREATE POLICY tenant_storage_addons_isolation ON public.tenant_storage_addons
 
 REVOKE ALL ON FUNCTION public.get_tenant_storage_capacity(uuid) FROM PUBLIC;
 REVOKE ALL ON FUNCTION public.reserve_media_upload(uuid,text,bigint,text) FROM PUBLIC;
+
+DROP FUNCTION IF EXISTS public.purchase_storage_capacity(uuid,bigint,text);
