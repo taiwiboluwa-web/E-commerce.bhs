@@ -82,10 +82,7 @@ export async function addPurchasedCapacity(input: {
 
 export async function getTenantStorageCapacity(tenantId: string) {
   const rows = await db()`
-    select capacity_bytes, used_bytes,
-      greatest(capacity_bytes - used_bytes, 0) as available_bytes
-    from public.tenant_storage_accounts
-    where tenant_id = ${tenantId}::uuid
+    select * from public.get_tenant_storage_capacity(${tenantId}::uuid)
   `;
   return rows[0] ?? {
     capacity_bytes: DEFAULT_INCLUDED_CAPACITY_BYTES,
