@@ -1,8 +1,6 @@
 import "server-only";
 import { neon } from "@neondatabase/serverless";
 
-const DEFAULT_INCLUDED_CAPACITY_BYTES = 2 * 1024 * 1024 * 1024;
-
 function db() {
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not configured.");
   return neon(process.env.DATABASE_URL);
@@ -64,30 +62,9 @@ export async function releaseMediaCapacity(input: {
   return Number(rows[0]?.released_bytes ?? 0);
 }
 
-/** Purchases add permanent capacity; the payment reference makes retries idempotent. */
-export async function addPurchasedCapacity(input: {
-  tenantId: string;
-  addedBytes: number;
-  paymentReference: string;
-}): Promise<number> {
-  if (!Number.isSafeInteger(input.addedBytes) || input.addedBytes <= 0) {
-    throw new Error("Invalid storage purchase size.");
-  }
-  const rows = await db()`
-    select public.purchase_storage_capacity(
-      ${input.tenantId}::uuid, ${input.addedBytes}, ${input.paymentReference}
-    ) as capacity_bytes
-  `;
-  return Number(rows[0]?.capacity_bytes ?? DEFAULT_INCLUDED_CAPACITY_BYTES);
-}
-
 export async function getTenantStorageCapacity(tenantId: string) {
   const rows = await db()`
     select * from public.get_tenant_storage_capacity(${tenantId}::uuid)
   `;
-  return rows[0] ?? {
-    capacity_bytes: DEFAULT_INCLUDED_CAPACITY_BYTES,
-    used_bytes: 0,
-    available_bytes: DEFAULT_INCLUDED_CAPACITY_BYTES,
-  };
+  return rows[0] ?? null;
 }
