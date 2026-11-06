@@ -67,7 +67,8 @@ export async function storeOptimizedImage(input: {
   const publicUrl = (key: string) => `${endpoint}/${OPTIMIZED_BUCKET}/${key.split("/").map(encodeURIComponent).join("/")}`;
   const variants: StoredImageVariant[] = [];
 
-  for (const width of WIDTHS) {
+  const targetWidths = [...new Set(WIDTHS.map((width) => Math.min(width, metadata.width!)))];
+  for (const width of targetWidths) {
     const pipeline = sharp(buffer, { failOn: "error", limitInputPixels: 80_000_000 })
       .rotate()
       .resize({ width, withoutEnlargement: true });
@@ -75,7 +76,7 @@ export async function storeOptimizedImage(input: {
       pipeline.clone().avif({ quality: 58, effort: 5 }).toBuffer(),
       pipeline.clone().webp({ quality: 84, effort: 5 }).toBuffer(),
     ]);
-    const actualWidth = Math.min(width, metadata.width);
+    const actualWidth = width;
     const avifKey = `${prefix}/w${actualWidth}.avif`;
     const webpKey = `${prefix}/w${actualWidth}.webp`;
     await Promise.all([
