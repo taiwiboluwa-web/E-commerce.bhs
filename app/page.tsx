@@ -52,7 +52,7 @@ export default function Home() {
         <nav className="nav-list">
           {navigation.map(({label, icon: Icon, href}) => (
             <button key={label} className={active === label ? "nav-link active" : "nav-link"} onClick={() => jump(label, href)}>
-              <Icon size={17}/><span>{label}</span>{label === "Storefronts" && <span className="nav-count">0</span>}
+              <Icon size={17}/><span>{label}</span>{label === "Storefronts" && <span className="nav-count">—</span>}
             </button>
           ))}
         </nav>
@@ -111,13 +111,13 @@ export default function Home() {
               <div className="overview-icon gold"><Activity size={18}/></div>
               <div className="overview-label">LIVE ACTIVITY</div>
               <strong>—</strong>
-              <small>Waiting for your first event</small>
+              <small>Live event feed not connected</small>
             </article>
             <article className="overview-card glass">
               <div className="overview-icon blue"><Wallet size={18}/></div>
               <div className="overview-label">SUBSCRIPTIONS</div>
               <strong>—</strong>
-              <small>No billing records yet</small>
+              <small>Live billing data not connected</small>
             </article>
             <article className="overview-card glass">
               <div className="overview-icon green"><Gauge size={18}/></div>
@@ -131,7 +131,7 @@ export default function Home() {
             <article className="section-card glass" id="storefronts">
               <div className="section-heading">
                 <div><span className="section-kicker">YOUR COMMERCE NETWORK</span><h2>Storefronts</h2><p>Your tenants, their stores, all in one view.</p></div>
-                <span className="section-count">0 STORES</span>
+                <span className="section-count">LIVE DATA ONLY</span>
               </div>
               <div className="empty-state">
                 <div className="empty-art">
