@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import sharp from "sharp";
 
 const ORIGINALS_BUCKET = "bhs-commerce-media";
@@ -23,7 +23,7 @@ function getStorageClient() {
   });
 }
 
-export type StoredImageVariant = { width: number; avifUrl: string; webpUrl: string; avifBytes: number; webpBytes: number };
+export type StoredImageVariant = { width: number; avifUrl: string; webpUrl: string; avifKey: string; webpKey: string; avifBytes: number; webpBytes: number };
 
 export type StoredImage = {
   id: string;
@@ -85,7 +85,7 @@ export async function storeOptimizedImage(input: {
       client.send(new PutObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key: avifKey, Body: avif, ContentType: "image/avif", CacheControl: "public, max-age=31536000, immutable" })),
       client.send(new PutObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key: webpKey, Body: webp, ContentType: "image/webp", CacheControl: "public, max-age=31536000, immutable" })),
     ]);
-    variants.push({ width: actualWidth, avifUrl: publicUrl(avifKey), webpUrl: publicUrl(webpKey), avifBytes: avif.length, webpBytes: webp.length });
+    variants.push({ width: actualWidth, avifUrl: publicUrl(avifKey), webpUrl: publicUrl(webpKey), avifKey, webpKey, avifBytes: avif.length, webpBytes: webp.length });
   }
 
   const largest = variants[variants.length - 1];
@@ -99,4 +99,20 @@ export async function storeOptimizedImage(input: {
     originalBytes: buffer.byteLength,
     optimizedBytes: variants.reduce((total, variant) => total + variant.avifBytes + variant.webpBytes, 0),
   };
+}
+
+
+/** Remove the private original and every generated derivative. Safe to retry. */
+export async function deleteStoredImageObjects(input: {
+  originalKey: string;
+  variants: StoredImageVariant[];
+}): Promise<void> {
+  const client = getStorageClient();
+  await Promise.all([
+    client.send(new DeleteObjectCommand({ Bucket: ORIGINALS_BUCKET, Key: input.originalKey })),
+    ...input.variants.flatMap((variant) => [
+      client.send(new DeleteObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key: variant.avifKey })),
+      client.send(new DeleteObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key: variant.webpKey })),
+    ]),
+  ]);
 }
