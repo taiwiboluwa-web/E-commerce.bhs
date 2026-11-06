@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { demoStorefronts, getDemoStorefront } from "@/lib/demo-storefronts";
-import "../storefronts/demo-storefronts.css";
+import "../../storefronts/demo-storefronts.css";
 
 export function generateStaticParams() {
   return demoStorefronts.map((store) => ({ slug: store.slug }));
