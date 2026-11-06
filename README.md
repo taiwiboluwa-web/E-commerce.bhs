@@ -3,9 +3,10 @@
 A multi-tenant commerce platform foundation for up to ten independent storefronts, built as a modular Next.js application.
 
 ## Current phase
-- Master control centre visual foundation
-- Responsive overview dashboard
-- Storefront network overview with searchable demo tenant records
+- Premium responsive BlueHaven Studios control-centre interface
+- Searchable module navigation and dedicated views for platform sections
+- Glassmorphism visual system with reduced-motion support
+- Honest live-data empty states; no seeded tenant, order, customer, payment or analytics records
 - Initial application structure for Vercel deployment
 
 ## Planned architecture
@@ -43,7 +44,7 @@ Copy `.env.example` to `.env.local` when configuring integrations. Never commit 
 6. Audit log, soft deletion and recovery
 7. Wildcard domain routing and production hardening
 
-Demo dashboard figures are illustrative only and are not connected to a live database or payment provider.
+The dashboard does not fabricate operational metrics. Modules without a verified backend connection show an explicit connection state rather than sample records.
 ## Storage capacity rules
 
 Storage is a persistent usage meter against a capacity ceiling:
@@ -58,3 +59,21 @@ Storage is a persistent usage meter against a capacity ceiling:
 The base schema is `database/migrations/002_storage_capacity.sql`; expiring monthly add-ons and effective-capacity enforcement are introduced by `database/migrations/003_monthly_storage_addons.sql`. Server-side helpers are in `lib/storage-quota.ts` and `lib/tenant-media.ts`.
 
 **Admin integration status:** the database now supports monthly add-on plans and tenant subscriptions. The existing master dashboard is still a visual foundation with illustrative demo records; its master-owner authentication and secure plan-management UI/API are not implemented yet. I will not expose unauthenticated admin controls or pretend the current dashboard changes are persisted. Authenticated upload/delete routes, payment webhooks, tenant-facing quota display, and admin controls still need to be wired before this is production-ready.
+
+
+## Interface design principles
+
+The control centre applies the ten requested mathematical ideas as practical design and engineering constraints—not as decorative labels in the UI:
+
+1. **Homomorphism** — translate platform state into interface state without changing its meaning.
+2. **Isomorphism** — keep equivalent navigation, module headers, status treatments and responsive views structurally consistent.
+3. **Endomorphism** — keep local interactions, such as changing the active module or filtering navigation, within the same interface system.
+4. **Automorphism** — make reversible interface actions (open/close navigation, dialogs and selections) return to a coherent prior state.
+5. **Monomorphism** — preserve unique module identity and avoid ambiguous navigation destinations.
+6. **Epimorphism** — ensure each visible navigation destination resolves to a real view, including honest unavailable states.
+7. **Bimorphism** — keep the module-to-view mapping one-to-one and complete across the navigation system.
+8. **Homeomorphism** — preserve the same information architecture as the layout reflows between desktop, tablet and mobile.
+9. **Diffeomorphism** — use continuous, restrained transitions for navigation, hover and responsive state changes, with reduced-motion preferences respected.
+10. **Linear transformation** — scale spacing, typography and layout proportions predictably across viewport sizes.
+
+These principles guide implementation quality; they do not imply that unimplemented backend services are operational.
