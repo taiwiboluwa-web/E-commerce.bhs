@@ -29,7 +29,8 @@ export async function reserveMediaCapacity(input: {
       ${input.tenantId}::uuid, ${input.mediaType}, ${input.originalBytes}, ${input.idempotencyKey}
     ) as asset_id
   `;
-  return String(rows[0]?.asset_id);
+  if (!rows[0]?.asset_id) throw new Error("Storage capacity exceeded or reservation failed.");
+  return String(rows[0].asset_id);
 }
 
 export async function finalizeMediaCapacity(input: {
