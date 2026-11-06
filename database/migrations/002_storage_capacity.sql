@@ -110,20 +110,8 @@ create or replace function public.finalize_media_upload(
   p_optimized_size_bytes bigint,
   p_storage_footprint_bytes bigint
 ) returns boolean
-language plpgsql security definer set search_path = public as $
-begin
-  perform set_config('app.tenant_id', p_tenant_id::text, true);
-  update public.media_assets
-  set status = 'active',
-      original_object_key = p_original_object_key,
-      optimized_manifest = coalesce(p_optimized_manifest, '{}'::jsonb),
-      optimized_size_bytes = greatest(coalesce(p_optimized_size_bytes, 0), 0),
-      storage_footprint_bytes = greatest(coalesce(p_storage_footprint_bytes, 0), 0),
-      updated_at = now()
-  where id = p_asset_id and tenant_id = p_tenant_id and status = 'pending';
-  return found;
-end;
-$$;
+language sql security definer set search_path = public
+as 'WITH tenant_context AS MATERIALIZED (SELECT set_config(''app.tenant_id'', $2::text, true)) UPDATE public.media_assets SET status = ''active'', original_object_key = $3, optimized_manifest = coalesce($4, ''{}''::jsonb), optimized_size_bytes = greatest(coalesce($5, 0), 0), storage_footprint_bytes = greatest(coalesce($6, 0), 0), updated_at = now() FROM tenant_context WHERE id = $1 AND tenant_id = $2 AND status = ''pending'' RETURNING true';
 
 create or replace function public.release_media_upload(
   p_asset_id uuid,
