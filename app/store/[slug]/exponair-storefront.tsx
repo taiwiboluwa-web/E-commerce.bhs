@@ -62,20 +62,57 @@ export default function ExponairStorefront() {
   useEffect(()=>{
     const root=document.querySelector(".exponair");
     if(!root || !("IntersectionObserver" in window)) return;
-    const targets=root.querySelectorAll("section h2, section h3, section p:not(.expo-review-privacy):not(.expo-review-status)");
+    const targets=Array.from(root.querySelectorAll<HTMLElement>(
+      "section h1, section h2, section h3, section p:not(.expo-review-privacy):not(.expo-review-status)"
+    ));
+    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reducedMotion) return;
+
+    targets.forEach(el=>{
+      if(el.dataset.expoTyped==="true") return;
+      const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{
+        acceptNode(node){
+          const parent=node.parentElement;
+          if(!parent || !node.textContent?.length) return NodeFilter.FILTER_REJECT;
+          if(parent.closest("script,style,svg,button,[data-no-type],.expo-review-stars")) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      });
+      const nodes:Text[]=[];
+      while(walker.nextNode()) nodes.push(walker.currentNode as Text);
+      let index=0;
+      nodes.forEach(node=>{
+        const value=node.textContent||"";
+        if(!value) return;
+        const fragment=document.createDocumentFragment();
+        for(const character of value){
+          const span=document.createElement("span");
+          span.className="expo-type-char";
+          span.style.setProperty("--expo-char-index",String(index++));
+          span.textContent=character;
+          span.setAttribute("aria-hidden","true");
+          fragment.appendChild(span);
+        }
+        node.parentNode?.replaceChild(fragment,node);
+      });
+      el.dataset.expoTyped="true";
+      el.setAttribute("aria-label",el.textContent||"");
+      el.classList.add("expo-type-target");
+    });
+
     const observer=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
         const el=entry.target as HTMLElement;
         if(entry.isIntersecting){
-          el.classList.remove("expo-type-out");
-          el.classList.add("expo-type-in");
+          el.classList.remove("expo-type-playing");
+          void el.offsetWidth;
+          el.classList.add("expo-type-playing");
         }else{
-          el.classList.remove("expo-type-in");
-          el.classList.add("expo-type-out");
+          el.classList.remove("expo-type-playing");
         }
       });
-    },{threshold:0.18,rootMargin:"0px 0px -7% 0px"});
-    targets.forEach(el=>{el.classList.add("expo-type-target");observer.observe(el);});
+    },{threshold:0.12,rootMargin:"0px 0px -5% 0px"});
+    targets.forEach(el=>{if(el.dataset.expoTyped==="true") observer.observe(el);});
     return ()=>observer.disconnect();
   },[]);
   useEffect(()=>{
