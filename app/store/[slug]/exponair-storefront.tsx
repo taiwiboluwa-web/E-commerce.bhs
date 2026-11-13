@@ -87,7 +87,7 @@ export default function ExponairStorefront() {
         const fragment=document.createDocumentFragment();
         const pieces=value.match(/\s+|[^\s]+/gu)||[];
         for(const piece of pieces){
-          if(/^\\s+$/u.test(piece)){
+          if(/^\s+$/u.test(piece)){
             fragment.appendChild(document.createTextNode(piece));
             continue;
           }
