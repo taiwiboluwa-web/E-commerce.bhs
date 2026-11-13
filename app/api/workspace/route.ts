@@ -90,9 +90,11 @@ export async function PATCH(req: NextRequest) {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       const capacityGb = Number(body.capacity_gb);
       if (!Number.isFinite(capacityGb) || capacityGb < 0.1 || capacityGb > 10240) return fail("Storage capacity must be between 0.1 GB and 10,240 GB.");
-      const capacityBytes = Math.round(capacityGb * 1024 * 1024 * 1024);
-      result = await sql.query("UPDATE public.tenant_storage_accounts SET capacity_bytes=$1,updated_at=now() WHERE tenant_id=$2::uuid RETURNING tenant_id,capacity_bytes,used_bytes", [capacityBytes,id]);
-      if (!result.length) result = await sql.query("INSERT INTO public.tenant_storage_accounts(tenant_id,capacity_bytes,used_bytes) SELECT id,$1,0 FROM public.tenants WHERE id=$2::uuid AND deleted_at IS NULL RETURNING tenant_id,capacity_bytes,used_bytes", [capacityBytes,id]);
+      const totalCapacityBytes = Math.round(capacityGb * 1024 * 1024 * 1024);
+      const activeAddonRows = await sql.query("SELECT COALESCE(sum(added_bytes),0)::bigint AS addon_bytes FROM public.tenant_storage_addons WHERE tenant_id=$1::uuid AND status='active' AND current_period_start<=now() AND current_period_end>now()", [id]);
+      const baseCapacityBytes = Math.max(0, totalCapacityBytes - Number(activeAddonRows[0]?.addon_bytes || 0));
+      result = await sql.query("UPDATE public.tenant_storage_accounts SET capacity_bytes=$1,updated_at=now() WHERE tenant_id=$2::uuid RETURNING tenant_id,capacity_bytes,used_bytes", [baseCapacityBytes,id]);
+      if (!result.length) result = await sql.query("INSERT INTO public.tenant_storage_accounts(tenant_id,capacity_bytes,used_bytes) SELECT id,$1,0 FROM public.tenants WHERE id=$2::uuid AND deleted_at IS NULL RETURNING tenant_id,capacity_bytes,used_bytes", [baseCapacityBytes,id]);
     } else if (body.action === "tenant_access") {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       if (body.mode === "set_duration") {
