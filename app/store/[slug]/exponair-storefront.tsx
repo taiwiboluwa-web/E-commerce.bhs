@@ -88,7 +88,7 @@ export default function ExponairStorefront() {
     ].join("\n");
     window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
   };
-  const nav=[["Our story","#about"],["Kiddies' parties","#kiddies"],["Celebrations","#adult"],["Weddings","#weddings"],["Corporate","#corporate"],["Rentals","#rentals"],["Packages","#packages"],["Journal","#journal"]];
+  const nav=[["Our story","#about"],["Kiddies' parties","#kiddies"],["Celebrations","#adult"],["Weddings","#weddings"],["Corporate","#corporate"],["Rentals","#rentals"],["Packages","#packages"],["Reviews","#reviews"],["Journal","#journal"]];
   return (
     <main className="exponair">
       {showBrandReveal&&<div className="expo-brand-reveal" role="status" aria-label="Exponair Events logo animation">
