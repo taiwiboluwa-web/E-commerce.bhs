@@ -578,7 +578,7 @@
 @keyframes expo-title-rise{from{opacity:0;transform:translateY(105%)}to{opacity:1;transform:translateY(0)}}
 @keyframes expo-reveal-exit{to{opacity:0;visibility:hidden;pointer-events:none}}
 @media(max-width:680px){.expo-brand-logo{min-width:0}.expo-wordmark-compact{gap:5px}.expo-wordmark-compact .expo-flower-mark{width:28px;height:33px}.expo-wordmark-compact .expo-wordmark-copy strong{font-size:25px}.expo-wordmark-compact .expo-wordmark-copy small{font-size:4px;letter-spacing:1.25px}.expo-reveal-skip{right:18px;bottom:18px}}
-@media(prefers-reduced-motion:reduce){.expo-brand-reveal,.expo-reveal-flower *,.expo-reveal-word,.expo-reveal-rule,.expo-reveal-subtitle,.expo-reveal-tagline,.expo-kinetic-title .expo-title-line,.expo-kinetic-quote span,.expo-kinetic-quote em{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important}.expo-brand-reveal{display:none}}
+@media(prefers-reduced-motion:reduce){.expo-brand-reveal,.expo-reveal-flower *,.expo-reveal-word,.expo-reveal-rule,.expo-reveal-subtitle,.expo-reveal-tagline,.expo-kinetic-title .expo-title-line,.expo-kinetic-quote span,.expo-kinetic-quote em{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important}.expo-brand-reveal{visibility:visible!important;opacity:1!important}}
 
 
 /* Footer-specific white wordmark variant */
