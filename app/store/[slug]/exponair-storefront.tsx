@@ -191,7 +191,7 @@ export default function ExponairStorefront() {
         </div>
         <div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LIMITED · RC1517280. ALL RIGHTS RESERVED.</span><span>LAGOS, NIGERIA</span></div>
       </footer>
-      <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20enquire%20about%20an%20event." target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark">W</span><span>Chat with Exponair</span></a>
+      <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20enquire%20about%20an%20event." target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark" aria-hidden="true"><MessageCircle size={17} strokeWidth={1.8}/></span><span className="expo-whatsapp-label">Chat with Exponair</span><span className="expo-whatsapp-status" aria-hidden="true"/></a>
     </main>
   );
 }
