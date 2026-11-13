@@ -696,19 +696,22 @@
 .exponair .expo-gallery-head>p,.exponair .expo-contact-copy>p,.exponair .expo-reviews-heading>div:first-child>p{
   font-size:clamp(14px,1.05vw,16px);line-height:1.9;color:#625e56
 }
-/* Scroll-triggered typewriter reveal. Text is retyped when it re-enters view. */
-.exponair .expo-type-target{clip-path:inset(0 100% 0 0);will-change:clip-path}
-.exponair .expo-type-target.expo-type-in{animation:expo-type-on 1.15s steps(34,end) both}
-.exponair .expo-type-target.expo-type-out{animation:expo-type-off .32s steps(12,end) both}
-@keyframes expo-type-on{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
-@keyframes expo-type-off{from{clip-path:inset(0 0 0 0)}to{clip-path:inset(0 100% 0 0)}}
+/* True character-by-character typing as each text block enters the viewport */
+.exponair .expo-type-target{clip-path:none!important;will-change:auto}
+.exponair .expo-type-char{
+  display:inline;opacity:0;
+  animation:none;
+}
+.exponair .expo-type-target.expo-type-playing .expo-type-char{
+  animation:expo-character-typed .012s steps(1,end) calc(var(--expo-char-index)*14ms) both;
+}
+@keyframes expo-character-typed{to{opacity:1}}
 @media(max-width:680px){
-  .exponair{font-size:14px}
-  .exponair p{font-size:13px;line-height:1.8}
-  .exponair .expo-hero-lede,.exponair .expo-intro-bottom p,.exponair .expo-section-head>p,
-  .exponair .expo-gallery-head>p,.exponair .expo-contact-copy>p,.exponair .expo-reviews-heading>div:first-child>p{font-size:14px}
-  .exponair .expo-type-target.expo-type-in{animation-duration:.95s}
+  .exponair .expo-type-target.expo-type-playing .expo-type-char{
+    animation-duration:.01s;
+    animation-delay:calc(var(--expo-char-index)*12ms);
+  }
 }
 @media(prefers-reduced-motion:reduce){
-  .exponair .expo-type-target{clip-path:none!important;animation:none!important;will-change:auto}
+  .exponair .expo-type-char{opacity:1!important;animation:none!important}
 }
