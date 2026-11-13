@@ -59,68 +59,8 @@ export default function ExponairStorefront() {
   useEffect(()=>{let active=true;fetch("/api/exponair-reviews").then(r=>r.ok?r.json():Promise.reject()).then(data=>{if(active){setReviews(data.reviews||[]);setReviewSummary(data.summary||{count:0,average:0});}}).catch(()=>{});return()=>{active=false;};},[]);
   const submitReview=async(e:React.FormEvent<HTMLFormElement>)=>{e.preventDefault();setReviewBusy(true);setReviewStatus("");try{const response=await fetch("/api/exponair-reviews",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reviewForm)});const data=await response.json();if(!response.ok)throw new Error(data.error||"Unable to submit your review.");setReviewStatus(data.message||"Thank you. Your review has been received for approval.");setReviewForm({name:"",eventType:"Kiddies' birthday party",rating:5,review:""});}catch(error){setReviewStatus(error instanceof Error?error.message:"Unable to submit your review. Please try again.");}finally{setReviewBusy(false);}};
 
-  useEffect(()=>{
-    const root=document.querySelector(".exponair");
-    if(!root || !("IntersectionObserver" in window)) return;
-    const targets=Array.from(root.querySelectorAll<HTMLElement>(
-      "section h1, section h2, section h3, section p:not(.expo-review-privacy):not(.expo-review-status)"
-    ));
-    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if(reducedMotion) return;
-
-    targets.forEach(el=>{
-      if(el.dataset.expoTyped==="true") return;
-      const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{
-        acceptNode(node){
-          const parent=node.parentElement;
-          if(!parent || !node.textContent?.length) return NodeFilter.FILTER_REJECT;
-          if(parent.closest("script,style,svg,button,[data-no-type],.expo-review-stars")) return NodeFilter.FILTER_REJECT;
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      });
-      const nodes:Text[]=[];
-      while(walker.nextNode()) nodes.push(walker.currentNode as Text);
-      let index=0;
-      nodes.forEach(node=>{
-        const value=node.textContent||"";
-        if(!value) return;
-        const fragment=document.createDocumentFragment();
-        const pieces=value.match(/\s+|[^\s]+/gu)||[];
-        for(const piece of pieces){
-          if(/^\s+$/u.test(piece)){
-            fragment.appendChild(document.createTextNode(piece));
-            continue;
-          }
-          const word=document.createElement("span");
-          word.className="expo-type-word";
-          word.setAttribute("aria-hidden","true");
-          for(const character of piece){
-            const span=document.createElement("span");
-            span.className="expo-type-char";
-            span.style.setProperty("--expo-char-index",String(index++));
-            span.textContent=character;
-            word.appendChild(span);
-          }
-          fragment.appendChild(word);
-        }
-        node.parentNode?.replaceChild(fragment,node);
-      });
-      el.dataset.expoTyped="true";
-      el.setAttribute("aria-label",el.textContent||"");
-      el.classList.add("expo-type-target");
-    });
-
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting) return;
-        const el=entry.target as HTMLElement;
-        el.classList.add("expo-type-playing");
-        observer.unobserve(el);
-      });
-    },{threshold:0.12,rootMargin:"0px 0px -5% 0px"});
-    targets.forEach(el=>{if(el.dataset.expoTyped==="true") observer.observe(el);});
-    return ()=>observer.disconnect();
-  },[]);
+  // Keep storefront copy as native text nodes. Character-wrapping animations
+  // caused mobile browsers to clip or omit glyphs during responsive reflow.
   useEffect(()=>{
     const dismissedKey="exponair-brand-reveal-dismissed-v2";
     if(window.sessionStorage.getItem(dismissedKey)) return;
