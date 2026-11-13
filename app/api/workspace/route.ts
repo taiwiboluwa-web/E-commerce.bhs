@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { neon } from "@neondatabase/serverless";
+import { compactTenantOriginalImages } from "../../../lib/media";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -80,7 +81,12 @@ export async function PATCH(req: NextRequest) {
     const sql = db();
     let result: any[] = [];
     const id = String(body.id || "");
-    if (body.action === "tenant_storage") {
+    if (body.action === "tenant_storage_compress") {
+      if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
+      const compacted = await compactTenantOriginalImages(id);
+      await sql.query("INSERT INTO public.audit_events(action,entity_type,entity_id,metadata) VALUES($1,$2,$3,$4::jsonb)", ["tenant_storage_compress","tenant",id,JSON.stringify({actor:"platform_owner",...compacted})]);
+      return NextResponse.json({ ok: true, result: compacted });
+    } else if (body.action === "tenant_storage") {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       const capacityGb = Number(body.capacity_gb);
       if (!Number.isFinite(capacityGb) || capacityGb < 0.1 || capacityGb > 10240) return fail("Storage capacity must be between 0.1 GB and 10,240 GB.");
