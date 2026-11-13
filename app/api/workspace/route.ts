@@ -94,7 +94,7 @@ export async function PATCH(req: NextRequest) {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       if (body.field === "status") {
         if (!tenantStatuses.includes(body.value)) return fail("Invalid storefront status.");
-        result = await sql.query("UPDATE public.tenants SET status=$1::public.tenant_status,updated_at=now() WHERE id=$2::uuid RETURNING id,status", [body.value,id]);
+        result = body.value === "active" ? await sql.query("UPDATE public.tenants SET status='active'::public.tenant_status,access_expires_at=now() + (access_duration_days * interval '1 day'),access_suspended_at=NULL,updated_at=now() WHERE id=$1::uuid RETURNING id,status,access_duration_days,access_expires_at", [id]) : await sql.query("UPDATE public.tenants SET status=$1::public.tenant_status,access_suspended_at=CASE WHEN $1='suspended' THEN now() ELSE access_suspended_at END,updated_at=now() WHERE id=$2::uuid RETURNING id,status,access_duration_days,access_expires_at", [body.value,id]);
       } else if (body.field === "storefront_url") {
         const url = String(body.value || "").trim();
         if (url && !/^https:\/\/[a-z0-9.-]+(?::[0-9]+)?(?:\/[^\s]*)?$/i.test(url)) return fail("Storefront URL must be a valid HTTPS URL.");
