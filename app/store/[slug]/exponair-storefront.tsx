@@ -51,6 +51,14 @@ function ExponairWordmark({ compact = false }: { compact?: boolean }) {
 export default function ExponairStorefront() {
   const [menuOpen,setMenuOpen]=useState(false);
   const [showBrandReveal,setShowBrandReveal]=useState(false);
+  const [reviews,setReviews]=useState<Array<{id:string;customer_name:string;event_type:string;rating:number;review_text:string;created_at:string}>>([]);
+  const [reviewSummary,setReviewSummary]=useState({count:0,average:0});
+  const [reviewForm,setReviewForm]=useState({name:"",eventType:"Kiddies' birthday party",rating:5,review:""});
+  const [reviewStatus,setReviewStatus]=useState("");
+  const [reviewBusy,setReviewBusy]=useState(false);
+  useEffect(()=>{let active=true;fetch("/api/exponair-reviews").then(r=>r.ok?r.json():Promise.reject()).then(data=>{if(active){setReviews(data.reviews||[]);setReviewSummary(data.summary||{count:0,average:0});}}).catch(()=>{});return()=>{active=false;};},[]);
+  const submitReview=async(e:React.FormEvent<HTMLFormElement>)=>{e.preventDefault();setReviewBusy(true);setReviewStatus("");try{const response=await fetch("/api/exponair-reviews",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reviewForm)});const data=await response.json();if(!response.ok)throw new Error(data.error||"Unable to submit your review.");setReviewStatus(data.message||"Thank you. Your review has been received for approval.");setReviewForm({name:"",eventType:"Kiddies' birthday party",rating:5,review:""});}catch(error){setReviewStatus(error instanceof Error?error.message:"Unable to submit your review. Please try again.");}finally{setReviewBusy(false);}};
+
   useEffect(()=>{
     const key="exponair-brand-reveal-seen";
     if(!window.sessionStorage.getItem(key)){
@@ -163,6 +171,28 @@ export default function ExponairStorefront() {
       </div></section>
 
       <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="#booking">Start your enquiry </a></section>
+
+      <section className="expo-reviews" id="reviews">
+        <div className="expo-reviews-heading">
+          <div><div className="expo-section-label"><span>08</span> KIND WORDS, REAL EXPERIENCES</div><h2>Celebrations worth<br/><em>talking about.</em></h2><p>Have you celebrated with Exponair? Tell us how it went. Your feedback helps other clients plan with confidence.</p></div>
+          <div className="expo-reviews-score"><strong>{reviewSummary.count?reviewSummary.average.toFixed(1):"—"}</strong><div className="expo-review-stars" aria-label={reviewSummary.count?reviewSummary.average+" out of 5 stars":"No ratings yet"}>{[1,2,3,4,5].map(n=><span key={n}>{n<=Math.round(reviewSummary.average)?"★":"☆"}</span>)}</div><span>{reviewSummary.count?reviewSummary.count+" APPROVED REVIEWS":"BE THE FIRST TO REVIEW"}</span></div>
+        </div>
+        <div className="expo-reviews-layout">
+          <div className="expo-review-list">
+            {reviews.length?reviews.slice(0,3).map(review=><article className="expo-review-card" key={review.id}><div className="expo-review-card-top"><span className="expo-review-stars">{"★".repeat(review.rating)}<span>{"☆".repeat(5-review.rating)}</span></span><span>{new Date(review.created_at).toLocaleDateString("en-GB",{month:"short",year:"numeric"})}</span></div><p>“{review.review_text}”</p><div className="expo-review-author"><strong>{review.customer_name}</strong><span>{review.event_type}</span></div></article>):<div className="expo-reviews-empty"><span>THE FIRST CHAPTER</span><h3>Your experience could be the first story here.</h3><p>We're looking forward to hearing from our first reviewers.</p></div>}
+          </div>
+          <form className="expo-review-form" onSubmit={submitReview}>
+            <div className="expo-review-form-heading"><span>SHARE YOUR EXPERIENCE</span><h3>How did we do?</h3><p>Your honest feedback means a lot to our team.</p></div>
+            <label>Your name<input required minLength={2} maxLength={100} value={reviewForm.name} onChange={e=>setReviewForm({...reviewForm,name:e.target.value})} placeholder="How should we address you?"/></label>
+            <label>What did we help you celebrate?<select value={reviewForm.eventType} onChange={e=>setReviewForm({...reviewForm,eventType:e.target.value})}><option>Kiddies' birthday party</option><option>Adult birthday or anniversary</option><option>Wedding or engagement</option><option>Corporate or school event</option><option>Event rentals and styling</option><option>Other special occasion</option></select></label>
+            <div className="expo-review-rating"><span>Your rating</span><div role="radiogroup" aria-label="Your rating">{[1,2,3,4,5].map(n=><button key={n} type="button" role="radio" aria-checked={reviewForm.rating===n} aria-label={n+" star"+(n===1?"":"s")} className={n<=reviewForm.rating?"selected":""} onClick={()=>setReviewForm({...reviewForm,rating:n})}>★</button>)}</div><small>{["","Not great","Could be better","Good","Very good","Excellent"][reviewForm.rating]}</small></div>
+            <label>Your review<textarea required minLength={15} maxLength={2000} rows={4} value={reviewForm.review} onChange={e=>setReviewForm({...reviewForm,review:e.target.value})} placeholder="Tell us about your experience with Exponair..."/></label>
+            <button className="expo-review-submit" type="submit" disabled={reviewBusy}>{reviewBusy?"Submitting…":"Submit your review"}</button>
+            <p className="expo-review-privacy">Reviews are checked by the Exponair team before being published. Please don't include private contact or payment details.</p>
+            {reviewStatus&&<p className="expo-review-status" role="status">{reviewStatus}</p>}
+          </form>
+        </div>
+      </section>
 
       <footer className="expo-footer">
         <div className="expo-footer-grid">
