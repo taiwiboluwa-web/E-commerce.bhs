@@ -266,3 +266,124 @@
 @media(max-width:900px){.expo-experience{padding-left:8%;padding-right:8%}.expo-experience-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.expo-experience-grid article:nth-child(2){border-right:0}.expo-experience-grid article:nth-child(3){padding-left:0;border-top:1px solid #ffffff32}.expo-experience-grid article:nth-child(4){border-top:1px solid #ffffff32}}
 @media(max-width:680px){.expo-experience{padding:65px 7% 70px}.expo-experience-heading{text-align:left;margin-bottom:30px}.expo-experience-grid article{padding:22px 14px 24px;gap:15px}.expo-experience-grid article:first-child,.expo-experience-grid article:nth-child(3){padding-left:0}.expo-experience-grid article:nth-child(2){padding-right:0}.expo-experience-icon{width:42px;height:42px}.expo-experience-grid h3{font-size:17px}.expo-experience-grid p{font-size:9px}}
 @media(max-width:390px){.expo-experience-grid{grid-template-columns:1fr}.expo-experience-grid article,.expo-experience-grid article:first-child,.expo-experience-grid article:nth-child(2),.expo-experience-grid article:nth-child(3),.expo-experience-grid article:last-child{padding:20px 0;border-right:0;border-top:1px solid #ffffff32;flex-direction:row;align-items:flex-start}.expo-experience-grid article:first-child{border-top:0}}
+
+
+/* 2026 art direction pass — Exponair: editorial, joyful, premium */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
+.exponair{
+  --expo-ink:#171916;
+  --expo-paper:#f7f4ec;
+  --expo-muted:#77796f;
+  --expo-accent:#bd4b3b;
+  --expo-green:#1f5a43;
+  --expo-yellow:#e5c75d;
+  font-family:'Manrope',sans-serif;
+  background:var(--expo-paper);
+  color:var(--expo-ink);
+}
+.exponair h1,.exponair h2,.exponair h3,.exponair blockquote{font-family:'Cormorant Garamond',serif}
+.expo-announcement{background:#171916;color:#e9e6dc;letter-spacing:2px;font-size:8px}
+.expo-announcement span{color:var(--expo-yellow);padding:0 9px}
+.expo-header{background:#f7f4ecf2;backdrop-filter:blur(14px);border-bottom-color:#17191618}
+.expo-nav a{font-size:10px;letter-spacing:.1px;color:#575c53}
+.expo-nav a:hover{color:var(--expo-red)}
+.expo-header-cta{border:1px solid #1f5a43;padding:12px 17px;color:#1f5a43;border-radius:2px;font-size:9px;letter-spacing:.7px;transition:background .2s,color .2s}
+.expo-header-cta:hover{background:#1f5a43;color:#fff}
+.expo-hero{min-height:730px;padding-top:82px;padding-bottom:94px;gap:8%;background:linear-gradient(110deg,#f7f4ec 0%,#f7f4ec 55%,#ece8dc 55%,#ece8dc 100%)}
+.expo-hero h1{font:500 clamp(72px,8vw,116px)/.87 'Cormorant Garamond',serif;letter-spacing:-3.8px;color:#171916}
+.expo-hero h1 em{color:#1f5a43;font-weight:500}
+.expo-hero-lede{font:400 12px/2 'Manrope',sans-serif;color:#646a60;max-width:390px}
+.expo-eyebrow{color:#59645a;font-size:8px;letter-spacing:2.2px}
+.expo-hero-visual{max-width:590px}
+.expo-image-frame{padding:0;border:0;box-shadow:18px 18px 0 #e5c75d;position:relative}
+.expo-hero-image{height:530px;background-position:center 45%;filter:saturate(.92)}
+.expo-image-caption{left:0;right:0;bottom:0;padding:22px 24px;background:linear-gradient(0deg,#101510b8,transparent);font-size:7px;letter-spacing:1.7px}
+.expo-stamp{left:-36px;bottom:52px;background:#f7f4ec;padding:12px 15px;color:#1f5a43;transform:rotate(-90deg)}
+.expo-hero-number{right:-25px;top:-28px;background:#1f5a43;color:#f7f4ec;padding:14px 17px;font:italic 14px 'Cormorant Garamond'}
+.expo-hero-orbit{border-color:#e5c75d;background:#171916;color:#f7f4ec}
+.expo-hero-actions{gap:24px}
+.expo-button{border-radius:2px;font:700 9px 'Manrope',sans-serif;letter-spacing:.8px;text-transform:uppercase}
+.expo-button-dark{background:#1f5a43;border-color:#1f5a43;color:#fff!important}
+.expo-button-dark:hover{background:#bd4b3b;border-color:#bd4b3b}
+.expo-text-link{border-color:#bd4b3b;color:#343b33}
+.expo-hero-foot{color:#77796f;font-family:'Manrope',sans-serif}
+.expo-intro{background:#ece8dc}
+.expo-intro-content h2,.expo-section-head h2,.expo-faq h2,.expo-contact h2,.expo-terms-head h2{font-family:'Cormorant Garamond',serif;font-weight:500}
+.expo-intro-content h2 em,.expo-section-head h2 em,.expo-faq h2 em{color:#1f5a43}
+.expo-intro-bottom p,.expo-section-head>p{font-family:'Manrope',sans-serif}
+.expo-experience{background:#1b4938}
+.expo-experience-heading h2{font-family:'Cormorant Garamond',serif}
+.expo-services{background:#f7f4ec}
+.expo-section-label{font-family:'Manrope',sans-serif;letter-spacing:2px}
+.expo-section-label span{color:#bd4b3b}
+.expo-service-feature-grid{gap:18px}
+.expo-service-feature{border:1px solid #17191618;background:#fffdf8;box-shadow:0 12px 35px #17191608;transition:transform .35s,box-shadow .35s}
+.expo-service-feature:hover{transform:translateY(-5px);box-shadow:0 22px 48px #17191615}
+.expo-feature-image{filter:saturate(.92)}
+.expo-feature-content h3{font:500 31px/1.05 'Cormorant Garamond',serif}
+.expo-feature-content>p{font:400 10px/1.9 'Manrope',sans-serif}
+.expo-feature-index{color:#bd4b3b}
+.expo-tags span{border-color:#1f5a4333;color:#526256}
+.expo-feature-content>a{color:#1f5a43;border-color:#bd4b3b;font-weight:700;letter-spacing:1px}
+.expo-packages{background:#ece8dc}
+.expo-package-grid{gap:16px}
+.expo-package{background:#f8f5ed;border:1px solid #1719161c;box-shadow:0 12px 30px #17191608}
+.expo-package h3{font:500 34px 'Cormorant Garamond',serif}
+.expo-package.featured{background:#1f5a43;color:#f7f4ec;border-color:#1f5a43;box-shadow:0 18px 38px #1f5a4326}
+.expo-package.featured p,.expo-package.featured li{color:#d9e1d7}
+.expo-package.featured .expo-package-price{color:#e5c75d}
+.expo-package.featured .expo-package-note,.expo-package.featured .expo-package-includes{color:#e5c75d}
+.expo-package a{border-color:#bd4b3b}
+.expo-pricing-note{font:400 9px/1.8 'Manrope',sans-serif;color:#77796f}
+.expo-gallery{background:#171916}
+.expo-gallery-head h2{font:500 clamp(42px,5vw,68px)/.98 'Cormorant Garamond',serif}
+.expo-gallery-head h2 em{color:#e5c75d}
+.expo-moment{background:#26372b}
+.expo-moment-image{filter:saturate(.9);transition:transform .8s,filter .8s}
+.expo-moment:hover .expo-moment-image{filter:saturate(1.08)}
+.expo-moment-meta h3{font:500 34px/1.02 'Cormorant Garamond',serif}
+.expo-quote{background:#f7f4ec}
+.expo-quote blockquote{font:500 clamp(36px,5vw,64px)/1.12 'Cormorant Garamond',serif}
+.expo-quote blockquote em{color:#1f5a43}
+.expo-faq{background:#ece8dc}
+.expo-faq-item button b{font:600 14px 'Manrope',sans-serif}
+.expo-faq-item button i{font-style:normal;color:#bd4b3b}
+.expo-booking{background:#f7f4ec}
+.expo-booking .expo-contact-copy h2{font:500 clamp(58px,6.6vw,88px)/.92 'Cormorant Garamond',serif}
+.expo-booking .expo-contact-copy h2 em{color:#1f5a43}
+.expo-calendar,.expo-form{border-radius:3px;box-shadow:0 16px 42px #1719160a}
+.expo-form{padding:38px}
+.expo-form label{font:600 9px 'Manrope',sans-serif}
+.expo-form input,.expo-form select,.expo-form textarea{font:400 11px 'Manrope',sans-serif}
+.expo-submit{width:100%;min-height:54px}
+.expo-terms{background:#e5e9df}
+.expo-terms-head h2 em{color:#1f5a43}
+.expo-terms-grid article{background:#eaf0e7}
+.expo-terms-grid article:nth-child(2),.expo-terms-grid article:nth-child(3){background:#f4f2e9}
+.expo-terms-grid h3{font:500 29px 'Cormorant Garamond',serif}
+.expo-contact-strip{background:#e5c75d}
+.expo-contact-strip h2{font:500 40px 'Cormorant Garamond',serif}
+.expo-contact-strip>a{background:#171916;border-radius:2px}
+.expo-contact-strip>a:hover{background:#bd4b3b}
+.expo-footer{background:#080a08}
+.expo-footer-column h3{font-family:'Manrope',sans-serif}
+.expo-footer-social a{width:40px;height:40px;border-color:#ffffff35;color:#c6c8bd;background:#ffffff05}
+.expo-footer-social a:hover{background:#d5b34b;color:#080a08;border-color:#d5b34b}
+.expo-whatsapp-float{border-radius:30px;box-shadow:0 12px 32px #0003}
+.expo-whatsapp-mark{border-radius:50%;border:1px solid #ffffff80;display:grid;place-items:center}
+@media(max-width:900px){
+ .expo-hero{background:linear-gradient(180deg,#f7f4ec 0%,#f7f4ec 60%,#ece8dc 60%,#ece8dc 100%)}
+ .expo-hero h1{font-size:clamp(68px,9vw,96px)}
+}
+@media(max-width:680px){
+ .expo-hero{padding-top:54px;padding-bottom:85px}
+ .expo-hero h1{font-size:clamp(62px,15vw,82px);letter-spacing:-2.8px}
+ .expo-hero-image{height:360px;min-height:360px}
+ .expo-image-frame{box-shadow:10px 10px 0 #e5c75d}
+ .expo-hero-number{right:-13px;top:-18px}
+ .expo-service-feature{box-shadow:0 8px 24px #1719160c}
+ .expo-feature-content h3{font-size:27px}
+ .expo-form{padding:25px 20px}
+ .expo-contact-strip h2{font-size:34px}
+}
+@media(prefers-reduced-motion:reduce){.expo-service-feature,.expo-moment-image{transition:none}}
