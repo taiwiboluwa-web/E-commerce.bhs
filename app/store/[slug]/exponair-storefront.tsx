@@ -116,7 +116,33 @@ export default function ExponairStorefront() {
 
       <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="#booking">Start your enquiry </a></section>
 
-      <footer className="expo-footer"><div className="expo-footer-main"><a className="expo-brand" href="#top"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS · STYLING · EXPERIENCES</small></span></a><p>Passionately bringing<br/>events to life.</p><div className="expo-footer-social"><a href="https://www.instagram.com/exponairevent/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={18}/></a><a href="https://www.facebook.com/exponairevent" target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook size={18}/></a><a href="https://www.tiktok.com/@exponairevent" target="_blank" rel="noreferrer">TikTok</a></div><a className="expo-back-top" href="#top">BACK TO TOP</a></div><div className="expo-footer-links"><a href="#about">About Exponair</a><a href="#kiddies">Kiddies' parties</a><a href="#adult">Adult celebrations</a><a href="#weddings">Weddings & special occasions</a><a href="#corporate">Corporate events</a><a href="#rentals">Event rentals</a><a href="#packages">Packages</a><a href="#gallery">Gallery</a><a href="#booking">Booking enquiries</a><a href="#terms">Terms & conditions</a><a href="#journal">Journal</a><a href="mailto:helenojukotola@gmail.com">Contact</a></div><div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LIMITED · RC1517280</span><span>LAGOS, NIGERIA</span><span>PASSIONATELY BRINGING EVENTS TO LIFE.</span></div></footer>
+      <footer className="expo-footer">
+        <div className="expo-footer-grid">
+          <div className="expo-footer-about">
+            <a className="expo-brand" href="#top" aria-label="Exponair home"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS · STYLING · EXPERIENCES</small></span></a>
+            <p>Passionately bringing events to life. Thoughtful planning, creative styling and joyful experiences for celebrations big and small.</p>
+            <div className="expo-footer-social">
+              <a href="https://www.instagram.com/exponairevent/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
+              <a href="https://www.facebook.com/exponairevent" target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
+              <a href="https://www.tiktok.com/@exponairevent" target="_blank" rel="noreferrer" aria-label="TikTok">♪</a>
+              <a href="https://wa.me/2348023387671" target="_blank" rel="noreferrer" aria-label="WhatsApp">W</a>
+            </div>
+          </div>
+          <div className="expo-footer-column">
+            <h3>QUICK LINKS</h3>
+            <a href="#top">Home</a><a href="#about">About</a><a href="#services">Our services</a><a href="#kiddies">Kiddies' parties</a><a href="#adult">Adult celebrations</a><a href="#weddings">Weddings & occasions</a><a href="#corporate">Corporate events</a><a href="#rentals">Event rentals</a><a href="#packages">Packages</a><a href="#gallery">Gallery</a><a href="#booking">Enquiries</a>
+          </div>
+          <div className="expo-footer-column expo-footer-contact">
+            <h3>CONTACT & LOCATION</h3>
+            <p>Lagos, Nigeria</p>
+            <a href="mailto:helenojukotola@gmail.com">helenojukotola@gmail.com</a>
+            <a href="tel:+2348023387671">+234 802 338 7671</a>
+            <p>Monday – Saturday<br/>9:00 am – 5:00 pm</p>
+            <a href="#terms">Booking terms & conditions</a>
+          </div>
+        </div>
+        <div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LIMITED · RC1517280. ALL RIGHTS RESERVED.</span><span>LAGOS, NIGERIA</span></div>
+      </footer>
       <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20enquire%20about%20an%20event." target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark">W</span><span>Chat with Exponair</span></a>
     </main>
   );
