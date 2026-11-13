@@ -32,7 +32,7 @@ export default async function ExponairPage() {
   if (process.env.DATABASE_URL) {
     const sql = neon(process.env.DATABASE_URL);
     const records = await sql.query("SELECT id,status,access_expires_at FROM public.tenants WHERE slug='exponair-events-management' AND deleted_at IS NULL LIMIT 1");
-    const tenant = records[0] as {id:string;status:string;access_expires_at:string|Date|null}|undefined;
+    const tenant = records[0] as {id:string;status:string;access_expires_at:string|null}|undefined;
     if (tenant) {
       const expired = Boolean(tenant.access_expires_at && new Date(tenant.access_expires_at).getTime() <= Date.now());
       if (expired && tenant.status === "active") {
