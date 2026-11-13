@@ -86,7 +86,9 @@ export async function PATCH(req: NextRequest) {
         if (!Number.isInteger(days) || days < 1 || days > 3650) return fail("Choose a duration between 1 and 3650 days.");
         result = await sql.query("UPDATE public.tenants SET access_duration_days=$1,updated_at=now() WHERE id=$2::uuid RETURNING id,status,access_duration_days,access_expires_at", [days,id]);
       } else if (body.mode === "enable_and_restart") {
-        result = await sql.query("UPDATE public.tenants SET status='active'::public.tenant_status,access_expires_at=now() + (access_duration_days * interval '1 day'),access_suspended_at=NULL,updated_at=now() WHERE id=$1::uuid AND deleted_at IS NULL RETURNING id,status,access_duration_days,access_expires_at", [id]);
+        const requestedDays = body.days === undefined ? null : Number(body.days);
+        if (requestedDays !== null && (!Number.isInteger(requestedDays) || requestedDays < 1 || requestedDays > 3650)) return fail("Choose a duration between 1 and 3650 days.");
+        result = await sql.query("UPDATE public.tenants SET access_duration_days=COALESCE($2,access_duration_days),status='active'::public.tenant_status,access_expires_at=now() + (COALESCE($2,access_duration_days) * interval '1 day'),access_suspended_at=NULL,updated_at=now() WHERE id=$1::uuid AND deleted_at IS NULL RETURNING id,status,access_duration_days,access_expires_at", [id,requestedDays]);
       } else if (body.mode === "suspend_now") {
         result = await sql.query("UPDATE public.tenants SET status='suspended'::public.tenant_status,access_suspended_at=now(),updated_at=now() WHERE id=$1::uuid AND deleted_at IS NULL RETURNING id,status,access_duration_days,access_expires_at", [id]);
       } else return fail("Unsupported access timer action.");
