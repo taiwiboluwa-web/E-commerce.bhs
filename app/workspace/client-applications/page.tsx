@@ -5,7 +5,7 @@ type App={id:string;business_name:string;contact_name:string;email:string;phone:
 const statuses=["new","reviewing","approved","declined","converted"];
 const fmt=(d:string)=>new Intl.DateTimeFormat("en-NG",{dateStyle:"medium",timeStyle:"short"}).format(new Date(d));
 export default function ClientApplicationsPage(){
- const [key,setKey]=useState(""),[ok,setOk]=useState(false),[apps,setApps]=useState<App[]>([]),[selected,setSelected]=useState(""),[filter,setFilter]=useState("all"),[search,setSearch]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState(""),[notice,setNotice]=useState("");
+ const [storefrontUrl,setStorefrontUrl]=useState(""),[key,setKey]=useState(""),[ok,setOk]=useState(false),[apps,setApps]=useState<App[]>([]),[selected,setSelected]=useState(""),[filter,setFilter]=useState("all"),[search,setSearch]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState(""),[notice,setNotice]=useState("");
  const seenIds=useRef<Set<string>>(new Set());
  const current=apps.find(a=>a.id===selected)||null;
  useEffect(()=>{const app=apps.find(a=>a.id===selected);setStorefrontUrl(app?.storefront_url||"");},[selected,apps]);
