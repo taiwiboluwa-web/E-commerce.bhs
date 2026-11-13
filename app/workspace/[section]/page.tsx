@@ -1,1 +1,25 @@
-import { notFound } from "next/navigation";\nimport Home from "@/app/page";\n\nconst sections: Record<string,string> = {\n  overview: "Overview",\n  storefronts: "Storefronts",\n  products: "Products",\n  orders: "Orders",\n  customers: "Customers",\n  subscriptions: "Subscriptions",\n  payments: "Payments",\n  "feature-controls": "Feature controls",\n  settings: "Settings",\n};\n\nexport function generateStaticParams() {\n  return Object.keys(sections).map((section) => ({ section }));\n}\n\nexport default async function WorkspaceSection({ params }: { params: Promise<{ section: string }> }) {\n  const { section } = await params;\n  const initialSection = sections[section];\n  if (!initialSection) notFound();\n  return <Home initialSection={initialSection} />;\n}\n
+import { notFound } from "next/navigation";
+import Home from "@/app/page";
+
+const sections: Record<string,string> = {
+  overview: "Overview",
+  storefronts: "Storefronts",
+  products: "Products",
+  orders: "Orders",
+  customers: "Customers",
+  subscriptions: "Subscriptions",
+  payments: "Payments",
+  "feature-controls": "Feature controls",
+  settings: "Settings",
+};
+
+export function generateStaticParams() {
+  return Object.keys(sections).map((section) => ({ section }));
+}
+
+export default async function WorkspaceSection({ params }: { params: Promise<{ section: string }> }) {
+  const { section } = await params;
+  const initialSection = sections[section];
+  if (!initialSection) notFound();
+  return <Home initialSection={initialSection} />;
+}
