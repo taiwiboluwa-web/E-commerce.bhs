@@ -703,13 +703,13 @@
   animation:none;
 }
 .exponair .expo-type-target.expo-type-playing .expo-type-char{
-  animation:expo-character-typed .012s steps(1,end) calc(var(--expo-char-index)*14ms) both;
+  animation:expo-character-typed .012s steps(1,end) calc(min(var(--expo-char-index)*8ms,1800ms)) both;
 }
 @keyframes expo-character-typed{to{opacity:1}}
 @media(max-width:680px){
   .exponair .expo-type-target.expo-type-playing .expo-type-char{
     animation-duration:.01s;
-    animation-delay:calc(var(--expo-char-index)*12ms);
+    animation-delay:calc(min(var(--expo-char-index)*7ms,1600ms));
   }
 }
 @media(prefers-reduced-motion:reduce){
