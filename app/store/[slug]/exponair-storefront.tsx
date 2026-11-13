@@ -1,156 +1,128 @@
 "use client";
 
-import { useState } from "react";
-import { Check, Menu, Sparkles, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Check, ChevronDown, Menu, X } from "lucide-react";
 import "./exponair.css";
 
+const WHATSAPP = "2348023387671";
 const services = [
-  { n: "01", title: "Event planning & coordination", tag: "THE FULL PICTURE", copy: "A clear plan, trusted coordination and thoughtful management from the first brief to the final guest departure." },
-  { n: "02", title: "Corporate events", tag: "MADE TO CONNECT", copy: "Conferences, launches, brand activations, team experiences and company celebrations with purpose." },
-  { n: "03", title: "Weddings & celebrations", tag: "YOUR MOMENT", copy: "Personal celebrations shaped around your story, your people and the atmosphere you want to create." },
-  { n: "04", title: "Event production & styling", tag: "THE DETAILS MATTER", copy: "Décor, staging, ambience and finishing touches that bring the whole experience together." },
+  { n: "01", title: "Kiddies birthday parties", tag: "THE BIG DAY", copy: "A joyful, well-organised birthday celebration built around your child, their favourite things and the guests they love.", includes: "Planning, event coordination, party flow and vendor coordination." },
+  { n: "02", title: "Themed party experiences", tag: "A WORLD OF THEIR OWN", copy: "Bring a little imagination to life with a celebration shaped around a favourite character, colour palette or playful theme.", includes: "Theme concept, styling direction, décor coordination and setup." },
+  { n: "03", title: "Games & entertainment", tag: "LET THE FUN BEGIN", copy: "Keep little guests smiling with age-appropriate activities, games and entertainment that make everyone feel included.", includes: "Activity planning, games schedule and entertainment coordination." },
+  { n: "04", title: "Decor, cakes & party details", tag: "THE LITTLE THINGS", copy: "From the welcome area to the cake table, we bring the finishing touches together for a celebration that feels complete.", includes: "Décor styling, cake and treat-table coordination, party details." },
+];
+
+const packages = [
+  { name: "Little Moments", note: "A sweet, simple celebration", detail: "For intimate kiddies parties and family gatherings.", items: ["Planning consultation", "Basic event timeline", "On-the-day coordination"], price: "Request a quote" },
+  { name: "Big Smiles", note: "A little more magic", detail: "For themed birthdays with more activities and styling.", items: ["Everything in Little Moments", "Theme and décor coordination", "Games and activity schedule", "Vendor coordination"], price: "Request a quote", featured: true },
+  { name: "The Grand Celebration", note: "The full party experience", detail: "For larger celebrations where every detail deserves attention.", items: ["Full event planning support", "Themed styling direction", "Entertainment coordination", "Guest experience and event-day management"], price: "Request a quote" },
 ];
 
 const faqs = [
-  ["What types of events do you manage?", "We support weddings, private celebrations, corporate gatherings, conferences, launches and other special occasions. Tell us what you are planning and we can discuss the right approach."],
-  ["Can you work with my budget?", "Yes. Share your estimated budget and priorities during the first conversation so the scope can be shaped around what matters most."],
-  ["How do we get started?", "Start with an inquiry. Share the occasion, preferred date, location and a little about your vision. The team can then follow up to discuss the next steps."],
+  ["Do you only plan kiddies events?", "Yes. Exponair focuses on kiddies celebrations, including birthday parties, themed parties, games, entertainment and party styling."],
+  ["How much does a party cost?", "Every celebration is different. The final quote depends on the date, venue, number of children and adults, theme and services you choose. Select a package above and message us for a tailored quote."],
+  ["Does selecting a date confirm my booking?", "No. The calendar lets you share your preferred date with the team. Your date is only confirmed after Exponair checks availability and agrees the booking with you."],
 ];
+
+const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const formatDate = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 export default function ExponairStorefront() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", event: "Wedding or private celebration", date: "", location: "", details: "" });
-  const [calendarMonth, setCalendarMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
   const [selectedDate, setSelectedDate] = useState("");
-  const whatsappNumber = "2348023387671";
-  const whatsappMessage = encodeURIComponent("Hello Exponair Events Management Ltd, I would like to enquire about planning an event. Preferred date: " + (selectedDate || "To be discussed") + ". My name is " + (form.name || "not provided") + ". Event type: " + form.event + ".");
-  const whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage;
-  const monthStart = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
-  const calendarOffset = monthStart.getDay();
-  const calendarDays = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate();
-  const today = new Date(); today.setHours(0,0,0,0);
-  const dateKey = (day: number) => String(calendarMonth.getFullYear()) + "-" + String(calendarMonth.getMonth()+1).padStart(2,"0") + "-" + String(day).padStart(2,"0");
-  const monthLabel = calendarMonth.toLocaleDateString("en", { month: "long", year: "numeric" });
-
+  const [form, setForm] = useState({ name: "", email: "", event: "Kiddies birthday party", guests: "", location: "", package: "Big Smiles", details: "" });
   const closeMenu = () => setMenuOpen(false);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const calendarCells = useMemo(() => {
+    const first = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
+    const count = new Date(month.getFullYear(), month.getMonth()+1, 0).getDate();
+    return [...Array(first).fill(null), ...Array.from({length:count},(_,i)=>i+1)];
+  }, [month]);
+  const chosenDate = selectedDate ? formatDate(new Date(selectedDate + "T12:00:00")) : "";
+  const sendInquiry = () => {
+    const message = [
+      "Hello Exponair Events Management!",
+      "I'd love to enquire about a kiddies event.",
+      "Name: " + form.name,
+      "Email: " + form.email,
+      "Event: " + form.event,
+      "Preferred date: " + (chosenDate || "Not selected"),
+      "Package: " + form.package,
+      "Guests: " + (form.guests || "To be discussed"),
+      "Location: " + (form.location || "To be discussed"),
+      "Details: " + (form.details || "Please contact me to discuss."),
+    ].join("\n");
+    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+  };
 
   return (
     <main className="exponair">
       <div className="expo-grain" aria-hidden="true" />
       <header className="expo-header">
-        <a className="expo-brand" href="#top" aria-label="Exponair home">
-          <span className="expo-monogram">E<span>.</span></span>
-          <span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS MANAGEMENT LTD</small></span>
-        </a>
+        <a className="expo-brand" href="#top" aria-label="Exponair home"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>KIDDIES EVENTS & CELEBRATIONS</small></span></a>
         <nav className={menuOpen ? "expo-nav is-open" : "expo-nav"} aria-label="Main navigation">
-          <a href="#approach" onClick={closeMenu}>About</a>
-          <a href="#services" onClick={closeMenu}>Our services</a>
-          <a href="#moments" onClick={closeMenu}>Our work</a>
-          <a href="#contact" onClick={closeMenu}>Contact</a>
+          <a href="#about" onClick={closeMenu}>Our world</a><a href="#services" onClick={closeMenu}>What we do</a><a href="#packages" onClick={closeMenu}>Packages</a><a href="#calendar" onClick={closeMenu}>Book a date</a>
         </nav>
-        <a className="expo-header-cta" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20make%20an%20event%20enquiry." target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+        <a className="expo-header-cta" href="#calendar">Let's plan a party</a>
         <button className="expo-menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
       <section className="expo-hero" id="top">
         <div className="expo-hero-copy">
-          <div className="expo-eyebrow"><span /> EXPONAIR EVENTS MANAGEMENT LTD</div>
-          <h1>Make room<br />for <em>remarkable.</em></h1>
-          <p className="expo-hero-lede">We bring people together through thoughtfully planned events, beautifully coordinated details and experiences worth remembering.</p>
-          <div className="expo-hero-actions">
-            <a className="expo-button expo-button-dark" href="#contact">Start planning</a>
-            <a className="expo-text-link" href="#services">Explore our services</a>
-          </div>
-          <div className="expo-hero-foot"><span>01 / 04</span><i /><span>PLAN · CREATE · CELEBRATE</span></div>
+          <div className="expo-eyebrow"><span /> LITTLE GUESTS. BIG MEMORIES.</div>
+          <h1>Big joy for<br /><em>little people.</em></h1>
+          <p className="expo-hero-lede">We create happy, colourful kiddies celebrations with thoughtful planning, playful details and room for every little guest to shine.</p>
+          <div className="expo-hero-actions"><a className="expo-button expo-button-dark" href="#calendar">Plan a kiddies party</a><a className="expo-text-link" href="#packages">Explore party packages</a></div>
+          <div className="expo-hero-foot"><span>PLAY</span><i /><span>IMAGINE</span><i /><span>CELEBRATE</span></div>
         </div>
-        <div className="expo-hero-visual">
-          <div className="expo-image-frame">
-            <div className="expo-hero-image" role="img" aria-label="Elegant event reception with warm lighting and floral styling" />
-            <div className="expo-image-caption"><span>THE MOMENT IS YOURS</span><span>MADE WITH INTENTION</span></div>
-          </div>
-          <div className="expo-stamp"><span>PLAN</span><b>·</b><span>CREATE</span><b>·</b><span>CELEBRATE</span></div>
-          <div className="expo-hero-number">E / 01</div>
-        </div>
-        <div className="expo-scroll-note"><span /> SCROLL TO EXPLORE</div>
+        <div className="expo-hero-visual"><div className="expo-image-frame"><div className="expo-hero-image" role="img" aria-label="Colourful children's birthday party table and decorations" /><div className="expo-image-caption"><span>MADE FOR LITTLE SMILES</span><span>EVERY DETAIL, A LITTLE MAGIC</span></div></div><div className="expo-stamp"><span>PLAY</span><b>·</b><span>LAUGH</span><b>·</b><span>CELEBRATE</span></div><div className="expo-hero-number">E / 01</div></div>
+        <div className="expo-scroll-note"><span /> COME ON IN</div>
       </section>
 
-      <section className="expo-intro" id="approach">
-        <div className="expo-section-label"><span>01</span> YOUR EVENT, OUR ATTENTION</div>
-        <div className="expo-intro-content">
-          <h2>Good events bring people together.<br /><em>Great ones make them feel something.</em></h2>
-          <div className="expo-intro-bottom">
-            <p>At Exponair, we believe every gathering deserves a clear vision and thoughtful execution. We bring the moving parts together, so you can be fully present for the moments that matter.</p>
-            <a href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20discuss%20an%20event." target="_blank" rel="noreferrer" className="expo-circle-link">Talk to us</a>
-          </div>
-        </div>
+      <section className="expo-intro" id="about">
+        <div className="expo-section-label"><span>01</span> A LITTLE ABOUT US</div>
+        <div className="expo-intro-content"><h2>Childhood is full of little milestones.<br /><em>Let's make the celebrations count.</em></h2><div className="expo-intro-bottom"><p>Exponair Events Management creates memorable kiddies parties with care, creativity and calm coordination. From the first theme idea to the last slice of cake, we help families enjoy the day as much as the children do.</p><a href="#calendar" className="expo-circle-link">Plan with us</a></div></div>
       </section>
 
       <section className="expo-services" id="services">
-        <div className="expo-section-head">
-          <div><div className="expo-section-label"><span>02</span> WHAT WE DO</div><h2>One vision.<br /><em>Every detail considered.</em></h2></div>
-          <p>From the first idea to the final finishing touch, we make the planning process feel clear, considered and connected.</p>
-        </div>
-        <div className="expo-service-list">
-          {services.map((service) => <article className="expo-service" key={service.n}>
-            <span className="expo-service-n">{service.n}</span>
-            <div className="expo-service-main"><span>{service.tag}</span><h3>{service.title}</h3></div>
-            <p>{service.copy}</p>
-            <a href={"https://wa.me/2348023387671?text=" + encodeURIComponent("Hello Exponair, I would like to enquire about " + service.title + ".")} target="_blank" rel="noreferrer" aria-label={"Enquire about " + service.title}>Enquire</a>
-          </article>)}
-        </div>
+        <div className="expo-section-head"><div><div className="expo-section-label"><span>02</span> THE FUN STARTS HERE</div><h2>Little details.<br /><em>Big celebrations.</em></h2></div><p>Choose the pieces you need or let us bring the whole kiddies party together.</p></div>
+        <div className="expo-service-list">{services.map((service) => <article className="expo-service" key={service.n}><span className="expo-service-n">{service.n}</span><div className="expo-service-main"><span>{service.tag}</span><h3>{service.title}</h3></div><p>{service.copy}</p><a href="#calendar">Enquire</a></article>)}</div>
       </section>
 
-      <section className="expo-gallery" id="moments">
-        <div className="expo-gallery-head"><div className="expo-section-label"><span>03</span> MOMENTS THAT STAY</div><p>Every occasion has its own energy. We make space for it to shine.</p></div>
-        <div className="expo-gallery-grid">
-          <article className="expo-moment moment-tall"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>01 / CELEBRATIONS</span><h3>A beautiful reason<br />to gather.</h3></div></article>
-          <article className="expo-moment moment-wide"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>02 / EXPERIENCES</span><h3>Spaces that make<br />a statement.</h3></div></article>
-          <article className="expo-moment moment-small"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1507504031003-b417219a0b?auto=format&fit=crop&w=1200&q=85')"}}/><div className="expo-moment-meta"><span>03 / THE FINISHING TOUCH</span><h3>Considered down to<br />the last detail.</h3></div></article>
-        </div>
-        <p className="expo-gallery-note">Portfolio imagery is illustrative and should be replaced with Exponair-approved event photographs.</p>
+      <section className="expo-packages" id="packages">
+        <div className="expo-section-head"><div><div className="expo-section-label"><span>03</span> PARTY PACKAGES</div><h2>Pick your kind<br /><em>of party magic.</em></h2></div><p>These are starting package guides. Tell us your plans and we will prepare a quote based on your date, guest count and choices.</p></div>
+        <div className="expo-package-grid">{packages.map((p) => <article className={p.featured ? "expo-package featured" : "expo-package"} key={p.name}><span className="expo-package-note">{p.note}</span><h3>{p.name}</h3><p>{p.detail}</p><div className="expo-package-price">{p.price}</div><span className="expo-package-includes">PACKAGE HIGHLIGHTS</span><ul>{p.items.map(item=><li key={item}><Check size={14}/>{item}</li>)}</ul><a href="#calendar" onClick={()=>setForm({...form,package:p.name})}>Choose this package</a></article>)}</div>
+        <p className="expo-pricing-note">No fixed prices have been published yet. Request a quote for accurate pricing before booking.</p>
       </section>
 
-      <section className="expo-quote">
-        <span className="expo-quote-mark">“</span>
-        <blockquote>The details are not the details.<br /><em>They make the experience.</em></blockquote>
-        <span className="expo-quote-rule" />
-        <span className="expo-quote-caption">THE EXPONAIR APPROACH</span>
-      </section>
+      <section className="expo-gallery" id="moments"><div className="expo-gallery-head"><div className="expo-section-label"><span>04</span> A WORLD OF WONDER</div><p>Bright ideas, happy faces and moments worth keeping.</p></div><div className="expo-gallery-grid"><article className="expo-moment moment-tall"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>01 / BIRTHDAY JOY</span><h3>Make a wish.<br />Make it wonderful.</h3></div></article><article className="expo-moment moment-wide"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>02 / SWEET DETAILS</span><h3>All the little things<br />they'll remember.</h3></div></article><article className="expo-moment moment-small"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=85')"}}/><div className="expo-moment-meta"><span>03 / PARTY TIME</span><h3>More play.<br />More smiles.</h3></div></article></div><p className="expo-gallery-note">Sample inspiration imagery. Replace with Exponair-approved kiddies event photographs before launch.</p></section>
 
-      <section className="expo-faq">
-        <div><div className="expo-section-label"><span>04</span> GOOD TO KNOW</div><h2>Before the<br /><em>first hello.</em></h2><p>Every event begins with a conversation. Here are a few helpful starting points.</p></div>
-        <div className="expo-faq-list">
-          {faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}>
-            <button onClick={() => setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><i aria-hidden="true">{activeFaq===i?"−":"+"}</i></button>
-            {activeFaq===i && <p>{a}</p>}
-          </article>)}
+      <section className="expo-quote"><span className="expo-quote-mark">“</span><blockquote>Little people deserve<br /><em>the biggest celebrations.</em></blockquote><span className="expo-quote-rule" /><span className="expo-quote-caption">THE EXPONAIR PROMISE</span></section>
+
+      <section className="expo-faq"><div><div className="expo-section-label"><span>05</span> GOOD TO KNOW</div><h2>Before the<br /><em>party begins.</em></h2><p>A few helpful answers before we start planning your child's special day.</p></div><div className="expo-faq-list">{faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}><button onClick={() => setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><ChevronDown size={18}/></button>{activeFaq===i && <p>{a}</p>}</article>)}</div></section>
+
+      <section className="expo-contact" id="calendar">
+        <div className="expo-contact-copy"><div className="expo-section-label"><span>06</span> SAVE YOUR PARTY DATE</div><h2>Let's make<br />their day <em>shine.</em></h2><p>Choose a preferred date on the calendar, tell us a little about the celebration and send your enquiry straight to our WhatsApp.</p><div className="expo-contact-note"><span>WhatsApp enquiries: +234 802 338 7671</span></div></div>
+        <div className="expo-booking-panel">
+          <div className="expo-calendar"><div className="expo-calendar-head"><div><span>CHOOSE YOUR PREFERRED DATE</span><strong>{monthNames[month.getMonth()]} {month.getFullYear()}</strong></div><div className="expo-calendar-controls"><button type="button" aria-label="Previous month" disabled={month.getFullYear()===today.getFullYear()&&month.getMonth()===today.getMonth()} onClick={()=>setMonth(new Date(month.getFullYear(),month.getMonth()-1,1))}>Prev</button><button type="button" aria-label="Next month" onClick={()=>setMonth(new Date(month.getFullYear(),month.getMonth()+1,1))}>Next</button></div></div><div className="expo-calendar-grid">{weekdays.map(d=><span className="expo-calendar-weekday" key={d}>{d}</span>)}{calendarCells.map((day,i)=>{if(!day)return <span key={"blank-"+i}/>;const date=new Date(month.getFullYear(),month.getMonth(),day);const iso=[date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(day).padStart(2,"0")].join("-");const past=date<today;return <button type="button" key={iso} className={(selectedDate===iso?"selected ":"")+(past?"past":"")} disabled={past} onClick={()=>setSelectedDate(iso)} aria-pressed={selectedDate===iso}>{day}</button>})}</div><p className="expo-calendar-note">Select a date to tell us when you'd like to celebrate. This is a date request, not a live availability confirmation.</p><p className="expo-calendar-selected">{chosenDate ? <>Your preferred date: <strong>{chosenDate}</strong></> : "No date selected yet."}</p></div>
+          <form className="expo-form" onSubmit={(e)=>{e.preventDefault();sendInquiry();}}>
+            <div className="expo-form-top"><span>YOUR PARTY DETAILS</span><span>* REQUIRED</span></div>
+            <label>Parent or guardian name *<input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Your full name"/></label>
+            <label>Email address *<input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@example.com"/></label>
+            <div className="expo-form-row"><label>Celebration type *<select value={form.event} onChange={e=>setForm({...form,event:e.target.value})}><option>Kiddies birthday party</option><option>Children's themed party</option><option>School or children's celebration</option><option>Other kiddies event</option></select></label><label>Package<select value={form.package} onChange={e=>setForm({...form,package:e.target.value})}>{packages.map(p=><option key={p.name}>{p.name}</option>)}</select></label></div>
+            <div className="expo-form-row"><label>Expected guests<input value={form.guests} onChange={e=>setForm({...form,guests:e.target.value})} placeholder="Approximate number"/></label><label>Venue or area<input value={form.location} onChange={e=>setForm({...form,location:e.target.value})} placeholder="City or venue"/></label></div>
+            <label>Tell us about the party<textarea rows={3} value={form.details} onChange={e=>setForm({...form,details:e.target.value})} placeholder="Age, theme ideas, activities and anything else..."/></label>
+            <button className="expo-button expo-button-dark expo-submit" type="submit">Send enquiry on WhatsApp</button>
+            <p className="expo-form-disclaimer">Your details will be added to a WhatsApp message for you to review and send. Your booking is not confirmed until Exponair replies.</p>
+          </form>
         </div>
       </section>
 
-      <section className="expo-contact" id="contact">
-        <div className="expo-contact-copy"><div className="expo-section-label"><span>05</span> LET'S MAKE IT HAPPEN</div><h2>Have a date<br />in <em>mind?</em></h2><p>Tell us a little about what you are imagining. We will use your note as the starting point for a proper conversation.</p><div className="expo-contact-note"><Sparkles size={16}/><span>A thoughtful first conversation. No pressure.</span></div></div>
-        <form className="expo-form" onSubmit={(e)=>{e.preventDefault();setSubmitted(true);}}>
-          {submitted ? <div className="expo-form-success"><span><Check size={22}/></span><h3>Thank you for reaching out.</h3><p>This storefront preview is not yet connected to Exponair's inbox. Your inquiry has not been sent. Connect the approved email or CRM endpoint before launch.</p><button type="button" onClick={() => setSubmitted(false)}>Edit inquiry</button></div> : <>
-            <div className="expo-form-top"><span>EVENT ENQUIRY</span><span>* REQUIRED</span></div>
-            <div className="expo-calendar"><div className="expo-calendar-head"><div><span>CHOOSE A PREFERRED DATE</span><strong>{monthLabel}</strong></div><div className="expo-calendar-controls"><button type="button" aria-label="Previous month" disabled={calendarMonth.getFullYear()===today.getFullYear() && calendarMonth.getMonth()===today.getMonth()} onClick={()=>setCalendarMonth(new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1))}>‹</button><button type="button" aria-label="Next month" onClick={()=>setCalendarMonth(new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1))}>Next</button></div></div><div className="expo-calendar-grid">{["SUN","MON","TUE","WED","THU","FRI","SAT"].map(d=><span className="expo-calendar-weekday" key={d}>{d}</span>)}{Array.from({length:calendarOffset},(_,i)=><span key={"blank"+i}/>)}{Array.from({length:calendarDays},(_,i)=>{const day=i+1;const key=dateKey(day);const date=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),day);const past=date<today;return <button type="button" key={key} disabled={past} className={(selectedDate===key?"selected ":"")+(past?"past":"")} onClick={()=>{setSelectedDate(key);setForm({...form,date:key});}}>{day}</button>;})}</div><p className="expo-calendar-note">Choose a future date to request. Exponair will confirm availability before your booking is accepted.</p>{selectedDate && <p className="expo-calendar-selected">Preferred date: <strong>{new Date(selectedDate+"T12:00:00").toLocaleDateString("en",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</strong></p>}</div>
-            <label>Your name *<input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Your full name" /></label>
-            <label>Email address *<input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@example.com" /></label>
-            <div className="expo-form-row"><label>Event type *<select value={form.event} onChange={e=>setForm({...form,event:e.target.value})}><option>Wedding or private celebration</option><option>Corporate event</option><option>Brand launch or activation</option><option>Conference or seminar</option><option>Other occasion</option></select></label><label>Preferred event date<input type="date" min={today.toISOString().slice(0,10)} value={form.date} onChange={e=>{setForm({...form,date:e.target.value});setSelectedDate(e.target.value);}}/></label></div>
-            <label>Event location<input value={form.location} onChange={e=>setForm({...form,location:e.target.value})} placeholder="City or venue (if known)" /></label>
-            <label>Tell us about your plans<textarea rows={3} value={form.details} onChange={e=>setForm({...form,details:e.target.value})} placeholder="The occasion, guest count, ideas and the feeling you have in mind..." /></label>
-            <button className="expo-button expo-button-dark expo-submit" type="submit">Prepare my enquiry</button>
-            <p className="expo-form-disclaimer">This enquiry preview does not reserve a date. Contact Exponair on WhatsApp to confirm availability and booking details.</p><a className="expo-whatsapp-form" href={whatsappUrl} target="_blank" rel="noreferrer">Continue on WhatsApp · +234 802 338 7671</a>
-          </>}
-        </form>
-      </section>
-
-      <a className="expo-whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark">W</span> Chat on WhatsApp · +234 802 338 7671</a>
-      <footer className="expo-footer">
-        <div className="expo-footer-main"><a className="expo-brand" href="#top"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS MANAGEMENT LTD</small></span></a><p>Thoughtful planning.<br />Remarkable experiences.</p><a className="expo-back-top" href="#top">BACK TO TOP</a></div>
-        <div className="expo-footer-bottom"><span>WhatsApp: +234 802 338 7671</span><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LTD</span><span>MADE FOR MOMENTS THAT MATTER</span><span>EVENTS · EXPERIENCES · CELEBRATIONS</span></div>
-      </footer>
+      <footer className="expo-footer"><div className="expo-footer-main"><a className="expo-brand" href="#top"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>KIDDIES EVENTS & CELEBRATIONS</small></span></a><p>Little guests.<br/>Big memories.</p><a className="expo-back-top" href="#top">BACK TO TOP</a></div><div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LTD</span><span>MADE FOR LITTLE MOMENTS</span><span>KIDDIES PARTIES · CELEBRATIONS</span></div></footer>
+      <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20enquire%20about%20a%20kiddies%20event." target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark">W</span><span>Chat with us</span></a>
     </main>
   );
 }
