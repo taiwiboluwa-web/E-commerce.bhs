@@ -167,7 +167,7 @@ export default function ExponairStorefront() {
       <footer className="expo-footer">
         <div className="expo-footer-grid">
           <div className="expo-footer-about">
-            <a className="expo-brand expo-brand-logo" href="#top" aria-label="Exponair home"><ExponairWordmark compact/></a>
+            <a className="expo-brand expo-brand-logo" href="#top" aria-label="Exponair home"><ExponairWordmark/></a>
             <p>Passionately bringing events to life. Thoughtful planning, creative styling and joyful experiences for celebrations big and small.</p>
             <div className="expo-footer-social">
               <a href="https://www.instagram.com/exponairevent/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
