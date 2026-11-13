@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, Menu, Sparkles, X } from "lucide-react";
-import "../../exponair/exponair.css";
+import "./exponair.css";
 
 const services = [
   { n: "01", title: "Event planning & coordination", tag: "THE FULL PICTURE", copy: "A clear plan, trusted coordination and thoughtful management from the first brief to the final guest departure." },
