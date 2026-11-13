@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, Menu, Sparkles, X } from "lucide-react";
+import { Check, ChevronDown, Menu, Sparkles, X } from "lucide-react";
 import "./exponair.css";
 
 const services = [
@@ -38,7 +38,7 @@ export default function ExponairStorefront() {
           <a href="#moments" onClick={closeMenu}>Our work</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
         </nav>
-        <a className="expo-header-cta" href="#contact">Plan your event <ArrowUpRight size={15} /></a>
+        <a className="expo-header-cta" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20make%20an%20event%20enquiry." target="_blank" rel="noreferrer">Chat on WhatsApp</a>
         <button className="expo-menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
@@ -48,8 +48,8 @@ export default function ExponairStorefront() {
           <h1>Make room<br />for <em>remarkable.</em></h1>
           <p className="expo-hero-lede">We bring people together through thoughtfully planned events, beautifully coordinated details and experiences worth remembering.</p>
           <div className="expo-hero-actions">
-            <a className="expo-button expo-button-dark" href="#contact">Start planning <ArrowUpRight size={16} /></a>
-            <a className="expo-text-link" href="#services">Explore our services <ArrowDownRight size={16} /></a>
+            <a className="expo-button expo-button-dark" href="#contact">Start planning</a>
+            <a className="expo-text-link" href="#services">Explore our services</a>
           </div>
           <div className="expo-hero-foot"><span>01 / 04</span><i /><span>PLAN · CREATE · CELEBRATE</span></div>
         </div>
@@ -70,7 +70,7 @@ export default function ExponairStorefront() {
           <h2>Good events bring people together.<br /><em>Great ones make them feel something.</em></h2>
           <div className="expo-intro-bottom">
             <p>At Exponair, we believe every gathering deserves a clear vision and thoughtful execution. We bring the moving parts together, so you can be fully present for the moments that matter.</p>
-            <a href="#contact" className="expo-circle-link" aria-label="Talk to Exponair"><ArrowUpRight size={22} /></a>
+            <a href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20discuss%20an%20event." target="_blank" rel="noreferrer" className="expo-circle-link">Talk to us</a>
           </div>
         </div>
       </section>
@@ -85,7 +85,7 @@ export default function ExponairStorefront() {
             <span className="expo-service-n">{service.n}</span>
             <div className="expo-service-main"><span>{service.tag}</span><h3>{service.title}</h3></div>
             <p>{service.copy}</p>
-            <a href="#contact" aria-label={"Enquire about " + service.title}><ArrowUpRight size={20} /></a>
+            <a href={"https://wa.me/2348023387671?text=" + encodeURIComponent("Hello Exponair, I would like to enquire about " + service.title + ".")} target="_blank" rel="noreferrer" aria-label={"Enquire about " + service.title}>Enquire</a>
           </article>)}
         </div>
       </section>
@@ -127,15 +127,16 @@ export default function ExponairStorefront() {
             <div className="expo-form-row"><label>Event type *<select value={form.event} onChange={e=>setForm({...form,event:e.target.value})}><option>Wedding or private celebration</option><option>Corporate event</option><option>Brand launch or activation</option><option>Conference or seminar</option><option>Other occasion</option></select></label><label>Event date<input type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})}/></label></div>
             <label>Event location<input value={form.location} onChange={e=>setForm({...form,location:e.target.value})} placeholder="City or venue (if known)" /></label>
             <label>Tell us about your plans<textarea rows={3} value={form.details} onChange={e=>setForm({...form,details:e.target.value})} placeholder="The occasion, guest count, ideas and the feeling you have in mind..." /></label>
-            <button className="expo-button expo-button-dark expo-submit" type="submit">Prepare my enquiry <ArrowUpRight size={16}/></button>
+            <button className="expo-button expo-button-dark expo-submit" type="submit">Prepare my enquiry</button>
             <p className="expo-form-disclaimer">Preview form only — submissions are not delivered until a contact endpoint is connected.</p>
           </>}
         </form>
       </section>
 
+      <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20make%20an%20enquiry." target="_blank" rel="noreferrer" aria-label="Chat with Exponair on WhatsApp"><span className="expo-whatsapp-mark">W</span><span>Enquire on WhatsApp</span></a>
       <footer className="expo-footer">
-        <div className="expo-footer-main"><a className="expo-brand" href="#top"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS MANAGEMENT LTD</small></span></a><p>Thoughtful planning.<br />Remarkable experiences.</p><a className="expo-back-top" href="#top">BACK TO TOP <ArrowUpRight size={15}/></a></div>
-        <div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LTD</span><span>MADE FOR MOMENTS THAT MATTER</span><span>EVENTS · EXPERIENCES · CELEBRATIONS</span></div>
+        <div className="expo-footer-main"><a className="expo-brand" href="#top"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS MANAGEMENT LTD</small></span></a><p>Thoughtful planning.<br />Remarkable experiences.</p><a className="expo-back-top" href="#top">BACK TO TOP</a></div>
+        <div className="expo-footer-bottom"><span>WhatsApp: +234 802 338 7671</span><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LTD</span><span>MADE FOR MOMENTS THAT MATTER</span><span>EVENTS · EXPERIENCES · CELEBRATIONS</span></div>
       </footer>
     </main>
   );
