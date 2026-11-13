@@ -121,6 +121,9 @@ export async function PATCH(req: NextRequest) {
       if (!name || !/^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$/.test(slug)) return fail("Enter a business name and a valid unique storefront slug.");
       if (url && !/^https:\/\/[a-z0-9.-]+(?::[0-9]+)?(?:\/[^\s]*)?$/i.test(url)) return fail("Storefront URL must be a valid HTTPS URL.");
       result = await sql.query("INSERT INTO public.tenants(name,slug,category,storefront_url,status) VALUES($1,$2,$3,$4,'setup') RETURNING id,name,slug,status,storefront_url", [name,slug,category || null,url || null]);
+      if (result[0]?.id) {
+        await sql.query("UPDATE public.tenant_storage_accounts SET capacity_bytes=COALESCE((SELECT (setting_value #>> '{}')::bigint FROM public.platform_settings WHERE setting_key='included_storage_bytes'),capacity_bytes),updated_at=now() WHERE tenant_id=$1::uuid", [result[0].id]);
+      }
     } else if (body.action === "create_product") {
       const tenantId = String(body.tenant_id || "");
       const name = String(body.name || "").trim().slice(0,180);
@@ -129,7 +132,7 @@ export async function PATCH(req: NextRequest) {
       const stock = Number(body.stock_quantity);
       const sku = String(body.sku || "").trim().slice(0,80);
       if (!/^[0-9a-f-]{36}$/i.test(tenantId) || !name || !/^[a-z0-9]+([a-z0-9-]*[a-z0-9])?$/.test(slug) || !Number.isSafeInteger(price) || price < 0 || !Number.isInteger(stock) || stock < 0) return fail("Complete the product details with a valid storefront, slug, price and stock quantity.");
-      result = await sql.query("INSERT INTO public.products(tenant_id,name,slug,price_minor,sku,stock_quantity,currency,is_published) SELECT id,$2,$3,$4,$5,$6,'NGN',false FROM public.tenants WHERE id=$1::uuid AND status <> 'deleted' RETURNING id,name,slug,price_minor,stock_quantity,is_published", [tenantId,name,slug,price,sku || null,stock]);
+      result = await sql.query("INSERT INTO public.products(tenant_id,name,slug,price_minor,sku,stock_quantity,currency,is_published) SELECT id,$2,$3,$4,$5,$6,COALESCE((SELECT setting_value #>> '{}' FROM public.platform_settings WHERE setting_key='default_currency'),'NGN'),false FROM public.tenants WHERE id=$1::uuid AND status <> 'deleted' RETURNING id,name,slug,price_minor,stock_quantity,is_published", [tenantId,name,slug,price,sku || null,stock]);
     } else return fail("Unknown workspace action.");
     if (!result.length) return fail("The requested record was not found.",404);
     await sql.query("INSERT INTO public.audit_events(action,entity_type,entity_id,metadata) VALUES($1,'workspace',$2,$3::jsonb)", [String(body.action),String(body.id || body.key || body.feature_key || ""),JSON.stringify({field:body.field || null,actor:"platform_owner"})]);
