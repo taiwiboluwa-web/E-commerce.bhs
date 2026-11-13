@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { demoStorefronts, getDemoStorefront } from "@/lib/demo-storefronts";
 import ExponairStorefront from "./exponair-storefront";
 import "../../storefronts/demo-storefronts.css";
@@ -9,6 +9,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  if (slug === "atelier-nova") redirect("/store/exponair-events-management");
   const store = getDemoStorefront(slug);
   if (slug === "exponair-events-management") {
     return { title: "Exponair Events Management Ltd | Plan Remarkable Events", description: "Thoughtfully planned events, corporate experiences, weddings and celebrations by Exponair Events Management Ltd." };
