@@ -85,13 +85,23 @@ export default function ExponairStorefront() {
         const value=node.textContent||"";
         if(!value) return;
         const fragment=document.createDocumentFragment();
-        for(const character of value){
-          const span=document.createElement("span");
-          span.className="expo-type-char";
-          span.style.setProperty("--expo-char-index",String(index++));
-          span.textContent=character;
-          span.setAttribute("aria-hidden","true");
-          fragment.appendChild(span);
+        const pieces=value.match(/\\s+|[^\\s]+/gu)||[];
+        for(const piece of pieces){
+          if(/^\\s+$/u.test(piece)){
+            fragment.appendChild(document.createTextNode(piece));
+            continue;
+          }
+          const word=document.createElement("span");
+          word.className="expo-type-word";
+          word.setAttribute("aria-hidden","true");
+          for(const character of piece){
+            const span=document.createElement("span");
+            span.className="expo-type-char";
+            span.style.setProperty("--expo-char-index",String(index++));
+            span.textContent=character;
+            word.appendChild(span);
+          }
+          fragment.appendChild(word);
         }
         node.parentNode?.replaceChild(fragment,node);
       });
