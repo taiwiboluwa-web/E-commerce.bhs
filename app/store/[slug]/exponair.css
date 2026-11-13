@@ -31,3 +31,49 @@
 .expo-whatsapp-mark{width:23px;height:23px;border:1px solid #ffffffa6;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:10px}
 .expo-faq-item button i{font:500 20px 'DM Sans';font-style:normal;color:var(--expo-accent)}
 @media(max-width:680px){.expo-calendar{padding:17px 13px}.expo-calendar-grid{gap:3px}.expo-calendar-grid button{height:35px}.expo-calendar-head strong{font-size:18px}.expo-calendar-controls button{padding:7px 8px}.expo-whatsapp-float{right:14px;bottom:14px;padding:11px 13px;font-size:9px}}
+
+
+/* Kiddies celebration direction */
+.exponair{--expo-ink:#302a35;--expo-paper:#fff8ed;--expo-muted:#817783;--expo-accent:#df805e;background:var(--expo-paper)}
+.expo-header,.expo-intro,.expo-services,.expo-faq,.expo-contact,.expo-quote{position:relative;z-index:2}
+.expo-hero{background:radial-gradient(ellipse at 12% 18%,#f8e5b8 0,transparent 29%),radial-gradient(ellipse at 90% 82%,#f3d9d1 0,transparent 30%)}
+.expo-hero-image{background-image:linear-gradient(180deg,rgba(31,24,19,.02),rgba(31,24,19,.14)),url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1500&q=90')}
+.expo-monogram{border-radius:13px 13px 13px 3px;background:#f8e6c6}
+.expo-button,.expo-package,.expo-calendar,.expo-form{border-radius:12px}
+.expo-button-dark{background:#302a35;border-color:#302a35}
+.expo-button-dark:hover{background:#df805e;border-color:#df805e}
+.expo-service{border-radius:8px}
+.expo-service:hover{background:#fff1df}
+.expo-service>a{border:1px solid var(--expo-line);padding:10px 15px;border-radius:30px}
+.expo-gallery{background:#302a35}
+.expo-packages{padding:105px 13% 112px;background:#f7eddf;position:relative;z-index:2}
+.expo-package-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.expo-package{padding:29px 25px 27px;background:#fffaf3;border:1px solid rgba(48,42,53,.15);display:flex;flex-direction:column;min-height:100%}
+.expo-package.featured{background:#302a35;color:#fff8ed;border-color:#302a35;transform:translateY(-9px);box-shadow:0 18px 40px #302a351c}
+.expo-package-note,.expo-package-includes{font-size:8px;letter-spacing:1.5px;color:#a27c6e;text-transform:uppercase}
+.expo-package h3{font:500 27px/1.2 'Playfair Display';margin:17px 0 10px}
+.expo-package>p{font-size:10px;line-height:1.8;color:#827a80;min-height:38px}
+.expo-package.featured>p{color:#d0c5d0}
+.expo-package-price{font:500 21px 'Playfair Display';padding:17px 0;border-top:1px solid var(--expo-line);border-bottom:1px solid var(--expo-line);margin:12px 0 19px}
+.expo-package.featured .expo-package-price{border-color:#ffffff35}
+.expo-package-includes{margin-bottom:13px}
+.expo-package ul{list-style:none;padding:0;margin:0 0 25px;display:grid;gap:12px}
+.expo-package li{display:flex;align-items:flex-start;gap:9px;font-size:10px;line-height:1.5;color:#6f6870}
+.expo-package.featured li{color:#eee4ed}
+.expo-package li svg{color:#df805e;flex:none}
+.expo-package>a{margin-top:auto;display:block;text-align:center;padding:13px 12px;border:1px solid var(--expo-ink);border-radius:30px;font-size:9px;letter-spacing:.4px}
+.expo-package.featured>a{background:#f4cfa7;color:#302a35;border-color:#f4cfa7}
+.expo-pricing-note{font-size:9px;line-height:1.7;color:#817783;margin:24px 0 0;text-align:center}
+.expo-booking-panel{min-width:0}
+.expo-calendar{border-radius:12px;background:#fffaf3;box-shadow:0 12px 35px #302a350b}
+.expo-calendar-grid button{border-radius:8px}
+.expo-calendar-grid button.selected{background:#df805e;border-color:#df805e;color:#fff}
+.expo-calendar-grid button:not(:disabled):hover{background:#f8e5d6}
+.expo-calendar-grid button.selected:hover{background:#df805e}
+.expo-calendar-controls button{border-radius:20px}
+.expo-form{border-radius:12px;background:#fffaf3}
+.expo-whatsapp-float{border-radius:30px;background:#236b4b}
+.expo-whatsapp-float:hover{background:#18583c}
+.expo-faq-item button i{font-size:18px;font-style:normal;font-weight:500;color:var(--expo-accent)}
+@media(max-width:900px){.expo-packages{padding-left:8%;padding-right:8%}.expo-package-grid{gap:12px}.expo-package{padding:24px 18px}}
+@media(max-width:680px){.expo-packages{padding:78px 7%}.expo-package-grid{grid-template-columns:1fr;gap:14px}.expo-package.featured{transform:none}.expo-package>p{min-height:0}.expo-contact{display:block}.expo-booking-panel{margin-top:38px}.expo-calendar{margin-bottom:18px}}
