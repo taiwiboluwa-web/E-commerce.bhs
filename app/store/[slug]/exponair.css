@@ -536,3 +536,46 @@
 @media(prefers-reduced-motion:reduce){
  .exponair *{scroll-behavior:auto!important}
 }
+
+
+/* EXPONAIR OFFICIAL LOGO MOTION SYSTEM — derived from the supplied brand artwork */
+.exponair{--expo-brand-yellow:#f4c400;--expo-brand-green:#0b9d57;--expo-brand-red:#d52d2d;--expo-ink:#171717}
+.expo-brand-logo{display:flex;align-items:center;min-width:190px}
+.expo-wordmark{display:inline-flex;align-items:center;gap:8px;position:relative}
+.expo-flower-mark{width:38px;height:43px;flex:none;overflow:visible}
+.expo-wordmark-copy{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.expo-wordmark-copy strong{font-family:'URW Chancery L','Apple Chancery','Brush Script MT',cursive;font-size:34px;font-weight:500;letter-spacing:-1.8px;color:#171717;line-height:.9}
+.expo-wordmark-copy small{font:700 6px/1.3 'Manrope',sans-serif;letter-spacing:2px;color:#171717;border-top:1px solid var(--expo-brand-red);padding-top:3px;margin-top:4px}
+.expo-wordmark-copy em{font:500 7px/1.3 'Cormorant Garamond',serif;color:#5c5a55;letter-spacing:.1px}
+.expo-wordmark-compact .expo-flower-mark{width:33px;height:38px}
+.expo-wordmark-compact .expo-wordmark-copy strong{font-size:30px}
+.expo-wordmark-compact .expo-wordmark-copy small{font-size:5px;letter-spacing:1.7px}
+.expo-wordmark-compact .expo-wordmark-copy em{display:none}
+.expo-brand-reveal{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#080808;animation:expo-reveal-exit .75s ease 3.45s forwards}
+.expo-reveal-lockup{width:min(82vw,520px);display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff}
+.expo-reveal-flower{width:clamp(105px,17vw,155px);height:auto;overflow:visible}
+.expo-reveal-flower .expo-petal-one{transform-origin:58px 66px;animation:expo-petal-open .85s cubic-bezier(.2,.8,.2,1) .25s both}
+.expo-reveal-flower .expo-petal-two{transform-origin:64px 66px;animation:expo-petal-open .85s cubic-bezier(.2,.8,.2,1) .55s both}
+.expo-reveal-flower .expo-leaf{transform-origin:59px 84px;animation:expo-leaf-grow .65s ease 1s both}
+.expo-reveal-flower .expo-flourish{stroke-dasharray:100;stroke-dashoffset:100;animation:expo-draw 1s ease 1.15s forwards}
+.expo-reveal-word{font:italic 500 clamp(64px,12vw,112px)/.95 'URW Chancery L','Apple Chancery','Brush Script MT',cursive;letter-spacing:-5px;color:#f8f6f0;opacity:0;transform:translateY(18px);animation:expo-word-appear .9s cubic-bezier(.16,1,.3,1) 1.35s forwards}
+.expo-reveal-rule{width:min(68%,310px);height:2px;background:var(--expo-brand-red);margin:13px 0 8px;transform:scaleX(0);animation:expo-rule-grow .6s ease 2.05s forwards}
+.expo-reveal-subtitle{font:700 10px/1.5 'Manrope',sans-serif;letter-spacing:4px;color:#f4f0e7;opacity:0;animation:expo-fade-up .55s ease 2.25s forwards}
+.expo-reveal-tagline{font:italic 500 16px/1.4 'Cormorant Garamond',serif;color:#c8c3b8;margin-top:8px;opacity:0;animation:expo-fade-up .55s ease 2.55s forwards}
+.expo-reveal-skip{position:absolute;right:28px;bottom:26px;border:1px solid #ffffff45;border-radius:30px;padding:10px 16px;background:transparent;color:#fff;font:600 9px 'Manrope',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+.expo-kinetic-title .expo-title-line{display:block;overflow:hidden;animation:expo-title-rise .9s cubic-bezier(.16,1,.3,1) both}
+.expo-kinetic-title .expo-title-line:nth-child(1){animation-delay:.12s}
+.expo-kinetic-title .expo-title-line:nth-child(2){animation-delay:.28s}
+.expo-kinetic-title .expo-title-line:nth-child(3){animation-delay:.44s}
+.expo-kinetic-quote span,.expo-kinetic-quote em{display:block;animation:expo-title-rise .9s cubic-bezier(.16,1,.3,1) both}
+.expo-kinetic-quote em{animation-delay:.18s}
+@keyframes expo-petal-open{from{opacity:0;transform:scale(.25) rotate(-20deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes expo-leaf-grow{from{opacity:0;transform:scale(.15) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes expo-draw{to{stroke-dashoffset:0}}
+@keyframes expo-word-appear{to{opacity:1;transform:translateY(0)}}
+@keyframes expo-rule-grow{to{transform:scaleX(1)}}
+@keyframes expo-fade-up{to{opacity:1;transform:translateY(0)}}
+@keyframes expo-title-rise{from{opacity:0;transform:translateY(105%)}to{opacity:1;transform:translateY(0)}}
+@keyframes expo-reveal-exit{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(max-width:680px){.expo-brand-logo{min-width:0}.expo-wordmark-compact{gap:5px}.expo-wordmark-compact .expo-flower-mark{width:28px;height:33px}.expo-wordmark-compact .expo-wordmark-copy strong{font-size:25px}.expo-wordmark-compact .expo-wordmark-copy small{font-size:4px;letter-spacing:1.25px}.expo-reveal-skip{right:18px;bottom:18px}}
+@media(prefers-reduced-motion:reduce){.expo-brand-reveal,.expo-reveal-flower *,.expo-reveal-word,.expo-reveal-rule,.expo-reveal-subtitle,.expo-reveal-tagline,.expo-kinetic-title .expo-title-line,.expo-kinetic-quote span,.expo-kinetic-quote em{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important}.expo-brand-reveal{display:none}}
