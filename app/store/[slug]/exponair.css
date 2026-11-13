@@ -629,3 +629,50 @@
   .expo-whatsapp-mark{width:21px;height:21px;flex-basis:21px}
 }
 @media(prefers-reduced-motion:reduce){.expo-whatsapp-float{transition:none}}
+
+
+/* Exponair client reviews */
+.expo-reviews{padding:100px 9% 110px;background:#e9e5dc;color:#27251f}
+.expo-reviews-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:50px;max-width:1320px;margin:0 auto 48px}
+.expo-reviews-heading>div:first-child{max-width:650px}
+.expo-reviews-heading h2{font:500 clamp(42px,5.3vw,70px)/.98 'Bodoni Moda','Cormorant Garamond',serif;letter-spacing:-2.4px;margin:20px 0}
+.expo-reviews-heading h2 em{font-family:'Cormorant Garamond',serif;font-weight:500}
+.expo-reviews-heading>div:first-child>p{max-width:490px;color:#77736b;font-size:12px;line-height:1.9}
+.expo-reviews-score{min-width:185px;padding:0 0 7px 28px;border-left:1px solid #c9c2b6;display:flex;flex-direction:column;gap:8px}
+.expo-reviews-score>strong{font:500 58px/.9 'Bodoni Moda',serif}
+.expo-reviews-score>span:last-child{font:700 8px 'Manrope',sans-serif;letter-spacing:1.4px;color:#77736b}
+.expo-review-stars{color:#b88739;letter-spacing:3px;font-size:17px;white-space:nowrap}
+.expo-review-stars>span{color:#c9c1b5}
+.expo-reviews-layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:8%}
+.expo-review-list{display:flex;flex-direction:column;gap:14px}
+.expo-review-card{padding:24px 0;border-top:1px solid #c9c2b6}
+.expo-review-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.expo-review-card-top>span:last-child{font:600 9px 'Manrope',sans-serif;color:#8a857b;letter-spacing:.8px}
+.expo-review-card>p{font:italic 19px/1.65 'Cormorant Garamond',serif;color:#343129;margin:18px 0 20px;max-width:590px}
+.expo-review-author{display:flex;flex-direction:column;gap:4px}
+.expo-review-author strong{font:700 10px 'Manrope',sans-serif;letter-spacing:.3px}
+.expo-review-author>span{font:500 9px 'Manrope',sans-serif;color:#817b71}
+.expo-reviews-empty{padding:32px 0;border-top:1px solid #c9c2b6}
+.expo-reviews-empty>span,.expo-review-form-heading>span{font:700 8px 'Manrope',sans-serif;letter-spacing:1.8px;color:#9b7545}
+.expo-reviews-empty h3{font:500 30px/1.15 'Cormorant Garamond',serif;margin:18px 0 10px}
+.expo-reviews-empty p{font-size:11px;color:#77736b;line-height:1.8}
+.expo-review-form{padding:32px;background:#f4f1ea;border:1px solid #d8d1c5;display:flex;flex-direction:column;gap:17px}
+.expo-review-form-heading h3{font:500 34px/1.1 'Cormorant Garamond',serif;margin:10px 0}
+.expo-review-form-heading p{font-size:11px;color:#77736b;line-height:1.7}
+.expo-review-form label{display:flex;flex-direction:column;gap:8px;font:700 9px 'Manrope',sans-serif;letter-spacing:.35px;color:#514d45}
+.expo-review-form input,.expo-review-form select,.expo-review-form textarea{width:100%;border:1px solid #d8d1c5;border-radius:0;background:#fffefa;padding:13px 14px;color:#292720;font:400 11px 'Manrope',sans-serif;outline:none;transition:border-color .18s}
+.expo-review-form input:focus,.expo-review-form select:focus,.expo-review-form textarea:focus{border-color:#a97850}
+.expo-review-form textarea{resize:vertical;min-height:105px;line-height:1.7}
+.expo-review-rating{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.expo-review-rating>span{font:700 9px 'Manrope',sans-serif;color:#514d45}
+.expo-review-rating>div{display:flex;gap:3px}
+.expo-review-rating button{border:0;background:transparent;color:#c8c0b4;font-size:25px;line-height:1;padding:2px;cursor:pointer}
+.expo-review-rating button.selected{color:#b88739}
+.expo-review-rating small{font:500 9px 'Manrope',sans-serif;color:#827b70}
+.expo-review-submit{min-height:48px;padding:0 22px;border:0;background:#282720;color:#fff;font:700 9px 'Manrope',sans-serif;letter-spacing:1.1px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.expo-review-submit:hover{background:#4a463b}
+.expo-review-submit:disabled{opacity:.6;cursor:wait}
+.expo-review-privacy,.expo-review-status{font:400 9px/1.7 'Manrope',sans-serif;color:#827b70}
+.expo-review-status{padding:10px 12px;background:#e8e2d7;color:#3f4c3e}
+@media(max-width:900px){.expo-reviews{padding:80px 7%}.expo-reviews-layout{gap:5%}.expo-review-form{padding:25px}}
+@media(max-width:680px){.expo-reviews{padding:72px 7%}.expo-reviews-heading{display:block;margin-bottom:35px}.expo-reviews-heading h2{font-size:43px}.expo-reviews-score{margin-top:28px;padding:0;border:0;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 15px}.expo-reviews-score>strong{grid-row:span 2;font-size:52px}.expo-reviews-score>span:last-child{font-size:7px}.expo-reviews-layout{grid-template-columns:1fr;gap:28px}.expo-review-form{padding:22px 18px}.expo-review-card>p{font-size:18px}}
