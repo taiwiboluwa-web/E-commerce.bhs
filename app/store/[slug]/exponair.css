@@ -77,3 +77,140 @@
 .expo-faq-item button i{font-size:18px;font-style:normal;font-weight:500;color:var(--expo-accent)}
 @media(max-width:900px){.expo-packages{padding-left:8%;padding-right:8%}.expo-package-grid{gap:12px}.expo-package{padding:24px 18px}}
 @media(max-width:680px){.expo-packages{padding:78px 7%}.expo-package-grid{grid-template-columns:1fr;gap:14px}.expo-package.featured{transform:none}.expo-package>p{min-height:0}.expo-contact{display:block}.expo-booking-panel{margin-top:38px}.expo-calendar{margin-bottom:18px}}
+
+
+/* Exponair identity refinement — vibrant, sophisticated Lagos event house */
+.exponair{--expo-ink:#171915;--expo-paper:#f7f3e9;--expo-muted:#77796f;--expo-accent:#e0b92f;--expo-green:#1f5a43;--expo-red:#b64a3c;--expo-line:rgba(23,25,21,.17);background:var(--expo-paper);color:var(--expo-ink)}
+.expo-announcement{height:30px;background:#1f5a43;color:#f8f3e7;display:flex;align-items:center;justify-content:center;gap:12px;font-size:8px;letter-spacing:1.8px}
+.expo-announcement span{color:#e0b92f}
+.expo-header{background:#f7f3e9;height:86px}
+.expo-monogram{border:1px solid var(--expo-green);color:var(--expo-green);font-style:italic}
+.expo-monogram span{color:var(--expo-red)}
+.expo-brand-text strong{letter-spacing:3.8px;color:var(--expo-green)}
+.expo-brand-text small{letter-spacing:1.45px}
+.expo-nav a{font-size:10px;color:#45483f}
+.expo-nav a:hover,.expo-header-cta:hover{color:var(--expo-green)}
+.expo-header-cta{border-color:var(--expo-green);font-weight:700;letter-spacing:.6px}
+.expo-hero{background:var(--expo-paper);min-height:720px;padding-top:82px;padding-bottom:92px}
+.expo-hero h1{font-size:clamp(66px,7.4vw,108px);letter-spacing:-4.8px;line-height:.94}
+.expo-hero h1 em{color:var(--expo-green)}
+.expo-period{color:var(--expo-red)}
+.expo-eyebrow span{background:var(--expo-red)}
+.expo-button-dark{background:var(--expo-green);border-color:var(--expo-green);color:#fff!important}
+.expo-button-dark:hover{background:var(--expo-red);border-color:var(--expo-red)}
+.expo-hero-image{background-image:linear-gradient(180deg,rgba(17,27,20,.02),rgba(17,27,20,.24)),url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1500&q=90');min-height:500px}
+.expo-image-frame{border-color:rgba(31,90,67,.4);padding:10px}
+.expo-image-caption{font-size:8px}
+.expo-stamp{color:var(--expo-green)}
+.expo-stamp b{color:var(--expo-red)}
+.expo-hero-number,.expo-section-label span{color:var(--expo-red)}
+.expo-hero-orbit{position:absolute;right:-36px;bottom:28px;width:108px;height:108px;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--expo-yellow,#e0b92f);color:#1b2119;font-size:8px;line-height:1.5;letter-spacing:1.2px;font-weight:700;transform:rotate(8deg);box-shadow:0 8px 30px #0002}
+.expo-hero-foot i{background:var(--expo-red)}
+.expo-intro{background:#e9eddf}
+.expo-intro h2 em,.expo-section-head h2 em,.expo-faq h2 em,.expo-contact h2 em{color:var(--expo-green)}
+.expo-circle-link{border-color:var(--expo-green);color:var(--expo-green)}
+.expo-circle-link:hover{background:var(--expo-green);color:#fff}
+.expo-services{background:#f7f3e9}
+.expo-service-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.expo-service-feature{display:grid;grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr);min-height:300px;background:#eeeadf;border:1px solid rgba(23,25,21,.1);overflow:hidden;scroll-margin-top:100px}
+.expo-service-feature:nth-child(2n){background:#e9eddf}
+.expo-feature-image{min-height:300px;background-size:cover;background-position:center;transition:transform .7s}
+.expo-service-feature:hover .expo-feature-image{transform:scale(1.035)}
+.expo-feature-content{padding:24px 22px;display:flex;flex-direction:column;align-items:flex-start}
+.expo-feature-index{font-size:7px;letter-spacing:1.2px;color:var(--expo-red);font-weight:700;line-height:1.6}
+.expo-feature-content h3{font:500 26px/1.08 'Playfair Display',serif;letter-spacing:-.5px;margin:16px 0 10px}
+.expo-feature-content>p{font-size:10px;line-height:1.75;color:#6d7066;margin:0 0 15px}
+.expo-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto}
+.expo-tags span{border:1px solid rgba(31,90,67,.25);padding:5px 7px;font-size:7px;color:#365b48;letter-spacing:.2px}
+.expo-feature-content>a{display:flex;align-items:center;gap:8px;margin-top:18px;font-size:8px;letter-spacing:.4px;color:var(--expo-green);font-weight:700;border-bottom:1px solid var(--expo-green);padding-bottom:5px}
+.expo-packages{background:#e9eddf}
+.expo-package{background:#f7f3e9;border:1px solid rgba(31,90,67,.2)}
+.expo-package.featured{background:#1f5a43;color:#f8f3e7;border-color:#1f5a43}
+.expo-package.featured>p,.expo-package.featured ul,.expo-package.featured .expo-package-includes{color:#d7dfd5}
+.expo-package.featured .expo-package-note{color:#e5c75d}
+.expo-package.featured .expo-package-price{border-color:#ffffff45;color:#f2d66f}
+.expo-package.featured a{border-color:#e5c75d;color:#fff}
+.expo-package a{color:var(--expo-green);border-color:var(--expo-green)}
+.expo-package li svg{color:var(--expo-red)}
+.expo-pricing-note{font-size:9px;color:#6c7166;text-align:center;margin:22px 0 0;line-height:1.7}
+.expo-gallery{background:#171d18}
+.expo-gallery .expo-section-head{margin-bottom:35px}
+.expo-gallery .expo-section-head h2{font:500 clamp(36px,4.3vw,58px)/1.1 'Playfair Display';color:#f6f0e4;margin:18px 0 0}
+.expo-gallery .expo-section-head h2 em{color:#e5c75d}
+.expo-gallery .expo-section-label{color:#d4d7cb}
+.expo-moment{border:1px solid #ffffff24}
+.expo-gallery-note{color:#c4c9bc}
+.expo-quote{background:#f7f3e9}
+.expo-quote-mark,.expo-quote blockquote em{color:var(--expo-red)}
+.expo-faq{background:#e9eddf}
+.expo-faq-item button>span{color:var(--expo-red)}
+.expo-faq-item button i{font:normal 22px 'DM Sans';color:var(--expo-green)}
+.expo-journal-card{margin-top:34px;padding:22px;background:#f7f3e9;border-left:3px solid var(--expo-red);max-width:310px}
+.expo-journal-card>span{font-size:7px;letter-spacing:1.2px;color:var(--expo-red)}
+.expo-journal-card h3{font:500 21px/1.25 'Playfair Display';margin:14px 0}
+.expo-journal-card a{display:flex;align-items:center;gap:8px;font-size:9px;color:var(--expo-green);font-weight:700}
+.expo-booking{padding:110px 13%;display:grid;grid-template-columns:.9fr 1.1fr;gap:8%;background:#f7f3e9}
+.expo-booking .expo-contact-copy h2{font:500 clamp(54px,6vw,78px)/1.03 'Playfair Display';letter-spacing:-2px;margin:27px 0 22px}
+.expo-booking .expo-contact-copy>p{font-size:12px;line-height:1.9;color:#6c7166;max-width:340px}
+.expo-contact-note{display:flex;flex-direction:column;align-items:flex-start;gap:10px;color:var(--expo-green);font-size:10px;margin-top:35px}
+.expo-email-link{display:inline-block;margin-top:15px;font-size:10px;border-bottom:1px solid var(--expo-red);padding-bottom:5px;color:var(--expo-green)!important}
+.expo-booking-panel{min-width:0}
+.expo-calendar{background:#e9eddf;border-color:rgba(31,90,67,.18)}
+.expo-calendar-head strong{color:var(--expo-green)}
+.expo-calendar-controls button{border-color:rgba(31,90,67,.3)}
+.expo-calendar-grid button{background:#f7f3e9}
+.expo-calendar-grid button.selected{background:var(--expo-green);border-color:var(--expo-green)}
+.expo-calendar-grid button:not(:disabled):hover{border-color:var(--expo-red)}
+.expo-calendar-selected strong{color:var(--expo-green)}
+.expo-form{background:#f1eee5;border-color:rgba(31,90,67,.2)}
+.expo-form input:focus,.expo-form select:focus,.expo-form textarea:focus{border-color:var(--expo-green)}
+.expo-form label{font-size:9px}
+.expo-submit{background:var(--expo-green);border-color:var(--expo-green)}
+.expo-form-disclaimer{font-size:8px}
+.expo-terms{padding:100px 13%;background:#e9eddf}
+.expo-terms-head{display:grid;grid-template-columns:1.1fr .9fr;gap:10%;align-items:end;margin:28px 0 45px}
+.expo-terms-head h2{font:500 clamp(40px,4.5vw,60px)/1.08 'Playfair Display';letter-spacing:-1.5px;margin:0}
+.expo-terms-head h2 em{color:var(--expo-green)}
+.expo-terms-head>p{font-size:11px;line-height:1.9;color:#6d7066;max-width:320px;margin:0}
+.expo-terms-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--expo-line);border-left:1px solid var(--expo-line)}
+.expo-terms-grid article{padding:27px 28px;border-right:1px solid var(--expo-line);border-bottom:1px solid var(--expo-line)}
+.expo-terms-grid article>span{font-size:7px;letter-spacing:1.3px;color:var(--expo-red);font-weight:700}
+.expo-terms-grid h3{font:500 23px 'Playfair Display';margin:13px 0 9px}
+.expo-terms-grid p{font-size:10px;line-height:1.8;color:#6d7066;margin:0;max-width:450px}
+.expo-contact-strip{padding:42px 13%;background:#e0b92f;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.expo-contact-strip>div>span{font-size:7px;letter-spacing:1.7px;font-weight:700;color:#42503d}
+.expo-contact-strip h2{font:500 34px 'Playfair Display';margin:7px 0 0;color:#171915}
+.expo-contact-strip>a{display:flex;align-items:center;gap:10px;background:#1f5a43;color:#fff!important;padding:16px 20px;font-size:9px}
+.expo-footer{background:#171d18}
+.expo-footer .expo-monogram{border-color:#e5c75d;color:#f7f3e9}
+.expo-footer .expo-monogram span{color:#e5c75d}
+.expo-footer .expo-brand-text strong{color:#f7f3e9}
+.expo-footer-main>p{color:#e5c75d}
+.expo-footer-social{display:flex;align-items:center;gap:18px;color:#f7f3e9}
+.expo-footer-social a{font-size:9px;display:flex;align-items:center;gap:7px}
+.expo-footer-social a:hover{color:#e5c75d}
+.expo-footer-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:22px 0 28px;border-top:1px solid #ffffff26}
+.expo-footer-links a{font-size:8px;color:#c5c9bd}
+.expo-footer-links a:hover{color:#e5c75d}
+.expo-back-top{color:#e5c75d}
+.expo-whatsapp-float{background:#1f5a43}
+.expo-whatsapp-float:hover{background:#b64a3c}
+.expo-announcement,.expo-header,.expo-hero,.expo-intro,.expo-services,.expo-packages,.expo-gallery,.expo-quote,.expo-faq,.expo-booking,.expo-terms,.expo-contact-strip,.expo-footer{position:relative}
+.expo-hero,.expo-intro,.expo-services,.expo-packages,.expo-gallery,.expo-quote,.expo-faq,.expo-booking,.expo-terms,.expo-contact-strip,.expo-footer{scroll-margin-top:90px}
+@media(max-width:1000px){.expo-service-feature{grid-template-columns:1fr;}.expo-feature-image{min-height:210px}.expo-feature-content{min-height:250px}.expo-nav{gap:14px}.expo-nav a{font-size:9px}}
+@media(max-width:680px){
+ .expo-announcement{font-size:6px;letter-spacing:1px;height:27px}
+ .expo-header{height:72px}.expo-header-cta{font-size:8px}
+ .expo-hero{padding-top:54px;min-height:auto}.expo-hero h1{font-size:clamp(55px,14vw,75px);letter-spacing:-3px}
+ .expo-hero-image{height:340px;min-height:340px}.expo-hero-orbit{right:-24px;bottom:14px;width:86px;height:86px;font-size:7px}
+ .expo-service-feature-grid{grid-template-columns:1fr;gap:14px}.expo-service-feature{grid-template-columns:.85fr 1.15fr;min-height:260px}.expo-feature-image{min-height:260px}.expo-feature-content{padding:18px 14px;min-height:260px}.expo-feature-content h3{font-size:22px}.expo-feature-content>p{font-size:9px}.expo-tags span{font-size:6px;padding:4px 5px}
+ .expo-packages{padding-top:75px;padding-bottom:80px}
+ .expo-gallery .expo-section-head{display:block}.expo-gallery .expo-section-head>p{margin-top:15px}
+ .expo-booking{padding:75px 7%;display:block}.expo-booking .expo-contact-copy h2{font-size:62px}
+ .expo-terms{padding:75px 7%}.expo-terms-head{display:block}.expo-terms-head>p{margin-top:20px}.expo-terms-grid{grid-template-columns:1fr}.expo-terms-grid article{padding:22px 19px}
+ .expo-contact-strip{padding:32px 7%;align-items:flex-start;flex-direction:column}.expo-contact-strip h2{font-size:30px}
+ .expo-footer-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+ .expo-footer-social{width:100%}
+ .expo-footer-bottom{font-size:6px}
+}
+@media(max-width:390px){.expo-service-feature{grid-template-columns:1fr}.expo-feature-image{min-height:210px}.expo-feature-content{min-height:235px}.expo-hero-actions{align-items:flex-start;flex-direction:column}.expo-hero-image{height:300px;min-height:300px}}
