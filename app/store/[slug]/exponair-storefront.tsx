@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, Menu, X, Instagram, Facebook, Youtube, Music2, MessageCircle } from "lucide-react";
+import { Check, Menu, X, Instagram, Facebook, Youtube, Music2, MessageCircle, Sparkles, Palette, CalendarCheck2, HeartHandshake } from "lucide-react";
 import "./exponair.css";
 
 const WHATSAPP = "2348023387671";
@@ -77,6 +77,16 @@ export default function ExponairStorefront() {
       </section>
 
       <section className="expo-intro" id="about"><div className="expo-section-label"><span>01</span> THE EXPONAIR STORY</div><div className="expo-intro-content"><h2>Every occasion has a feeling.<br/><em>We make it unforgettable.</em></h2><div className="expo-intro-bottom"><p>Exponair Events Management Limited is a Lagos-based event planning, decoration, styling and rental company. We bring creative ideas, thoughtful details and professional coordination together to create celebrations that feel personal, beautiful and effortless for the people enjoying them.</p><a href="#booking" className="expo-circle-link">Meet your event partner </a></div></div></section>
+
+      <section className="expo-experience" aria-label="The Exponair experience">
+        <div className="expo-experience-heading"><span>THE EXPONAIR TOUCH</span><h2>More than a beautiful setup.<br/><em>A beautifully considered day.</em></h2></div>
+        <div className="expo-experience-grid">
+          <article><span className="expo-experience-icon"><Sparkles size={22} strokeWidth={1.5}/></span><div><h3>Ideas with imagination</h3><p>Creative themes and thoughtful details shaped around the people you're celebrating.</p></div></article>
+          <article><span className="expo-experience-icon"><Palette size={22} strokeWidth={1.5}/></span><div><h3>Styling with intention</h3><p>Colour, décor and finishing touches brought together as one cohesive experience.</p></div></article>
+          <article><span className="expo-experience-icon"><CalendarCheck2 size={22} strokeWidth={1.5}/></span><div><h3>Planning with purpose</h3><p>Clear conversations, organised timelines and coordination from first brief to event day.</p></div></article>
+          <article><span className="expo-experience-icon"><HeartHandshake size={22} strokeWidth={1.5}/></span><div><h3>A personal partnership</h3><p>A team that listens, understands your priorities and works within your agreed brief.</p></div></article>
+        </div>
+      </section>
 
       <section className="expo-services" id="services"><div className="expo-section-head"><div><div className="expo-section-label"><span>02</span> WHAT WE BRING TO LIFE</div><h2>One creative team.<br/><em>Many ways to celebrate.</em></h2></div><p>Whether you are planning a little one's big day or an occasion for the grown-ups, we shape the experience around your people, your purpose and your vision.</p></div>
         <div className="expo-service-feature-grid">{serviceGroups.map((s)=><article className="expo-service-feature" id={s.id} key={s.id}><div className="expo-feature-image" style={{backgroundImage:"url('"+s.image+"')"}}/><div className="expo-feature-content"><span className="expo-feature-index">{s.number} / {s.eyebrow}</span><h3>{s.title}</h3><p>{s.text}</p><div className="expo-tags">{s.tags.map(t=><span key={t}>{t}</span>)}</div><a href="#booking">Enquire about this service </a></div></article>)}</div>
