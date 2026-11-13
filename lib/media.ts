@@ -116,3 +116,25 @@ export async function deleteStoredImageObjects(input: {
     ]),
   ]);
 }
+
+
+/** Remove private originals after derivatives exist; client quota remains based on original upload size. */
+export async function compactTenantOriginalImages(tenantId: string): Promise<{ processed: number; physicalBytesBefore: number; physicalBytesAfter: number; savedBytes: number }> {
+  if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not configured.");
+  if (!/^[0-9a-f-]{36}$/i.test(tenantId)) throw new Error("Invalid storefront.");
+  const { neon } = await import("@neondatabase/serverless");
+  const sql = neon(process.env.DATABASE_URL);
+  const assets = await sql.query("WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) SELECT a.id,a.original_object_key,a.optimized_size_bytes,a.storage_footprint_bytes FROM tenant_context CROSS JOIN public.media_assets a WHERE a.tenant_id=$1::uuid AND a.media_type='image' AND a.status='active' AND a.original_object_key IS NOT NULL ORDER BY a.created_at ASC", [tenantId]);
+  const client = getStorageClient();
+  let processed = 0, before = 0, after = 0;
+  for (const asset of assets) {
+    const key = String(asset.original_object_key || '');
+    if (!key) continue;
+    await client.send(new DeleteObjectCommand({ Bucket: ORIGINALS_BUCKET, Key: key }));
+    const optimized = Math.max(0, Number(asset.optimized_size_bytes || 0));
+    const footprint = Math.max(0, Number(asset.storage_footprint_bytes || 0));
+    await sql.query("WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) UPDATE public.media_assets a SET storage_footprint_bytes=$2,updated_at=now() FROM tenant_context WHERE a.id=$3::uuid AND a.tenant_id=$1::uuid AND a.status='active'", [tenantId, optimized, asset.id]);
+    processed++; before += footprint; after += optimized;
+  }
+  return { processed, physicalBytesBefore: before, physicalBytesAfter: after, savedBytes: Math.max(0, before-after) };
+}
