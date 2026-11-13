@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700;6..96,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 .exponair{--expo-ink:#24221f;--expo-paper:#eeeae2;--expo-muted:#77736b;--expo-accent:#a97850;--expo-line:rgba(36,34,31,.18);background:var(--expo-paper);color:var(--expo-ink);min-height:100vh;font-family:'DM Sans',sans-serif;position:relative;overflow:hidden}.exponair *{box-sizing:border-box}.exponair a{color:inherit;text-decoration:none}.expo-grain{position:absolute;inset:0;pointer-events:none;opacity:.12;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")}.expo-header{height:92px;padding:0 6.5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--expo-line);position:relative;z-index:10}.expo-brand{display:flex;align-items:center;gap:12px}.expo-monogram{width:43px;height:43px;border:1px solid var(--expo-ink);display:grid;place-items:center;font:600 28px 'Playfair Display',serif;letter-spacing:-3px}.expo-monogram span{color:var(--expo-accent)}.expo-brand-text strong,.expo-brand-text small{display:block}.expo-brand-text strong{font:700 13px 'DM Sans';letter-spacing:3px}.expo-brand-text small{font-size:8px;letter-spacing:1.7px;color:var(--expo-muted);margin-top:5px}.expo-nav{display:flex;align-items:center;gap:38px}.expo-nav a{font-size:11px;color:#5f5b54;transition:color .2s}.expo-nav a:hover{color:var(--expo-accent)}.expo-header-cta{font-size:10px;letter-spacing:.4px;display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--expo-ink);padding:0 0 8px}.expo-header-cta{color:var(--expo-ink)}.expo-menu-toggle{display:none;background:none;border:0;color:var(--expo-ink)}.expo-hero{min-height:690px;padding:70px 9% 76px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:7%;position:relative}.expo-hero-copy{padding:20px 0 0;position:relative;z-index:2}.expo-eyebrow,.expo-section-label{font-size:9px;letter-spacing:1.7px;color:var(--expo-muted);font-weight:600;display:flex;align-items:center;gap:12px}.expo-eyebrow span{width:26px;height:1px;background:var(--expo-accent)}.expo-hero h1{font:500 clamp(64px,7vw,104px)/.98 'Playfair Display',serif;letter-spacing:-4px;margin:33px 0 26px}.expo-hero h1 em,.expo-intro h2 em,.expo-section-head h2 em,.expo-faq h2 em,.expo-contact h2 em{font-weight:500;color:var(--expo-accent)}.expo-hero-lede{max-width:425px;font-size:13px;line-height:1.95;color:#6d685f}.expo-hero-actions{display:flex;align-items:center;gap:30px;margin-top:35px}.expo-button{min-height:52px;padding:0 23px;display:inline-flex;align-items:center;justify-content:center;gap:25px;font-size:10px;letter-spacing:.3px;border:1px solid var(--expo-ink);transition:all .25s}.expo-button-dark{background:var(--expo-ink);color:#f4f0e8!important}.expo-button-dark:hover{background:var(--expo-accent);border-color:var(--expo-accent);transform:translateY(-2px)}.expo-text-link{display:flex;align-items:center;gap:10px;font-size:10px;border-bottom:1px solid var(--expo-line);padding-bottom:8px}.expo-text-link svg{color:var(--expo-accent)}.expo-hero-foot{display:flex;align-items:center;gap:13px;margin-top:74px;color:#89847a;font-size:8px;letter-spacing:1.5px}.expo-hero-foot i{height:1px;width:42px;background:var(--expo-accent)}.expo-hero-visual{position:relative;max-width:560px;width:100%;justify-self:end}.expo-image-frame{padding:12px;border:1px solid rgba(36,34,31,.22);position:relative}.expo-hero-image{height:490px;background:linear-gradient(180deg,rgba(31,24,19,.04),rgba(31,24,19,.2)),url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1500&q=90') center/cover}.expo-image-caption{position:absolute;bottom:24px;left:30px;right:30px;display:flex;justify-content:space-between;color:#fff;font-size:8px;letter-spacing:1.5px;text-shadow:0 1px 6px #000}.expo-stamp{position:absolute;left:-46px;bottom:62px;transform:rotate(-90deg);transform-origin:left center;display:flex;gap:10px;align-items:center;font-size:8px;letter-spacing:2px;color:var(--expo-muted)}.expo-stamp b{color:var(--expo-accent)}.expo-hero-number{position:absolute;right:-30px;top:30px;font:italic 12px 'Playfair Display';color:var(--expo-accent)}.expo-scroll-note{position:absolute;bottom:26px;left:6.5%;display:flex;align-items:center;gap:12px;font-size:8px;letter-spacing:1.6px;color:#918b80}.expo-scroll-note span{height:32px;width:1px;background:var(--expo-accent)}.expo-intro{padding:110px 13% 120px;background:#e4dfd5;display:grid;grid-template-columns:.7fr 1.6fr;gap:7%;position:relative}.expo-section-label span{font:italic 13px 'Playfair Display';color:var(--expo-accent)}.expo-intro-content h2,.expo-section-head h2,.expo-faq h2,.expo-contact h2{font:500 clamp(34px,4.1vw,57px)/1.2 'Playfair Display';letter-spacing:-1.3px;margin:0}.expo-intro-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:35px;margin-top:35px}.expo-intro-bottom p{font-size:12px;line-height:2;color:#6c675f;max-width:490px;margin:0}.expo-circle-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border:1px solid var(--expo-line);border-radius:0;flex-shrink:0;font-size:10px;letter-spacing:.5px;transition:background .2s,color .2s}.expo-circle-link:hover{background:var(--expo-ink);color:var(--expo-paper)}.expo-services{padding:112px 13% 120px}.expo-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:50px;margin-bottom:56px}.expo-section-head h2{margin-top:25px}.expo-section-head>p{max-width:275px;font-size:11px;line-height:1.9;color:var(--expo-muted);margin:0 0 7px}.expo-service-list{border-top:1px solid var(--expo-line)}.expo-service{display:grid;grid-template-columns:60px 1.1fr 1fr 42px;align-items:center;gap:28px;padding:29px 0;border-bottom:1px solid var(--expo-line);transition:padding .25s}.expo-service:hover{padding-left:10px;padding-right:10px}.expo-service-n{font:italic 14px 'Playfair Display';color:var(--expo-accent)}.expo-service-main>span{font-size:8px;letter-spacing:1.6px;color:#958d81}.expo-service h3{font:500 25px 'Playfair Display';margin:8px 0 0}.expo-service>p{font-size:11px;line-height:1.8;color:#79746c;max-width:320px}.expo-service>a{justify-self:end;border-bottom:1px solid var(--expo-accent);padding:8px 0;font-size:9px;letter-spacing:.8px;text-transform:uppercase;transition:color .2s}.expo-service>a:hover{color:var(--expo-accent)}.expo-gallery{padding:100px 9% 112px;background:#272521;color:#eee9df}.expo-gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:45px}.expo-gallery .expo-section-label{color:#b9b1a4}.expo-gallery-head>p{font-size:11px;color:#b3ac9f;max-width:250px;line-height:1.8;margin:0}.expo-gallery-grid{display:grid;grid-template-columns:1.05fr 1fr;grid-template-rows:330px 270px;gap:17px}.expo-moment{position:relative;overflow:hidden;background:#4b453c}.moment-tall{grid-row:span 2}.expo-moment-image{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .7s}.expo-moment:hover .expo-moment-image{transform:scale(1.045)}.expo-moment:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(13,12,10,.75))}.expo-moment-meta{position:absolute;bottom:28px;left:30px;z-index:1}.expo-moment-meta span{font-size:8px;letter-spacing:1.5px;color:#e4c9a9}.expo-moment-meta h3{font:500 27px/1.18 'Playfair Display';margin:10px 0 0}.expo-gallery-note{font-size:8px;letter-spacing:.8px;color:#9c9589;text-align:right;margin:16px 0 0}.expo-quote{padding:110px 20px 105px;text-align:center;display:flex;align-items:center;flex-direction:column}.expo-quote-mark{font:90px/.6 'Playfair Display';color:var(--expo-accent)}.expo-quote blockquote{font:500 clamp(30px,4vw,49px)/1.3 'Playfair Display';margin:23px 0 30px;letter-spacing:-.8px}.expo-quote blockquote em{color:var(--expo-accent)}.expo-quote-rule{height:1px;width:42px;background:var(--expo-accent)}.expo-quote-caption{font-size:8px;letter-spacing:2px;color:#8b857b;margin-top:18px}.expo-faq{padding:100px 13%;background:#e4dfd5;display:grid;grid-template-columns:.8fr 1.2fr;gap:10%}.expo-faq h2{margin:25px 0 18px}.expo-faq>div:first-child>p{font-size:11px;line-height:1.9;color:#777168;max-width:260px}.expo-faq-list{border-top:1px solid var(--expo-line)}.expo-faq-item{border-bottom:1px solid var(--expo-line)}.expo-faq-item button{width:100%;border:0;background:none;display:grid;grid-template-columns:35px 1fr 20px;gap:12px;align-items:center;padding:22px 0;text-align:left;color:var(--expo-ink)}.expo-faq-item button>span{font:italic 13px 'Playfair Display';color:var(--expo-accent)}.expo-faq-item button b{font:500 16px 'Playfair Display'}.expo-faq-item button svg{transition:transform .25s;color:var(--expo-accent)}.expo-faq-item.active button svg{transform:rotate(180deg)}.expo-faq-item>p{font-size:11px;line-height:1.9;color:#716b62;margin:0 25px 22px 47px;max-width:480px}.expo-contact{padding:115px 13%;display:grid;grid-template-columns:.9fr 1.1fr;gap:10%;background:#f0ede6}.expo-contact h2{font-size:clamp(55px,6vw,78px);margin:27px 0 22px}.expo-contact-copy>p{font-size:12px;line-height:1.9;color:#716b62;max-width:340px}.expo-contact-note{display:flex;align-items:center;gap:10px;color:var(--expo-accent);font-size:10px;margin-top:35px}.expo-form{padding:35px 38px;background:#e7e2d8;border:1px solid var(--expo-line)}.expo-form-top{display:flex;justify-content:space-between;font-size:8px;letter-spacing:1.4px;color:#8a8378;margin-bottom:26px}.expo-form label{display:block;font-size:9px;letter-spacing:.4px;color:#5f5a52;margin-bottom:19px}.expo-form input,.expo-form select,.expo-form textarea{width:100%;display:block;border:0;border-bottom:1px solid rgba(36,34,31,.27);background:transparent;border-radius:0;padding:12px 0 10px;margin-top:4px;outline:none;color:var(--expo-ink);font:11px 'DM Sans'}.expo-form input:focus,.expo-form select:focus,.expo-form textarea:focus{border-color:var(--expo-accent)}.expo-form input::placeholder,.expo-form textarea::placeholder{color:#9b958b}.expo-form select option{color:#24221f}.expo-form-row{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.expo-form textarea{resize:vertical}.expo-submit{width:100%;margin-top:4px}.expo-form-disclaimer{font-size:8px;color:#8a8378;line-height:1.6;margin:12px 0 0}.expo-form-success{text-align:center;padding:38px 5px}.expo-form-success>span{width:45px;height:45px;display:grid;place-items:center;border:1px solid var(--expo-accent);border-radius:50%;margin:0 auto 20px;color:var(--expo-accent)}.expo-form-success h3{font:500 27px 'Playfair Display'}.expo-form-success p{font-size:11px;line-height:1.8;color:#716b62}.expo-form-success button{margin-top:16px;border:0;border-bottom:1px solid var(--expo-ink);padding:8px 0;background:none;font-size:10px}.expo-footer{padding:55px 9% 25px;background:#272521;color:#eee9df;position:relative;z-index:2}.expo-footer .expo-brand-text small{color:#a9a195}.expo-footer .expo-monogram{border-color:#eee9df}.expo-footer-main{display:flex;align-items:center;justify-content:space-between;padding-bottom:48px}.expo-footer-main>p{font:italic 17px/1.5 'Playfair Display';color:#c0b8ab}.expo-back-top{font-size:8px;letter-spacing:1.5px;border-bottom:1px solid #8b8174;padding-bottom:9px}.expo-footer-bottom{border-top:1px solid #ffffff2b;padding-top:20px;display:flex;justify-content:space-between;gap:15px;color:#a69e92;font-size:7px;letter-spacing:1.3px}
 @media(max-width:900px){.expo-header{padding:0 5%;height:80px}.expo-nav{gap:20px}.expo-hero{padding:65px 7% 75px;gap:5%;min-height:610px}.expo-hero-image{height:420px}.expo-intro,.expo-services,.expo-faq,.expo-contact{padding-left:8%;padding-right:8%}.expo-gallery{padding-left:6%;padding-right:6%}.expo-service{grid-template-columns:40px 1fr 1fr 38px;gap:17px}.expo-contact{gap:6%}}
 @media(max-width:680px){.expo-header{height:72px;padding:0 5%}.expo-monogram{width:37px;height:37px;font-size:25px}.expo-brand-text strong{font-size:11px}.expo-brand-text small{font-size:7px}.expo-header-cta{margin-left:auto;margin-right:16px;font-size:9px;gap:7px}.expo-menu-toggle{display:block;padding:6px}.expo-menu-toggle svg{width:21px}.expo-nav{display:none;position:absolute;top:71px;left:0;right:0;padding:20px 6% 25px;background:#eeeae2;border-bottom:1px solid var(--expo-line);box-shadow:0 18px 30px #0002;flex-direction:column;align-items:flex-start;gap:20px}.expo-nav.is-open{display:flex}.expo-nav a{font-size:13px}.expo-hero{display:flex;flex-direction:column;align-items:stretch;padding:60px 7% 85px;gap:50px}.expo-hero h1{font-size:70px;letter-spacing:-3px;margin:27px 0 20px}.expo-hero-lede{font-size:12px}.expo-hero-actions{gap:18px;flex-wrap:wrap;margin-top:27px}.expo-button{min-height:48px;padding:0 16px;gap:14px}.expo-text-link{font-size:9px}.expo-hero-foot{margin-top:42px;font-size:7px}.expo-hero-visual{width:88%;align-self:flex-end}.expo-hero-image{height:360px}.expo-stamp{left:-33px;font-size:7px}.expo-scroll-note{bottom:25px}.expo-intro{padding:75px 7%;display:block}.expo-intro-content{margin-top:35px}.expo-intro-content h2,.expo-section-head h2,.expo-faq h2{font-size:37px}.expo-intro-bottom{margin-top:25px;gap:18px}.expo-intro-bottom p{font-size:11px}.expo-circle-link{width:45px;height:45px}.expo-services{padding:78px 7%}.expo-section-head{display:block;margin-bottom:35px}.expo-section-head>p{margin-top:22px}.expo-service{grid-template-columns:30px 1fr 35px;gap:12px;padding:23px 0}.expo-service-main>span{font-size:7px}.expo-service h3{font-size:21px}.expo-service>p{grid-column:2;grid-row:2;margin:0;font-size:10px}.expo-service>a{grid-column:3;grid-row:1}.expo-gallery{padding:75px 5% 80px}.expo-gallery-head{display:block;margin-bottom:28px}.expo-gallery-head>p{margin-top:18px}.expo-gallery-grid{display:flex;flex-direction:column;gap:13px}.expo-moment{min-height:300px}.moment-tall{min-height:410px}.moment-small{min-height:260px}.expo-moment-meta{left:20px;bottom:20px}.expo-moment-meta h3{font-size:24px}.expo-quote{padding:80px 7%}.expo-quote blockquote{font-size:33px}.expo-faq{padding:75px 7%;display:block}.expo-faq-list{margin-top:35px}.expo-faq-item button{grid-template-columns:28px 1fr 20px;gap:8px}.expo-faq-item button b{font-size:14px}.expo-faq-item>p{margin-left:36px}.expo-contact{padding:80px 7%;display:block}.expo-contact h2{font-size:66px}.expo-form{padding:25px 20px;margin-top:40px}.expo-form-row{grid-template-columns:1fr;gap:0}.expo-footer{padding:40px 7% 22px}.expo-footer-main{align-items:flex-start;gap:20px;flex-wrap:wrap}.expo-footer-main>p{font-size:15px}.expo-back-top{margin-left:auto}.expo-footer-bottom{flex-direction:column;gap:10px;font-size:7px}}
@@ -495,173 +495,44 @@
 }
 
 
-/* EXPONAIR SIGNATURE REDESIGN — high-contrast editorial art direction */
+
+
+/* EXPONAIR — restrained luxury typography + tactile paper finish */
 .exponair{
-  --expo-ink:#17251e;
-  --expo-paper:#f5f0e5;
-  --expo-muted:#77796f;
-  --expo-green:#174b38;
-  --expo-yellow:#e8c85c;
-  --expo-accent:#bd4b3b;
-  background:var(--expo-paper);
-  color:var(--expo-ink);
+  font-family:'Manrope',sans-serif;
+  background-color:#eeeae2;
+  background-image:
+    radial-gradient(ellipse at 12% 8%,rgba(255,255,255,.42),transparent 38%),
+    radial-gradient(ellipse at 88% 82%,rgba(169,120,80,.055),transparent 42%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='.13'/%3E%3C/svg%3E");
+  background-blend-mode:normal,normal,multiply;
 }
-.expo-announcement{background:#102e23;color:#e8e2d5}
-.expo-header{height:86px;padding-inline:6.5%;background:rgba(245,240,229,.97);border-bottom:1px solid #17251e20}
-.expo-monogram{background:#174b38;color:#f8f2e7;border:0;border-radius:0}
-.expo-brand-text strong{color:#17251e;letter-spacing:3.8px}
-.expo-brand-text small{color:#77796f}
-.expo-nav a{color:#34483b;font-weight:700}
-.expo-header-cta{background:#174b38;color:#fff;border-color:#174b38;border-radius:0;padding:14px 19px}
-.expo-header-cta:hover{background:#bd4b3b;border-color:#bd4b3b;color:#fff}
-
-/* Cinematic hero: forest canvas, oversized type, one decisive image */
-.expo-hero{
-  position:relative;isolation:isolate;overflow:hidden;
-  min-height:790px;padding:112px 8% 112px;
-  grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);
-  gap:6%;align-items:center;
-  background:#143b2d;color:#f5f0e5;
+.exponair :is(h1,h2,h3,h4,.expo-quote blockquote,.expo-quote-mark){
+  font-family:'Bodoni Moda','Cormorant Garamond',serif;
+  font-weight:500;
+  letter-spacing:-.035em;
 }
-.expo-hero:before{
-  content:"E.";position:absolute;z-index:-1;left:37%;top:47%;
-  transform:translate(-50%,-50%);font:italic 440px/.7 'Cormorant Garamond',serif;
-  color:rgba(255,255,255,.035);pointer-events:none
+.exponair :is(.expo-hero h1,.expo-intro-content h2,.expo-section-head h2,.expo-faq h2,.expo-contact h2){
+  font-family:'Bodoni Moda','Cormorant Garamond',serif;
+  font-weight:500;
+  letter-spacing:-.045em;
+  line-height:1.02;
 }
-.expo-hero-copy{max-width:640px}
-.expo-eyebrow{color:#e8c85c;font-size:9px;letter-spacing:2.8px}
-.expo-eyebrow span{background:#e8c85c}
-.expo-hero h1{font:500 clamp(76px,8.3vw,124px)/.79 'Cormorant Garamond',serif;letter-spacing:-4px;color:#f5f0e5;margin:32px 0 28px}
-.expo-hero h1 em{color:#e8c85c;font-weight:400}
-.expo-hero-lede{color:#d2d8ce;font:400 13px/2 'Manrope',sans-serif;max-width:430px}
-.expo-hero-actions{margin-top:35px;gap:28px}
-.expo-button-dark{background:#e8c85c;border-color:#e8c85c;color:#17251e!important;padding:17px 23px}
-.expo-button-dark:hover{background:#f5f0e5;border-color:#f5f0e5;color:#17251e!important}
-.expo-text-link{color:#f5f0e5;border-color:#e8c85c}
-.expo-hero-foot{margin-top:78px;color:#d2d8ce}
-.expo-hero-foot i{background:#e8c85c}
-.expo-hero-visual{max-width:none;width:100%}
-.expo-image-frame{padding:0;border:1px solid #e8c85c80;box-shadow:22px 22px 0 #e8c85c;overflow:hidden}
-.expo-hero-image{height:590px;min-height:590px;background-image:linear-gradient(180deg,#102e2300 55%,#102e2370),url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1700&q=90');background-position:center;background-size:cover}
-.expo-image-caption{left:0;right:0;bottom:0;padding:23px 25px;background:linear-gradient(0deg,#102e23b8,transparent);font-size:8px;color:#fff}
-.expo-stamp{left:-20px;bottom:42px;background:#e8c85c;color:#17251e;padding:13px 16px;transform:rotate(-90deg)}
-.expo-stamp b{color:#bd4b3b}
-.expo-hero-number{right:-15px;top:-24px;background:#f5f0e5;color:#174b38;padding:16px 19px}
-.expo-hero-orbit{background:#bd4b3b;border:0;color:#fff;box-shadow:0 12px 30px #0003}
-.expo-scroll-note{color:#d2d8ce}
-.expo-scroll-note span{background:#e8c85c}
-
-/* A calmer editorial story section */
-.expo-intro{background:#eee8da;padding:120px 9%}
-.expo-section-label{color:#58675b}
-.expo-section-label span{color:#bd4b3b}
-.expo-intro-content h2{font:500 clamp(48px,6vw,78px)/.98 'Cormorant Garamond',serif;letter-spacing:-1.8px}
-.expo-intro-content h2 em{color:#174b38}
-.expo-intro-bottom p{font-size:13px;line-height:2;color:#596258}
-.expo-circle-link{border-color:#174b38;color:#174b38}
-
-/* Services become a proper visual portfolio, not text-heavy split cards */
-.expo-services{background:#f8f5ed;padding:116px 7.5% 126px}
-.expo-section-head{margin-bottom:54px}
-.expo-section-head h2{font:500 clamp(52px,6vw,82px)/.92 'Cormorant Garamond',serif;letter-spacing:-1.7px}
-.expo-section-head h2 em{color:#174b38}
-.expo-section-head>p{font-size:12px;line-height:2;color:#697166;max-width:350px}
-.expo-service-feature-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
-.expo-service-feature,.expo-service-feature:nth-child(2n){
-  display:flex;flex-direction:column;min-height:0;background:#fffdf8;border:1px solid #17251e18;
-  box-shadow:0 12px 32px #17251e0a;scroll-margin-top:110px
+.exponair :is(.expo-package h3,.expo-moment-meta h3){
+  font-family:'Cormorant Garamond','Bodoni Moda',serif;
+  font-weight:600;
+  letter-spacing:-.025em;
 }
-.expo-service-feature:nth-child(5){grid-column:auto;grid-template-columns:1fr}
-.expo-feature-image{width:100%;height:255px;min-height:255px;flex:0 0 255px;background-size:cover;background-position:center}
-.expo-feature-content{padding:27px 25px 30px;min-height:310px;flex:1}
-.expo-feature-index{font-size:8px;letter-spacing:1.6px;color:#bd4b3b}
-.expo-feature-content h3{font:500 32px/1 'Cormorant Garamond',serif;color:#17251e;margin:15px 0 12px}
-.expo-feature-content>p{font:400 11px/1.9 'Manrope',sans-serif;color:#646d63}
-.expo-tags{margin:17px 0 22px;gap:7px}
-.expo-tags span{font-size:8px;padding:7px 9px;background:#f1f0e8;border:1px solid #174b3820;color:#435448}
-.expo-feature-content>a{margin-top:auto;font-size:9px;letter-spacing:1.1px;color:#174b38;border-bottom-color:#bd4b3b}
-.expo-service-feature:hover{transform:translateY(-7px);box-shadow:0 22px 44px #17251e17}
-.expo-feature-image{transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s}
-.expo-service-feature:hover .expo-feature-image{transform:scale(1.035);filter:saturate(1.08)}
-
-/* Packages: less catalogue, more curated service tiers */
-.expo-packages{background:#eee8da;padding:116px 7.5% 120px}
-.expo-package-grid{gap:18px}
-.expo-package{background:#f9f6ee;border:1px solid #17251e20;padding:36px 30px;border-radius:0;box-shadow:0 12px 30px #17251e08}
-.expo-package.featured{background:#174b38;border-color:#174b38}
-.expo-package-note,.expo-package-includes{letter-spacing:1.7px}
-.expo-package h3{font:500 39px/1 'Cormorant Garamond',serif}
-.expo-package-price{font:500 20px 'Cormorant Garamond',serif}
-.expo-package a{border-radius:0}
-
-/* Gallery as a dramatic image-led interlude */
-.expo-gallery{background:#102e23;padding:120px 8% 105px}
-.expo-gallery-head{margin-bottom:48px}
-.expo-gallery-head h2{font:500 clamp(56px,6.5vw,88px)/.9 'Cormorant Garamond',serif}
-.expo-gallery-head h2 em{color:#e8c85c}
-.expo-gallery-head>p{font:400 12px/2 'Manrope',sans-serif;color:#c8d0c4}
-.expo-gallery-grid{grid-template-columns:1.05fr 1fr;grid-template-rows:360px 300px;gap:14px}
-.expo-moment{border-radius:0;background:#1a4735}
-.expo-moment:after{background:linear-gradient(180deg,#102e2300 20%,#102e23d9 100%)}
-.expo-moment-meta{left:28px;bottom:27px}
-.expo-moment-meta span{color:#e8c85c}
-.expo-moment-meta h3{font:500 36px/1 'Cormorant Garamond',serif;color:#fff8e9}
-.expo-gallery-note{color:#c8d0c4;text-align:left}
-
-/* Booking should feel reassuring and easy to complete */
-.expo-booking{background:#174b38;color:#f8f4e9;padding:116px 7.5%}
-.expo-booking .expo-contact-copy h2{font:500 clamp(62px,7vw,94px)/.88 'Cormorant Garamond',serif;color:#f8f4e9}
-.expo-booking .expo-contact-copy h2 em{color:#e8c85c}
-.expo-booking .expo-contact-copy p,.expo-booking .expo-contact-copy a{color:#e1e7dc}
-.expo-booking .expo-section-label{color:#e8c85c}
-.expo-calendar,.expo-form{background:#f8f5ed;color:#17251e;border-radius:0;border:0;box-shadow:0 22px 55px #071b1338}
-.expo-submit{background:#174b38;border-radius:0}
-.expo-submit:hover{background:#bd4b3b}
-.expo-terms{background:#eee8da}
-.expo-terms-head h2{font:500 clamp(48px,6vw,76px)/.95 'Cormorant Garamond',serif}
-.expo-terms-grid article{border-radius:0}
-.expo-contact-strip{background:#e8c85c}
-.expo-contact-strip h2{font:500 46px 'Cormorant Garamond',serif}
-
-/* Footer stays restrained, with the approved dark three-column treatment */
-.expo-footer{background:#080a08;color:#f1eee4}
-@media(max-width:1050px){
- .expo-hero{padding-inline:6%;gap:5%}
- .expo-hero h1{font-size:clamp(68px,8vw,100px)}
- .expo-hero-image{height:510px;min-height:510px}
- .expo-service-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.exponair :is(p,li,label,input,textarea,select,button,.expo-nav,.expo-brand-text){
+  font-family:'Manrope','DM Sans',sans-serif;
 }
-@media(max-width:900px){
- .expo-hero{min-height:0;padding:85px 7% 100px;grid-template-columns:1fr 1fr}
- .expo-hero h1{font-size:clamp(64px,8.5vw,88px)}
- .expo-hero-image{height:450px;min-height:450px}
- .expo-service-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .expo-gallery-grid{grid-template-rows:310px 250px}
+.expo-grain{opacity:.065;mix-blend-mode:multiply}
+.expo-image-frame,.expo-package,.expo-service-feature,.expo-calendar,.expo-form{
+  box-shadow:0 1px 0 rgba(255,255,255,.42),0 12px 34px rgba(45,37,27,.045);
 }
-@media(max-width:680px){
- .expo-header{height:70px}
- .expo-hero{display:flex;flex-direction:column;align-items:stretch;padding:65px 7% 82px;gap:42px;background:#143b2d}
- .expo-hero:before{left:70%;top:24%;font-size:260px}
- .expo-hero h1{font-size:clamp(62px,15vw,82px);letter-spacing:-2.5px;margin:24px 0}
- .expo-hero-lede{font-size:12px}
- .expo-hero-foot{margin-top:42px}
- .expo-hero-image{height:390px;min-height:390px}
- .expo-image-frame{box-shadow:10px 10px 0 #e8c85c}
- .expo-stamp{left:-8px;bottom:28px}
- .expo-hero-number{right:-9px;top:-18px}
- .expo-intro,.expo-services,.expo-packages,.expo-gallery,.expo-booking{padding:75px 7%}
- .expo-intro-content h2{font-size:48px}
- .expo-section-head{display:block}
- .expo-section-head>p{margin-top:20px}
- .expo-service-feature-grid{grid-template-columns:1fr;gap:15px}
- .expo-feature-image{height:260px;min-height:260px;flex-basis:260px}
- .expo-feature-content{min-height:0;padding:25px 23px 28px}
- .expo-package-grid{grid-template-columns:1fr}
- .expo-gallery-grid{display:flex;flex-direction:column}
- .expo-moment,.moment-tall,.moment-small{min-height:330px}
- .expo-booking .expo-contact-copy h2{font-size:62px}
- .expo-contact-strip{padding:30px 7%}
+.expo-section-label,.expo-eyebrow,.expo-feature-index,.expo-package-note,.expo-package-includes{
+  letter-spacing:1.8px;
 }
 @media(prefers-reduced-motion:reduce){
- .expo-service-feature,.expo-feature-image,.expo-hero-image{transition:none!important}
+ .exponair *{scroll-behavior:auto!important}
 }
