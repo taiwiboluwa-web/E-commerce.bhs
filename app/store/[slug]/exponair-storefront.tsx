@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, Menu, X, Instagram, Facebook } from "lucide-react";
+import { Check, Menu, X, Instagram, Facebook, Youtube, Music2, MessageCircle } from "lucide-react";
 import "./exponair.css";
 
 const WHATSAPP = "2348023387671";
@@ -124,8 +124,8 @@ export default function ExponairStorefront() {
             <div className="expo-footer-social">
               <a href="https://www.instagram.com/exponairevent/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
               <a href="https://www.facebook.com/exponairevent" target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
-              <a href="https://www.tiktok.com/@exponairevent" target="_blank" rel="noreferrer" aria-label="TikTok">♪</a>
-              <a href="https://wa.me/2348023387671" target="_blank" rel="noreferrer" aria-label="WhatsApp">W</a>
+              <a href="https://www.tiktok.com/@exponairevent" target="_blank" rel="noreferrer" aria-label="TikTok"><Music2 size={16}/></a>
+              <a href="https://wa.me/2348023387671" target="_blank" rel="noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
             </div>
           </div>
           <div className="expo-footer-column">
