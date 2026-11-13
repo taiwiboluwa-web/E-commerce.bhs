@@ -2,9 +2,25 @@ import type { Metadata } from "next";
 import ExponairStorefront from "../store/[slug]/exponair-storefront";
 
 export const metadata: Metadata = {
-  title: "Exponair Events Management Ltd | Kiddies Parties & Events",
-  description: "Creative kiddies party planning, customised decorations, entertainment and rentals for children aged 1–10 in Lagos.",
+  title: "Exponair Events Management Limited | Event Planners, Kiddies' Parties & Styling in Lagos",
+  description: "Passionately bringing events to life. Exponair plans kiddies' parties, adult celebrations, weddings, corporate events, event styling and rentals across Lagos, Nigeria.",
+  keywords: [
+    "kiddies party planners in Lagos",
+    "children's birthday decoration Lagos",
+    "luxury kiddies birthday celebrations",
+    "adult birthday event planners Lagos",
+    "wedding and proposal decoration Lagos",
+    "corporate event planners Lagos",
+    "event rentals Lagos",
+    "event styling and coordination Nigeria",
+  ],
   alternates: { canonical: "/exponair" },
+  openGraph: {
+    title: "Exponair Events | Passionately Bringing Events to Life",
+    description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
+    type: "website",
+    locale: "en_NG",
+  },
 };
 
 export default function ExponairPage() {
