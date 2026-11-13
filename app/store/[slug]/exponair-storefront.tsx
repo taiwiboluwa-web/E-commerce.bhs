@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Check, Menu, X, Instagram, Facebook, Youtube, Music2, MessageCircle, Sparkles, Palette, CalendarCheck2, HeartHandshake } from "lucide-react";
 import "./exponair.css";
 
@@ -30,8 +30,26 @@ const weekdays = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const formatDate = (d: Date) => d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
 
+function ExponairFlowerMark({ className = "" }: { className?: string }) {
+  return <svg className={className} viewBox="0 0 120 128" role="img" aria-label="Exponair flower emblem">
+    <path className="expo-petal expo-petal-one" d="M61 66 C31 37 40 12 58 3 C79 26 77 47 61 66Z" fill="#f4c400"/>
+    <path className="expo-petal expo-petal-two" d="M64 66 C73 35 91 23 116 23 C108 48 88 62 64 66Z" fill="#f4c400"/>
+    <path className="expo-leaf" d="M59 84 C36 57 17 57 3 61 C17 83 38 91 59 84Z" fill="#0b9d57"/>
+    <path className="expo-leaf-vein" d="M12 65 C30 70 43 77 57 84" fill="none" stroke="#fff" strokeWidth="2"/>
+    <path className="expo-flourish" d="M65 82 C82 108 111 108 117 89 C121 76 107 72 104 81" fill="none" stroke="#d52d2d" strokeWidth="3" strokeLinecap="round"/>
+    <circle cx="103" cy="81" r="4" fill="#d52d2d"/>
+  </svg>;
+}
+
+function ExponairWordmark({ compact = false }: { compact?: boolean }) {
+  return <span className={compact ? "expo-wordmark expo-wordmark-compact" : "expo-wordmark"}>
+    <ExponairFlowerMark className="expo-flower-mark"/>
+    <span className="expo-wordmark-copy"><strong>Exponair</strong><small>EVENTS MANAGEMENT LTD</small><em>Passionately bringing your events alive</em></span>
+  </span>;
+}
+
 export default function ExponairStorefront() {
-  const [menuOpen,setMenuOpen]=useState(false);
+  const [menuOpen,setMenuOpen]=useState(false);\n  const [showBrandReveal,setShowBrandReveal]=useState(false);\n  useEffect(()=>{if(typeof window==="undefined")return;const key="exponair-brand-reveal-seen";if(!window.sessionStorage.getItem(key)){setShowBrandReveal(true);window.sessionStorage.setItem(key,"1");const timer=window.setTimeout(()=>setShowBrandReveal(false),4200);return()=>window.clearTimeout(timer);}},[]);
   const [activeFaq,setActiveFaq]=useState<number|null>(0);
   const [month,setMonth]=useState(()=>new Date(new Date().getFullYear(),new Date().getMonth(),1));
   const [selectedDate,setSelectedDate]=useState("");
@@ -58,7 +76,7 @@ export default function ExponairStorefront() {
       <div className="expo-grain" aria-hidden="true"/>
       <div className="expo-announcement">LAGOS, NIGERIA <span>·</span> THOUGHTFULLY PLANNED. BEAUTIFULLY CELEBRATED.</div>
       <header className="expo-header" id="top">
-        <a className="expo-brand" href="#top" aria-label="Exponair home"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS · STYLING · EXPERIENCES</small></span></a>
+        <a className="expo-brand expo-brand-logo" href="#top" aria-label="Exponair home"><ExponairWordmark compact/></a>
         <nav className={menuOpen?"expo-nav is-open":"expo-nav"} aria-label="Main navigation">{nav.map(([label,href])=><a key={href} href={href} onClick={closeMenu}>{label}</a>)}</nav>
         <a className="expo-header-cta" href="#booking">Plan your event </a>
         <button className="expo-menu-toggle" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button>
@@ -67,7 +85,7 @@ export default function ExponairStorefront() {
       <section className="expo-hero">
         <div className="expo-hero-copy">
           <div className="expo-eyebrow"><span/> THE ART OF A GOOD CELEBRATION</div>
-          <h1>Passionately<br/><em>bringing events</em><br/>to life<span className="expo-period">.</span></h1>
+          <h1 className="expo-kinetic-title"><span className="expo-title-line">Passionately</span><span className="expo-title-line"><em>bringing events</em></span><span className="expo-title-line">to life<span className="expo-period">.</span></span></h1>
           <p className="expo-hero-lede">From wonder-filled kiddies' parties to elegant celebrations and corporate experiences, Exponair turns your ideas into moments worth remembering.</p>
           <div className="expo-hero-actions"><a className="expo-button expo-button-dark" href="#booking">Let's plan something </a><a className="expo-text-link" href="#services">Discover our world</a></div>
           <div className="expo-hero-foot"><span>IMAGINE</span><i/><span>CREATE</span><i/><span>CELEBRATE</span></div>
@@ -99,7 +117,7 @@ export default function ExponairStorefront() {
 
       <section className="expo-gallery" id="gallery"><div className="expo-gallery-head"><div><div className="expo-section-label"><span>04</span> THE ART OF THE EXPERIENCE</div><h2>Little details.<br/><em>Lasting impressions.</em></h2></div><p>Every colour, table setting and finishing touch should feel like it belongs to your story.</p></div><div className="expo-gallery-grid"><article className="expo-moment moment-tall"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>01 / KIDDIES' CELEBRATIONS</span><h3>A world of wonder<br/>for little guests.</h3></div></article><article className="expo-moment moment-wide"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>02 / SOCIAL OCCASIONS</span><h3>Make the moment<br/>feel like yours.</h3></div></article><article className="expo-moment moment-small"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=85')"}}/><div className="expo-moment-meta"><span>03 / CORPORATE EXPERIENCES</span><h3>Bring everyone<br/>together.</h3></div></article></div><p className="expo-gallery-note">Visual inspiration only. Exponair's own event photography will replace these images before the final public launch.</p></section>
 
-      <section className="expo-quote"><span className="expo-quote-mark">“</span><blockquote>Passionately bringing events<br/><em>to life.</em></blockquote><span className="expo-quote-rule"/><span className="expo-quote-caption">THE EXPONAIR PROMISE</span></section>
+      <section className="expo-quote"><span className="expo-quote-mark">“</span><blockquote className="expo-kinetic-quote"><span>Passionately bringing events</span><em>to life.</em></blockquote><span className="expo-quote-rule"/><span className="expo-quote-caption">THE EXPONAIR PROMISE</span></section>
 
       <section className="expo-faq" id="journal"><div><div className="expo-section-label"><span>05</span> NOTES BEFORE THE BIG DAY</div><h2>Good to know.<br/><em>Good to plan.</em></h2><p>Helpful answers about our services, event enquiries and booking process.</p><div className="expo-journal-card"><span>THE EXPONAIR JOURNAL · COMING SOON</span><h3>Ideas, inspiration and little details for your next celebration.</h3><a href="#booking">Ask us for ideas </a></div></div><div className="expo-faq-list">{faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}><button onClick={()=>setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><i>{activeFaq===i?"−":"+"}</i></button>{activeFaq===i&&<p>{a}</p>}</article>)}</div></section>
 
@@ -129,7 +147,7 @@ export default function ExponairStorefront() {
       <footer className="expo-footer">
         <div className="expo-footer-grid">
           <div className="expo-footer-about">
-            <a className="expo-brand" href="#top" aria-label="Exponair home"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS · STYLING · EXPERIENCES</small></span></a>
+            <a className="expo-brand expo-brand-logo" href="#top" aria-label="Exponair home"><ExponairWordmark compact/></a>
             <p>Passionately bringing events to life. Thoughtful planning, creative styling and joyful experiences for celebrations big and small.</p>
             <div className="expo-footer-social">
               <a href="https://www.instagram.com/exponairevent/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
