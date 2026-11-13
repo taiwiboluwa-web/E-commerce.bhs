@@ -49,7 +49,17 @@ function ExponairWordmark({ compact = false }: { compact?: boolean }) {
 }
 
 export default function ExponairStorefront() {
-  const [menuOpen,setMenuOpen]=useState(false);\n  const [showBrandReveal,setShowBrandReveal]=useState(false);\n  useEffect(()=>{if(typeof window==="undefined")return;const key="exponair-brand-reveal-seen";if(!window.sessionStorage.getItem(key)){setShowBrandReveal(true);window.sessionStorage.setItem(key,"1");const timer=window.setTimeout(()=>setShowBrandReveal(false),4200);return()=>window.clearTimeout(timer);}},[]);
+  const [menuOpen,setMenuOpen]=useState(false);
+  const [showBrandReveal,setShowBrandReveal]=useState(false);
+  useEffect(()=>{
+    const key="exponair-brand-reveal-seen";
+    if(!window.sessionStorage.getItem(key)){
+      setShowBrandReveal(true);
+      window.sessionStorage.setItem(key,"1");
+      const timer=window.setTimeout(()=>setShowBrandReveal(false),4200);
+      return ()=>window.clearTimeout(timer);
+    }
+  },[]);
   const [activeFaq,setActiveFaq]=useState<number|null>(0);
   const [month,setMonth]=useState(()=>new Date(new Date().getFullYear(),new Date().getMonth(),1));
   const [selectedDate,setSelectedDate]=useState("");
