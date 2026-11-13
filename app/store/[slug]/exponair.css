@@ -715,3 +715,13 @@
 @media(prefers-reduced-motion:reduce){
   .exponair .expo-type-char{opacity:1!important;animation:none!important}
 }
+
+
+/* Keep typed characters grouped into intact words on narrow screens */
+.exponair .expo-type-word{display:inline-block;white-space:nowrap;word-break:normal;overflow-wrap:normal}
+.exponair .expo-type-char{display:inline-block;white-space:pre;word-break:keep-all}
+.exponair .expo-type-target{word-break:normal;overflow-wrap:normal;hyphens:none}
+@media(max-width:680px){
+  .exponair .expo-type-word{display:inline-block;white-space:nowrap}
+  .exponair .expo-type-char{display:inline-block}
+}
