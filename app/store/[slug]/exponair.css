@@ -493,3 +493,175 @@
 @media(prefers-reduced-motion:reduce){
   .expo-hero-image,.expo-feature-image,.expo-package,.expo-button,.expo-whatsapp-float{transition:none!important}
 }
+
+
+/* EXPONAIR SIGNATURE REDESIGN — high-contrast editorial art direction */
+.exponair{
+  --expo-ink:#17251e;
+  --expo-paper:#f5f0e5;
+  --expo-muted:#77796f;
+  --expo-green:#174b38;
+  --expo-yellow:#e8c85c;
+  --expo-accent:#bd4b3b;
+  background:var(--expo-paper);
+  color:var(--expo-ink);
+}
+.expo-announcement{background:#102e23;color:#e8e2d5}
+.expo-header{height:86px;padding-inline:6.5%;background:rgba(245,240,229,.97);border-bottom:1px solid #17251e20}
+.expo-monogram{background:#174b38;color:#f8f2e7;border:0;border-radius:0}
+.expo-brand-text strong{color:#17251e;letter-spacing:3.8px}
+.expo-brand-text small{color:#77796f}
+.expo-nav a{color:#34483b;font-weight:700}
+.expo-header-cta{background:#174b38;color:#fff;border-color:#174b38;border-radius:0;padding:14px 19px}
+.expo-header-cta:hover{background:#bd4b3b;border-color:#bd4b3b;color:#fff}
+
+/* Cinematic hero: forest canvas, oversized type, one decisive image */
+.expo-hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:790px;padding:112px 8% 112px;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);
+  gap:6%;align-items:center;
+  background:#143b2d;color:#f5f0e5;
+}
+.expo-hero:before{
+  content:"E.";position:absolute;z-index:-1;left:37%;top:47%;
+  transform:translate(-50%,-50%);font:italic 440px/.7 'Cormorant Garamond',serif;
+  color:rgba(255,255,255,.035);pointer-events:none
+}
+.expo-hero-copy{max-width:640px}
+.expo-eyebrow{color:#e8c85c;font-size:9px;letter-spacing:2.8px}
+.expo-eyebrow span{background:#e8c85c}
+.expo-hero h1{font:500 clamp(76px,8.3vw,124px)/.79 'Cormorant Garamond',serif;letter-spacing:-4px;color:#f5f0e5;margin:32px 0 28px}
+.expo-hero h1 em{color:#e8c85c;font-weight:400}
+.expo-hero-lede{color:#d2d8ce;font:400 13px/2 'Manrope',sans-serif;max-width:430px}
+.expo-hero-actions{margin-top:35px;gap:28px}
+.expo-button-dark{background:#e8c85c;border-color:#e8c85c;color:#17251e!important;padding:17px 23px}
+.expo-button-dark:hover{background:#f5f0e5;border-color:#f5f0e5;color:#17251e!important}
+.expo-text-link{color:#f5f0e5;border-color:#e8c85c}
+.expo-hero-foot{margin-top:78px;color:#d2d8ce}
+.expo-hero-foot i{background:#e8c85c}
+.expo-hero-visual{max-width:none;width:100%}
+.expo-image-frame{padding:0;border:1px solid #e8c85c80;box-shadow:22px 22px 0 #e8c85c;overflow:hidden}
+.expo-hero-image{height:590px;min-height:590px;background-image:linear-gradient(180deg,#102e2300 55%,#102e2370),url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1700&q=90');background-position:center;background-size:cover}
+.expo-image-caption{left:0;right:0;bottom:0;padding:23px 25px;background:linear-gradient(0deg,#102e23b8,transparent);font-size:8px;color:#fff}
+.expo-stamp{left:-20px;bottom:42px;background:#e8c85c;color:#17251e;padding:13px 16px;transform:rotate(-90deg)}
+.expo-stamp b{color:#bd4b3b}
+.expo-hero-number{right:-15px;top:-24px;background:#f5f0e5;color:#174b38;padding:16px 19px}
+.expo-hero-orbit{background:#bd4b3b;border:0;color:#fff;box-shadow:0 12px 30px #0003}
+.expo-scroll-note{color:#d2d8ce}
+.expo-scroll-note span{background:#e8c85c}
+
+/* A calmer editorial story section */
+.expo-intro{background:#eee8da;padding:120px 9%}
+.expo-section-label{color:#58675b}
+.expo-section-label span{color:#bd4b3b}
+.expo-intro-content h2{font:500 clamp(48px,6vw,78px)/.98 'Cormorant Garamond',serif;letter-spacing:-1.8px}
+.expo-intro-content h2 em{color:#174b38}
+.expo-intro-bottom p{font-size:13px;line-height:2;color:#596258}
+.expo-circle-link{border-color:#174b38;color:#174b38}
+
+/* Services become a proper visual portfolio, not text-heavy split cards */
+.expo-services{background:#f8f5ed;padding:116px 7.5% 126px}
+.expo-section-head{margin-bottom:54px}
+.expo-section-head h2{font:500 clamp(52px,6vw,82px)/.92 'Cormorant Garamond',serif;letter-spacing:-1.7px}
+.expo-section-head h2 em{color:#174b38}
+.expo-section-head>p{font-size:12px;line-height:2;color:#697166;max-width:350px}
+.expo-service-feature-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+.expo-service-feature,.expo-service-feature:nth-child(2n){
+  display:flex;flex-direction:column;min-height:0;background:#fffdf8;border:1px solid #17251e18;
+  box-shadow:0 12px 32px #17251e0a;scroll-margin-top:110px
+}
+.expo-service-feature:nth-child(5){grid-column:auto;grid-template-columns:1fr}
+.expo-feature-image{width:100%;height:255px;min-height:255px;flex:0 0 255px;background-size:cover;background-position:center}
+.expo-feature-content{padding:27px 25px 30px;min-height:310px;flex:1}
+.expo-feature-index{font-size:8px;letter-spacing:1.6px;color:#bd4b3b}
+.expo-feature-content h3{font:500 32px/1 'Cormorant Garamond',serif;color:#17251e;margin:15px 0 12px}
+.expo-feature-content>p{font:400 11px/1.9 'Manrope',sans-serif;color:#646d63}
+.expo-tags{margin:17px 0 22px;gap:7px}
+.expo-tags span{font-size:8px;padding:7px 9px;background:#f1f0e8;border:1px solid #174b3820;color:#435448}
+.expo-feature-content>a{margin-top:auto;font-size:9px;letter-spacing:1.1px;color:#174b38;border-bottom-color:#bd4b3b}
+.expo-service-feature:hover{transform:translateY(-7px);box-shadow:0 22px 44px #17251e17}
+.expo-feature-image{transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s}
+.expo-service-feature:hover .expo-feature-image{transform:scale(1.035);filter:saturate(1.08)}
+
+/* Packages: less catalogue, more curated service tiers */
+.expo-packages{background:#eee8da;padding:116px 7.5% 120px}
+.expo-package-grid{gap:18px}
+.expo-package{background:#f9f6ee;border:1px solid #17251e20;padding:36px 30px;border-radius:0;box-shadow:0 12px 30px #17251e08}
+.expo-package.featured{background:#174b38;border-color:#174b38}
+.expo-package-note,.expo-package-includes{letter-spacing:1.7px}
+.expo-package h3{font:500 39px/1 'Cormorant Garamond',serif}
+.expo-package-price{font:500 20px 'Cormorant Garamond',serif}
+.expo-package a{border-radius:0}
+
+/* Gallery as a dramatic image-led interlude */
+.expo-gallery{background:#102e23;padding:120px 8% 105px}
+.expo-gallery-head{margin-bottom:48px}
+.expo-gallery-head h2{font:500 clamp(56px,6.5vw,88px)/.9 'Cormorant Garamond',serif}
+.expo-gallery-head h2 em{color:#e8c85c}
+.expo-gallery-head>p{font:400 12px/2 'Manrope',sans-serif;color:#c8d0c4}
+.expo-gallery-grid{grid-template-columns:1.05fr 1fr;grid-template-rows:360px 300px;gap:14px}
+.expo-moment{border-radius:0;background:#1a4735}
+.expo-moment:after{background:linear-gradient(180deg,#102e2300 20%,#102e23d9 100%)}
+.expo-moment-meta{left:28px;bottom:27px}
+.expo-moment-meta span{color:#e8c85c}
+.expo-moment-meta h3{font:500 36px/1 'Cormorant Garamond',serif;color:#fff8e9}
+.expo-gallery-note{color:#c8d0c4;text-align:left}
+
+/* Booking should feel reassuring and easy to complete */
+.expo-booking{background:#174b38;color:#f8f4e9;padding:116px 7.5%}
+.expo-booking .expo-contact-copy h2{font:500 clamp(62px,7vw,94px)/.88 'Cormorant Garamond',serif;color:#f8f4e9}
+.expo-booking .expo-contact-copy h2 em{color:#e8c85c}
+.expo-booking .expo-contact-copy p,.expo-booking .expo-contact-copy a{color:#e1e7dc}
+.expo-booking .expo-section-label{color:#e8c85c}
+.expo-calendar,.expo-form{background:#f8f5ed;color:#17251e;border-radius:0;border:0;box-shadow:0 22px 55px #071b1338}
+.expo-submit{background:#174b38;border-radius:0}
+.expo-submit:hover{background:#bd4b3b}
+.expo-terms{background:#eee8da}
+.expo-terms-head h2{font:500 clamp(48px,6vw,76px)/.95 'Cormorant Garamond',serif}
+.expo-terms-grid article{border-radius:0}
+.expo-contact-strip{background:#e8c85c}
+.expo-contact-strip h2{font:500 46px 'Cormorant Garamond',serif}
+
+/* Footer stays restrained, with the approved dark three-column treatment */
+.expo-footer{background:#080a08;color:#f1eee4}
+@media(max-width:1050px){
+ .expo-hero{padding-inline:6%;gap:5%}
+ .expo-hero h1{font-size:clamp(68px,8vw,100px)}
+ .expo-hero-image{height:510px;min-height:510px}
+ .expo-service-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+ .expo-hero{min-height:0;padding:85px 7% 100px;grid-template-columns:1fr 1fr}
+ .expo-hero h1{font-size:clamp(64px,8.5vw,88px)}
+ .expo-hero-image{height:450px;min-height:450px}
+ .expo-service-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .expo-gallery-grid{grid-template-rows:310px 250px}
+}
+@media(max-width:680px){
+ .expo-header{height:70px}
+ .expo-hero{display:flex;flex-direction:column;align-items:stretch;padding:65px 7% 82px;gap:42px;background:#143b2d}
+ .expo-hero:before{left:70%;top:24%;font-size:260px}
+ .expo-hero h1{font-size:clamp(62px,15vw,82px);letter-spacing:-2.5px;margin:24px 0}
+ .expo-hero-lede{font-size:12px}
+ .expo-hero-foot{margin-top:42px}
+ .expo-hero-image{height:390px;min-height:390px}
+ .expo-image-frame{box-shadow:10px 10px 0 #e8c85c}
+ .expo-stamp{left:-8px;bottom:28px}
+ .expo-hero-number{right:-9px;top:-18px}
+ .expo-intro,.expo-services,.expo-packages,.expo-gallery,.expo-booking{padding:75px 7%}
+ .expo-intro-content h2{font-size:48px}
+ .expo-section-head{display:block}
+ .expo-section-head>p{margin-top:20px}
+ .expo-service-feature-grid{grid-template-columns:1fr;gap:15px}
+ .expo-feature-image{height:260px;min-height:260px;flex-basis:260px}
+ .expo-feature-content{min-height:0;padding:25px 23px 28px}
+ .expo-package-grid{grid-template-columns:1fr}
+ .expo-gallery-grid{display:flex;flex-direction:column}
+ .expo-moment,.moment-tall,.moment-small{min-height:330px}
+ .expo-booking .expo-contact-copy h2{font-size:62px}
+ .expo-contact-strip{padding:30px 7%}
+}
+@media(prefers-reduced-motion:reduce){
+ .expo-service-feature,.expo-feature-image,.expo-hero-image{transition:none!important}
+}
