@@ -22,7 +22,7 @@ export default function ClientOnboardingPage() {
   const canContinue = useMemo(() => {
     if (step===0) return !!(form.businessName.trim() && form.contactName.trim() && form.email.trim() && form.phone.trim() && form.category);
     if (step===1) return !!(form.storefrontName.trim() && form.currentSalesChannel && form.productCount);
-    if (step===2) return form.features.length>0 && !!(form.designPreference && form.launchTimeline);
+    if (step===2) return form.features.length>0 && !!form.launchTimeline;
     return form.contactConsent;
   },[form,step]);
   const submit = async (event:FormEvent) => {
