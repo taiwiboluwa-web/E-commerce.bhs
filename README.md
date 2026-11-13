@@ -77,3 +77,12 @@ The control centre applies the ten requested mathematical ideas as practical des
 10. **Linear transformation** — scale spacing, typography and layout proportions predictably across viewport sizes.
 
 These principles guide implementation quality; they do not imply that unimplemented backend services are operational.
+
+
+## Master workspace implementation (2026-11)
+- Dedicated module data service at `/api/workspace` protected by a server-only `BHS_MASTER_ADMIN_KEY` and an HttpOnly, SameSite=Strict session cookie.
+- Live read models for tenants, products, orders, derived customers, subscriptions, verified payment ledger entries, platform feature controls, settings and audit events.
+- Platform-owner actions for tenant provisioning, storefront URL/status changes, product creation/publication/stock, order status, feature catalogue switches and persisted platform settings.
+- Additive migration `database/migrations/004_master_workspace.sql` adds tenant storefront URLs, feature-control storage, platform settings and a verified payment ledger. Existing records are not removed.
+- Payment entries are read-only and must originate from a verified payment-provider webhook. Subscription lifecycle remains provider-authoritative. Feature controls are stored but require tenant-facing enforcement before they can be treated as active product entitlements.
+- Set `BHS_MASTER_ADMIN_KEY` and `DATABASE_URL` in Vercel Production and Preview before unlocking the master workspace. Never expose the key with a `NEXT_PUBLIC_` prefix.
