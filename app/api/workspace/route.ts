@@ -51,8 +51,9 @@ export async function GET(req: NextRequest) {
   if (!isAuthorized(req)) return fail("Please unlock the master workspace.", 401);
   try {
     const sql = db();
+    await sql.query("UPDATE public.tenants SET status='suspended'::public.tenant_status,access_suspended_at=COALESCE(access_suspended_at,now()),updated_at=now() WHERE status='active'::public.tenant_status AND access_expires_at IS NOT NULL AND access_expires_at <= now()");
     const [tenants, products, orders, customers, subscriptions, payments, features, settings, activity, counts] = await Promise.all([
-      sql.query("SELECT t.id,t.name,t.slug,t.category,t.status,t.storefront_url,t.created_at,(SELECT count(*)::int FROM public.products p WHERE p.tenant_id=t.id AND p.deleted_at IS NULL) AS product_count,(SELECT count(*)::int FROM public.orders o WHERE o.tenant_id=t.id AND o.deleted_at IS NULL) AS order_count,s.plan_code,s.status AS subscription_status,COALESCE(sa.capacity_bytes,2147483648)::bigint AS storage_capacity_bytes,COALESCE(sa.used_bytes,0)::bigint AS storage_used_bytes FROM public.tenants t LEFT JOIN public.subscriptions s ON s.tenant_id=t.id LEFT JOIN public.tenant_storage_accounts sa ON sa.tenant_id=t.id WHERE t.deleted_at IS NULL ORDER BY t.created_at DESC"),
+      sql.query("SELECT t.id,t.name,t.slug,t.category,t.status,t.storefront_url,t.created_at,t.access_duration_days,t.access_expires_at,t.access_suspended_at,(SELECT count(*)::int FROM public.products p WHERE p.tenant_id=t.id AND p.deleted_at IS NULL) AS product_count,(SELECT count(*)::int FROM public.orders o WHERE o.tenant_id=t.id AND o.deleted_at IS NULL) AS order_count,s.plan_code,s.status AS subscription_status,COALESCE(sa.capacity_bytes,2147483648)::bigint AS storage_capacity_bytes,COALESCE(sa.used_bytes,0)::bigint AS storage_used_bytes FROM public.tenants t LEFT JOIN public.subscriptions s ON s.tenant_id=t.id LEFT JOIN public.tenant_storage_accounts sa ON sa.tenant_id=t.id WHERE t.deleted_at IS NULL ORDER BY t.created_at DESC"),
       sql.query("SELECT p.id,p.tenant_id,t.name AS tenant_name,p.name,p.slug,p.description,p.price_minor,p.currency,p.sku,p.stock_quantity,p.is_published,p.created_at FROM public.products p JOIN public.tenants t ON t.id=p.tenant_id WHERE p.deleted_at IS NULL ORDER BY p.created_at DESC LIMIT 500"),
       sql.query("SELECT o.id,o.tenant_id,t.name AS tenant_name,o.order_number,o.customer_name,o.customer_email,o.customer_phone,o.status,o.total_minor,o.currency,o.created_at,(SELECT COALESCE(json_agg(json_build_object('name',oi.product_name,'quantity',oi.quantity,'unit_price_minor',oi.unit_price_minor)),'[]'::json) FROM public.order_items oi WHERE oi.order_id=o.id) AS items FROM public.orders o JOIN public.tenants t ON t.id=o.tenant_id WHERE o.deleted_at IS NULL ORDER BY o.created_at DESC LIMIT 500"),
       sql.query("SELECT customer_email AS email,max(customer_name) AS name,max(customer_phone) AS phone,count(*)::int AS order_count,sum(total_minor)::bigint AS lifetime_value,max(created_at) AS last_order_at,count(DISTINCT tenant_id)::int AS storefront_count FROM public.orders WHERE deleted_at IS NULL AND customer_email IS NOT NULL GROUP BY lower(customer_email),customer_email ORDER BY max(created_at) DESC LIMIT 500"),
@@ -78,7 +79,18 @@ export async function PATCH(req: NextRequest) {
     const sql = db();
     let result: any[] = [];
     const id = String(body.id || "");
-    if (body.action === "tenant") {
+    if (body.action === "tenant_access") {
+      if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
+      if (body.mode === "set_duration") {
+        const days = Number(body.days);
+        if (!Number.isInteger(days) || days < 1 || days > 3650) return fail("Choose a duration between 1 and 3650 days.");
+        result = await sql.query("UPDATE public.tenants SET access_duration_days=$1,updated_at=now() WHERE id=$2::uuid RETURNING id,status,access_duration_days,access_expires_at", [days,id]);
+      } else if (body.mode === "enable_and_restart") {
+        result = await sql.query("UPDATE public.tenants SET status='active'::public.tenant_status,access_expires_at=now() + (access_duration_days * interval '1 day'),access_suspended_at=NULL,updated_at=now() WHERE id=$1::uuid AND deleted_at IS NULL RETURNING id,status,access_duration_days,access_expires_at", [id]);
+      } else if (body.mode === "suspend_now") {
+        result = await sql.query("UPDATE public.tenants SET status='suspended'::public.tenant_status,access_suspended_at=now(),updated_at=now() WHERE id=$1::uuid AND deleted_at IS NULL RETURNING id,status,access_duration_days,access_expires_at", [id]);
+      } else return fail("Unsupported access timer action.");
+    } else if (body.action === "tenant") {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       if (body.field === "status") {
         if (!tenantStatuses.includes(body.value)) return fail("Invalid storefront status.");
