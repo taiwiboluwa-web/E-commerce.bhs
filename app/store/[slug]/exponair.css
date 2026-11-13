@@ -214,3 +214,34 @@
  .expo-footer-bottom{font-size:6px}
 }
 @media(max-width:390px){.expo-service-feature{grid-template-columns:1fr}.expo-feature-image{min-height:210px}.expo-feature-content{min-height:235px}.expo-hero-actions{align-items:flex-start;flex-direction:column}.expo-hero-image{height:300px;min-height:300px}}
+
+
+/* Exponair footer — understated three-column layout */
+.expo-footer{background:#080a08;color:#e9e6dc;padding:64px 8% 24px}
+.expo-footer-grid{display:grid;grid-template-columns:1.25fr .8fr 1fr;gap:9%;padding:0 0 52px;max-width:1320px;margin:0 auto}
+.expo-footer-about .expo-brand{display:inline-flex;margin-bottom:22px}
+.expo-footer-about>p{max-width:330px;margin:0;color:#aaa99f;font-size:11px;line-height:1.9}
+.expo-footer .expo-monogram{background:transparent;border-color:#d5b34b;color:#f7f3e9;border-radius:0}
+.expo-footer .expo-monogram span{color:#d5b34b}
+.expo-footer .expo-brand-text strong{color:#f7f3e9}
+.expo-footer .expo-brand-text small{color:#a9a99e}
+.expo-footer-social{display:flex;gap:12px;margin-top:24px}
+.expo-footer-social a{width:38px;height:38px;border:1px solid #ffffff25;border-radius:50%;display:grid;place-items:center;color:#a9a9a2;font-size:14px;font-weight:600;transition:all .2s}
+.expo-footer-social a:hover{border-color:#d5b34b;color:#d5b34b}
+.expo-footer-column{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.expo-footer-column h3{font:500 8px 'DM Sans',sans-serif;letter-spacing:2.2px;color:#d5b34b;margin:0 0 10px}
+.expo-footer-column a,.expo-footer-column p{font:400 10px/1.7 'DM Sans',sans-serif;color:#aaa99f;margin:0}
+.expo-footer-column a:hover{color:#f4d66f}
+.expo-footer-contact p+p{margin-top:5px}
+.expo-footer-bottom{max-width:1320px;margin:0 auto;border-top:1px solid #ffffff20;padding-top:22px;display:flex;justify-content:space-between;gap:18px;color:#77796f;font-size:8px;letter-spacing:.8px}
+.expo-footer .expo-back-top{display:none}
+@media(max-width:680px){
+ .expo-footer{padding:46px 7% 24px}
+ .expo-footer-grid{grid-template-columns:1fr 1fr;gap:36px 22px;padding-bottom:35px}
+ .expo-footer-about{grid-column:1/-1}
+ .expo-footer-about>p{max-width:360px}
+ .expo-footer-column h3{font-size:7px}
+ .expo-footer-column a,.expo-footer-column p{font-size:9px}
+ .expo-footer-bottom{flex-direction:column;gap:9px;font-size:7px}
+}
+@media(max-width:390px){.expo-footer-grid{grid-template-columns:1fr}.expo-footer-about{grid-column:auto}}
