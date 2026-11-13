@@ -245,3 +245,24 @@
  .expo-footer-bottom{flex-direction:column;gap:9px;font-size:7px}
 }
 @media(max-width:390px){.expo-footer-grid{grid-template-columns:1fr}.expo-footer-about{grid-column:auto}}
+
+
+/* Editorial experience panel — curated visual rhythm and purposeful iconography */
+.expo-experience{position:relative;z-index:2;background:#1f5a43;color:#f7f3e9;padding:82px 13% 88px;overflow:hidden}
+.expo-experience:before{content:"";position:absolute;inset:0 auto 0 0;width:34%;background:radial-gradient(ellipse at 20% 45%,#ffffff0b,transparent 68%);pointer-events:none}
+.expo-experience-heading{position:relative;max-width:760px;margin:0 auto 42px;text-align:center}
+.expo-experience-heading>span{font-size:8px;letter-spacing:2.5px;color:#e5c75d;font-weight:700}
+.expo-experience-heading h2{font:500 clamp(34px,4.3vw,56px)/1.12 'Playfair Display',serif;letter-spacing:-1.4px;margin:18px 0 0;color:#f7f3e9}
+.expo-experience-heading h2 em{color:#e5c75d;font-weight:400}
+.expo-experience-grid{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1px solid #ffffff32;border-bottom:1px solid #ffffff32}
+.expo-experience-grid article{display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding:28px 22px 30px;border-right:1px solid #ffffff32}
+.expo-experience-grid article:first-child{padding-left:0}
+.expo-experience-grid article:last-child{border-right:0;padding-right:0}
+.expo-experience-icon{width:48px;height:48px;display:grid;place-items:center;border:1px solid #e5c75d80;border-radius:50%;color:#e5c75d}
+.expo-experience-grid h3{font:500 19px/1.2 'Playfair Display',serif;color:#fff9eb;margin:0 0 10px}
+.expo-experience-grid p{font:400 10px/1.85 'DM Sans',sans-serif;color:#d0d9ce;margin:0;max-width:220px}
+.expo-experience-grid article:hover .expo-experience-icon{background:#e5c75d;color:#1f5a43;transition:background .2s,color .2s}
+.expo-experience-grid article:hover h3{color:#f0d77f}
+@media(max-width:900px){.expo-experience{padding-left:8%;padding-right:8%}.expo-experience-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.expo-experience-grid article:nth-child(2){border-right:0}.expo-experience-grid article:nth-child(3){padding-left:0;border-top:1px solid #ffffff32}.expo-experience-grid article:nth-child(4){border-top:1px solid #ffffff32}}
+@media(max-width:680px){.expo-experience{padding:65px 7% 70px}.expo-experience-heading{text-align:left;margin-bottom:30px}.expo-experience-grid article{padding:22px 14px 24px;gap:15px}.expo-experience-grid article:first-child,.expo-experience-grid article:nth-child(3){padding-left:0}.expo-experience-grid article:nth-child(2){padding-right:0}.expo-experience-icon{width:42px;height:42px}.expo-experience-grid h3{font-size:17px}.expo-experience-grid p{font-size:9px}}
+@media(max-width:390px){.expo-experience-grid{grid-template-columns:1fr}.expo-experience-grid article,.expo-experience-grid article:first-child,.expo-experience-grid article:nth-child(2),.expo-experience-grid article:nth-child(3),.expo-experience-grid article:last-child{padding:20px 0;border-right:0;border-top:1px solid #ffffff32;flex-direction:row;align-items:flex-start}.expo-experience-grid article:first-child{border-top:0}}
