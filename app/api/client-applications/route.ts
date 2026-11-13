@@ -25,6 +25,7 @@ export async function PATCH(req:NextRequest){
   if(status==="approved"){
     const provisioned=await sql`SELECT * FROM public.approve_client_application(${id}::uuid,${storefrontUrl||null})`;
     if(!provisioned.length)return NextResponse.json({error:"Application could not be provisioned."},{status:500});
+    await sql`INSERT INTO public.audit_events(action,entity_type,entity_id,metadata) VALUES('approve_client_application','client_application',${id},${JSON.stringify({tenant_id:provisioned[0].tenant_id,tenant_slug:provisioned[0].tenant_slug,actor:"platform_owner"})}::jsonb)`;
     return NextResponse.json({ok:true,application:{id,status:"approved",tenant_id:provisioned[0].tenant_id,storefront_url:provisioned[0].storefront_url,tenant_slug:provisioned[0].tenant_slug,tenant_status:provisioned[0].tenant_status},provisioned:true});
   }
   const rows=await sql`UPDATE public.client_applications SET status=${status},updated_at=now() WHERE id=${id}::uuid AND tenant_id IS NULL RETURNING id,status,tenant_id`;
