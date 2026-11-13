@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Check, ChevronDown, Menu, X } from "lucide-react";
+import { Check, Menu, X } from "lucide-react";
 import "./exponair.css";
 
 const WHATSAPP = "2348023387671";
@@ -102,7 +102,7 @@ export default function ExponairStorefront() {
 
       <section className="expo-quote"><span className="expo-quote-mark">“</span><blockquote>Little people deserve<br /><em>the biggest celebrations.</em></blockquote><span className="expo-quote-rule" /><span className="expo-quote-caption">THE EXPONAIR PROMISE</span></section>
 
-      <section className="expo-faq"><div><div className="expo-section-label"><span>05</span> GOOD TO KNOW</div><h2>Before the<br /><em>party begins.</em></h2><p>A few helpful answers before we start planning your child's special day.</p></div><div className="expo-faq-list">{faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}><button onClick={() => setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><ChevronDown size={18}/></button>{activeFaq===i && <p>{a}</p>}</article>)}</div></section>
+      <section className="expo-faq"><div><div className="expo-section-label"><span>05</span> GOOD TO KNOW</div><h2>Before the<br /><em>party begins.</em></h2><p>A few helpful answers before we start planning your child's special day.</p></div><div className="expo-faq-list">{faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}><button onClick={() => setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><i aria-hidden="true">{activeFaq===i?"−":"+"}</i></button>{activeFaq===i && <p>{a}</p>}</article>)}</div></section>
 
       <section className="expo-contact" id="calendar">
         <div className="expo-contact-copy"><div className="expo-section-label"><span>06</span> SAVE YOUR PARTY DATE</div><h2>Let's make<br />their day <em>shine.</em></h2><p>Choose a preferred date on the calendar, tell us a little about the celebration and send your enquiry straight to our WhatsApp.</p><div className="expo-contact-note"><span>WhatsApp enquiries: +234 802 338 7671</span></div></div>
