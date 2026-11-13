@@ -21,6 +21,17 @@ export default function ExponairStorefront() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  const [selectedDate, setSelectedDate] = useState("");
+  const whatsappNumber = "2348023387671";
+  const whatsappMessage = encodeURIComponent("Hello Exponair Events Management Ltd, I would like to enquire about planning an event. Preferred date: " + (selectedDate || "To be discussed") + ". My name is " + (form.name || "not provided") + ". Event type: " + form.event + ".");
+  const whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage;
+  const monthStart = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+  const calendarOffset = monthStart.getDay();
+  const calendarDays = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dateKey = (day: number) => String(calendarMonth.getFullYear()) + "-" + String(calendarMonth.getMonth()+1).padStart(2,"0") + "-" + String(day).padStart(2,"0");
+  const monthLabel = calendarMonth.toLocaleDateString("en", { month: "long", year: "numeric" });
   const [form, setForm] = useState({ name: "", email: "", event: "Wedding or private celebration", date: "", location: "", details: "" });
   const closeMenu = () => setMenuOpen(false);
 
@@ -111,7 +122,7 @@ export default function ExponairStorefront() {
         <div><div className="expo-section-label"><span>04</span> GOOD TO KNOW</div><h2>Before the<br /><em>first hello.</em></h2><p>Every event begins with a conversation. Here are a few helpful starting points.</p></div>
         <div className="expo-faq-list">
           {faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}>
-            <button onClick={() => setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><ChevronDown size={18}/></button>
+            <button onClick={() => setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><i aria-hidden="true">{activeFaq===i?"−":"+"}</i></button>
             {activeFaq===i && <p>{a}</p>}
           </article>)}
         </div>
@@ -122,18 +133,20 @@ export default function ExponairStorefront() {
         <form className="expo-form" onSubmit={(e)=>{e.preventDefault();setSubmitted(true);}}>
           {submitted ? <div className="expo-form-success"><span><Check size={22}/></span><h3>Thank you for reaching out.</h3><p>This storefront preview is not yet connected to Exponair's inbox. Your inquiry has not been sent. Connect the approved email or CRM endpoint before launch.</p><button type="button" onClick={() => setSubmitted(false)}>Edit inquiry</button></div> : <>
             <div className="expo-form-top"><span>EVENT ENQUIRY</span><span>* REQUIRED</span></div>
+            <div className="expo-calendar"><div className="expo-calendar-head"><div><span>CHOOSE A PREFERRED DATE</span><strong>{monthLabel}</strong></div><div className="expo-calendar-controls"><button type="button" aria-label="Previous month" disabled={calendarMonth.getFullYear()===today.getFullYear() && calendarMonth.getMonth()===today.getMonth()} onClick={()=>setCalendarMonth(new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1))}>‹</button><button type="button" aria-label="Next month" onClick={()=>setCalendarMonth(new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1))}>›</button></div></div><div className="expo-calendar-grid">{["SUN","MON","TUE","WED","THU","FRI","SAT"].map(d=><span className="expo-calendar-weekday" key={d}>{d}</span>)}{Array.from({length:calendarOffset},(_,i)=><span key={"blank"+i}/>)}{Array.from({length:calendarDays},(_,i)=>{const day=i+1;const key=dateKey(day);const date=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),day);const past=date<today;return <button type="button" key={key} disabled={past} className={(selectedDate===key?"selected ":"")+(past?"past":"")} onClick={()=>{setSelectedDate(key);setForm({...form,date:key});}}>{day}</button>;})}</div><p className="expo-calendar-note">Choose a future date to request. Exponair will confirm availability before your booking is accepted.</p>{selectedDate && <p className="expo-calendar-selected">Preferred date: <strong>{new Date(selectedDate+"T12:00:00").toLocaleDateString("en",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</strong></p>}</div>
             <label>Your name *<input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Your full name" /></label>
             <label>Email address *<input required type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@example.com" /></label>
-            <div className="expo-form-row"><label>Event type *<select value={form.event} onChange={e=>setForm({...form,event:e.target.value})}><option>Wedding or private celebration</option><option>Corporate event</option><option>Brand launch or activation</option><option>Conference or seminar</option><option>Other occasion</option></select></label><label>Event date<input type="date" value={form.date} onChange={e=>setForm({...form,date:e.target.value})}/></label></div>
+            <div className="expo-form-row"><label>Event type *<select value={form.event} onChange={e=>setForm({...form,event:e.target.value})}><option>Wedding or private celebration</option><option>Corporate event</option><option>Brand launch or activation</option><option>Conference or seminar</option><option>Other occasion</option></select></label><label>Preferred event date<input type="date" min={today.toISOString().slice(0,10)} value={form.date} onChange={e=>{setForm({...form,date:e.target.value});setSelectedDate(e.target.value);}}/></label></div>
             <label>Event location<input value={form.location} onChange={e=>setForm({...form,location:e.target.value})} placeholder="City or venue (if known)" /></label>
             <label>Tell us about your plans<textarea rows={3} value={form.details} onChange={e=>setForm({...form,details:e.target.value})} placeholder="The occasion, guest count, ideas and the feeling you have in mind..." /></label>
             <button className="expo-button expo-button-dark expo-submit" type="submit">Prepare my enquiry</button>
-            <p className="expo-form-disclaimer">Preview form only — submissions are not delivered until a contact endpoint is connected.</p>
+            <p className="expo-form-disclaimer">This enquiry preview does not reserve a date. Contact Exponair on WhatsApp to confirm availability and booking details.</p><a className="expo-whatsapp-form" href={whatsappUrl} target="_blank" rel="noreferrer">Continue on WhatsApp · +234 802 338 7671</a>
           </>}
         </form>
       </section>
 
       <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20make%20an%20enquiry." target="_blank" rel="noreferrer" aria-label="Chat with Exponair on WhatsApp"><span className="expo-whatsapp-mark">W</span><span>Enquire on WhatsApp</span></a>
+      <a className="expo-whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark">W</span> Chat on WhatsApp · +234 802 338 7671</a>
       <footer className="expo-footer">
         <div className="expo-footer-main"><a className="expo-brand" href="#top"><span className="expo-monogram">E<span>.</span></span><span className="expo-brand-text"><strong>EXPONAIR</strong><small>EVENTS MANAGEMENT LTD</small></span></a><p>Thoughtful planning.<br />Remarkable experiences.</p><a className="expo-back-top" href="#top">BACK TO TOP</a></div>
         <div className="expo-footer-bottom"><span>WhatsApp: +234 802 338 7671</span><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LTD</span><span>MADE FOR MOMENTS THAT MATTER</span><span>EVENTS · EXPERIENCES · CELEBRATIONS</span></div>
