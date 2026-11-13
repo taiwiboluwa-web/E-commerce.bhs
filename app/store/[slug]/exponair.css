@@ -6,3 +6,28 @@
 
 .expo-whatsapp-float{position:fixed;right:24px;bottom:24px;z-index:30;display:flex;align-items:center;gap:10px;padding:12px 17px;background:#245b43;color:#fff!important;border-radius:3px;box-shadow:0 8px 28px #17140f35;font-size:10px;letter-spacing:.3px;transition:transform .2s,background .2s}.expo-whatsapp-float:hover{background:#194a35;transform:translateY(-2px)}.expo-whatsapp-mark{width:23px;height:23px;border:1px solid #ffffffa6;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:10px}.expo-footer-bottom{flex-wrap:wrap}
 @media(max-width:680px){.expo-whatsapp-float{right:14px;bottom:14px;padding:11px 13px;font-size:9px}.expo-circle-link{min-height:40px;padding:0 13px}}
+
+
+/* Exponair booking calendar and WhatsApp contact */
+.expo-calendar{padding:22px 22px 18px;margin:0 0 25px;background:#f1eee7;border:1px solid var(--expo-line)}
+.expo-calendar-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.expo-calendar-head>div:first-child span{display:block;font-size:8px;letter-spacing:1.4px;color:var(--expo-muted);margin-bottom:7px}
+.expo-calendar-head strong{font:500 21px 'Playfair Display'}
+.expo-calendar-controls{display:flex;gap:7px}
+.expo-calendar-controls button{border:1px solid var(--expo-line);background:transparent;padding:8px 10px;color:var(--expo-ink);font:10px 'DM Sans';cursor:pointer}
+.expo-calendar-controls button:disabled{opacity:.35;cursor:not-allowed}
+.expo-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center}
+.expo-calendar-weekday{font-size:8px;letter-spacing:.5px;color:#8b857b;padding:8px 0}
+.expo-calendar-grid button{height:38px;border:1px solid transparent;background:#e7e2d8;color:var(--expo-ink);font:11px 'DM Sans';cursor:pointer;transition:background .18s,border .18s,color .18s}
+.expo-calendar-grid button:not(:disabled):hover{border-color:var(--expo-accent)}
+.expo-calendar-grid button.selected{background:var(--expo-ink);color:#fff;border-color:var(--expo-ink)}
+.expo-calendar-grid button.past{background:transparent;color:#c1bbb0;cursor:not-allowed}
+.expo-calendar-note{font-size:9px;line-height:1.7;color:#817a70;margin:15px 0 0}
+.expo-calendar-selected{font-size:10px;color:var(--expo-muted);margin:9px 0 0}
+.expo-calendar-selected strong{color:var(--expo-ink)}
+.expo-whatsapp-form{display:flex;justify-content:center;align-items:center;min-height:48px;margin-top:12px;padding:10px 14px;background:#245b43;color:#fff!important;text-align:center;font-size:10px;letter-spacing:.2px}
+.expo-whatsapp-form:hover{background:#194a35}
+.expo-whatsapp-float{position:fixed;right:24px;bottom:24px;z-index:30;display:flex;align-items:center;gap:10px;padding:12px 17px;background:#245b43;color:#fff!important;border-radius:3px;box-shadow:0 8px 28px #17140f35;font-size:10px;letter-spacing:.3px}
+.expo-whatsapp-mark{width:23px;height:23px;border:1px solid #ffffffa6;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:10px}
+.expo-faq-item button i{font:500 20px 'DM Sans';font-style:normal;color:var(--expo-accent)}
+@media(max-width:680px){.expo-calendar{padding:17px 13px}.expo-calendar-grid{gap:3px}.expo-calendar-grid button{height:35px}.expo-calendar-head strong{font-size:18px}.expo-calendar-controls button{padding:7px 8px}.expo-whatsapp-float{right:14px;bottom:14px;padding:11px 13px;font-size:9px}}
