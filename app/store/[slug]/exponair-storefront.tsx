@@ -60,13 +60,11 @@ export default function ExponairStorefront() {
   const submitReview=async(e:React.FormEvent<HTMLFormElement>)=>{e.preventDefault();setReviewBusy(true);setReviewStatus("");try{const response=await fetch("/api/exponair-reviews",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reviewForm)});const data=await response.json();if(!response.ok)throw new Error(data.error||"Unable to submit your review.");setReviewStatus(data.message||"Thank you. Your review has been received for approval.");setReviewForm({name:"",eventType:"Kiddies' birthday party",rating:5,review:""});}catch(error){setReviewStatus(error instanceof Error?error.message:"Unable to submit your review. Please try again.");}finally{setReviewBusy(false);}};
 
   useEffect(()=>{
-    const key="exponair-brand-reveal-seen";
-    if(!window.sessionStorage.getItem(key)){
-      setShowBrandReveal(true);
-      window.sessionStorage.setItem(key,"1");
-      const timer=window.setTimeout(()=>setShowBrandReveal(false),4200);
-      return ()=>window.clearTimeout(timer);
-    }
+    const dismissedKey="exponair-brand-reveal-dismissed-v2";
+    if(window.sessionStorage.getItem(dismissedKey)) return;
+    setShowBrandReveal(true);
+    const timer=window.setTimeout(()=>setShowBrandReveal(false),4200);
+    return ()=>window.clearTimeout(timer);
   },[]);
   const [activeFaq,setActiveFaq]=useState<number|null>(0);
   const [month,setMonth]=useState(()=>new Date(new Date().getFullYear(),new Date().getMonth(),1));
@@ -99,7 +97,7 @@ export default function ExponairStorefront() {
           <div className="expo-reveal-subtitle">EVENTS MANAGEMENT LTD</div>
           <div className="expo-reveal-tagline">Passionately bringing your events alive</div>
         </div>
-        <button type="button" className="expo-reveal-skip" onClick={()=>setShowBrandReveal(false)}>Skip intro</button>
+        <button type="button" className="expo-reveal-skip" onClick={()=>{window.sessionStorage.setItem("exponair-brand-reveal-dismissed-v2","1");setShowBrandReveal(false);}}>Skip intro</button>
       </div>}
       <div className="expo-grain" aria-hidden="true"/>
       <div className="expo-announcement">LAGOS, NIGERIA <span>·</span> THOUGHTFULLY PLANNED. BEAUTIFULLY CELEBRATED.</div>
