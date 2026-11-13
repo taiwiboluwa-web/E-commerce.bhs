@@ -83,6 +83,16 @@ export default function ExponairStorefront() {
   const nav=[["Our story","#about"],["Kiddies' parties","#kiddies"],["Celebrations","#adult"],["Weddings","#weddings"],["Corporate","#corporate"],["Rentals","#rentals"],["Packages","#packages"],["Journal","#journal"]];
   return (
     <main className="exponair">
+      {showBrandReveal&&<div className="expo-brand-reveal" role="status" aria-label="Exponair Events logo animation">
+        <div className="expo-reveal-lockup">
+          <ExponairFlowerMark className="expo-reveal-flower"/>
+          <div className="expo-reveal-word">Exponair</div>
+          <div className="expo-reveal-rule"/>
+          <div className="expo-reveal-subtitle">EVENTS MANAGEMENT LTD</div>
+          <div className="expo-reveal-tagline">Passionately bringing your events alive</div>
+        </div>
+        <button type="button" className="expo-reveal-skip" onClick={()=>setShowBrandReveal(false)}>Skip intro</button>
+      </div>}
       <div className="expo-grain" aria-hidden="true"/>
       <div className="expo-announcement">LAGOS, NIGERIA <span>·</span> THOUGHTFULLY PLANNED. BEAUTIFULLY CELEBRATED.</div>
       <header className="expo-header" id="top">
