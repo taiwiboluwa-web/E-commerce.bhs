@@ -85,7 +85,7 @@ export default function ExponairStorefront() {
         const value=node.textContent||"";
         if(!value) return;
         const fragment=document.createDocumentFragment();
-        const pieces=value.match(/\\s+|[^\\s]+/gu)||[];
+        const pieces=value.match(/\s+|[^\s]+/gu)||[];
         for(const piece of pieces){
           if(/^\\s+$/u.test(piece)){
             fragment.appendChild(document.createTextNode(piece));
@@ -112,14 +112,10 @@ export default function ExponairStorefront() {
 
     const observer=new IntersectionObserver(entries=>{
       entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
         const el=entry.target as HTMLElement;
-        if(entry.isIntersecting){
-          el.classList.remove("expo-type-playing");
-          void el.offsetWidth;
-          el.classList.add("expo-type-playing");
-        }else{
-          el.classList.remove("expo-type-playing");
-        }
+        el.classList.add("expo-type-playing");
+        observer.unobserve(el);
       });
     },{threshold:0.12,rootMargin:"0px 0px -5% 0px"});
     targets.forEach(el=>{if(el.dataset.expoTyped==="true") observer.observe(el);});
