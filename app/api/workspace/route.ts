@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
   try {
     const sql = db();
     await sql.query("UPDATE public.tenants SET status='suspended'::public.tenant_status,access_suspended_at=COALESCE(access_suspended_at,now()),updated_at=now() WHERE status='active'::public.tenant_status AND access_expires_at IS NOT NULL AND access_expires_at <= now()");
-    const [tenants, products, orders, customers, subscriptions, payments, features, settings, activity, counts] = await Promise.all([
+    const [tenants, products, orders, customers, subscriptions, payments, features, settings, activity, counts, admins] = await Promise.all([
       sql.query("SELECT t.id,t.name,t.slug,t.category,t.status,t.storefront_url,t.created_at,t.access_duration_days,t.access_expires_at,t.access_suspended_at,(SELECT count(*)::int FROM public.products p WHERE p.tenant_id=t.id AND p.deleted_at IS NULL) AS product_count,(SELECT count(*)::int FROM public.orders o WHERE o.tenant_id=t.id AND o.deleted_at IS NULL) AS order_count,s.plan_code,s.status AS subscription_status,COALESCE(sa.capacity_bytes,2147483648)::bigint AS storage_capacity_bytes,COALESCE(sa.used_bytes,0)::bigint AS storage_used_bytes FROM public.tenants t LEFT JOIN public.subscriptions s ON s.tenant_id=t.id LEFT JOIN public.tenant_storage_accounts sa ON sa.tenant_id=t.id WHERE t.deleted_at IS NULL ORDER BY t.created_at DESC"),
       sql.query("SELECT p.id,p.tenant_id,t.name AS tenant_name,p.name,p.slug,p.description,p.price_minor,p.currency,p.sku,p.stock_quantity,p.is_published,p.created_at FROM public.products p JOIN public.tenants t ON t.id=p.tenant_id WHERE p.deleted_at IS NULL ORDER BY p.created_at DESC LIMIT 500"),
       sql.query("SELECT o.id,o.tenant_id,t.name AS tenant_name,o.order_number,o.customer_name,o.customer_email,o.customer_phone,o.status,o.total_minor,o.currency,o.created_at,(SELECT COALESCE(json_agg(json_build_object('name',oi.product_name,'quantity',oi.quantity,'unit_price_minor',oi.unit_price_minor)),'[]'::json) FROM public.order_items oi WHERE oi.order_id=o.id) AS items FROM public.orders o JOIN public.tenants t ON t.id=o.tenant_id WHERE o.deleted_at IS NULL ORDER BY o.created_at DESC LIMIT 500"),
@@ -62,9 +62,10 @@ export async function GET(req: NextRequest) {
       sql.query("SELECT f.id,f.tenant_id,t.name AS tenant_name,f.feature_key,f.label,f.enabled,f.updated_at FROM public.platform_feature_controls f LEFT JOIN public.tenants t ON t.id=f.tenant_id ORDER BY f.tenant_id NULLS FIRST,f.label"),
       sql.query("SELECT setting_key,setting_value,updated_at FROM public.platform_settings ORDER BY setting_key"),
       sql.query("SELECT id,tenant_id,action,entity_type,entity_id,metadata,created_at FROM public.audit_events ORDER BY created_at DESC LIMIT 30"),
-      sql.query("SELECT (SELECT count(*)::int FROM public.tenants WHERE deleted_at IS NULL) AS storefronts,(SELECT count(*)::int FROM public.products WHERE deleted_at IS NULL) AS products,(SELECT count(*)::int FROM public.orders WHERE deleted_at IS NULL) AS orders,(SELECT count(DISTINCT lower(customer_email))::int FROM public.orders WHERE deleted_at IS NULL AND customer_email IS NOT NULL) AS customers,(SELECT count(*)::int FROM public.subscriptions) AS subscriptions,(SELECT count(*)::int FROM public.payment_transactions) AS payments,(SELECT count(*)::int FROM public.client_applications) AS applications")
+      sql.query("SELECT (SELECT count(*)::int FROM public.tenants WHERE deleted_at IS NULL) AS storefronts,(SELECT count(*)::int FROM public.products WHERE deleted_at IS NULL) AS products,(SELECT count(*)::int FROM public.orders WHERE deleted_at IS NULL) AS orders,(SELECT count(DISTINCT lower(customer_email))::int FROM public.orders WHERE deleted_at IS NULL AND customer_email IS NOT NULL) AS customers,(SELECT count(*)::int FROM public.subscriptions) AS subscriptions,(SELECT count(*)::int FROM public.payment_transactions) AS payments,(SELECT count(*)::int FROM public.client_applications) AS applications"),
+      sql.query("SELECT u.id,u.tenant_id,t.name AS tenant_name,u.email,u.role,u.is_active,u.last_login_at,u.created_at FROM public.users u LEFT JOIN public.tenants t ON t.id=u.tenant_id WHERE u.tenant_id IS NOT NULL ORDER BY u.created_at DESC")
     ]);
-    return NextResponse.json({ tenants, products, orders, customers, subscriptions, payments, features, settings, activity, counts: counts[0] || {} });
+    return NextResponse.json({ tenants, products, orders, customers, subscriptions, payments, features, settings, activity, admins, counts: counts[0] || {} });
   } catch (error) {
     console.error("Master workspace read failed", error);
     return fail("The workspace could not read its database. Check DATABASE_URL and the latest migration.", 503);
@@ -79,7 +80,14 @@ export async function PATCH(req: NextRequest) {
     const sql = db();
     let result: any[] = [];
     const id = String(body.id || "");
-    if (body.action === "tenant_access") {
+    if (body.action === "tenant_storage") {
+      if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
+      const capacityGb = Number(body.capacity_gb);
+      if (!Number.isFinite(capacityGb) || capacityGb < 0.1 || capacityGb > 10240) return fail("Storage capacity must be between 0.1 GB and 10,240 GB.");
+      const capacityBytes = Math.round(capacityGb * 1024 * 1024 * 1024);
+      result = await sql.query("UPDATE public.tenant_storage_accounts SET capacity_bytes=$1,updated_at=now() WHERE tenant_id=$2::uuid RETURNING tenant_id,capacity_bytes,used_bytes", [capacityBytes,id]);
+      if (!result.length) result = await sql.query("INSERT INTO public.tenant_storage_accounts(tenant_id,capacity_bytes,used_bytes) SELECT id,$1,0 FROM public.tenants WHERE id=$2::uuid AND deleted_at IS NULL RETURNING tenant_id,capacity_bytes,used_bytes", [capacityBytes,id]);
+    } else if (body.action === "tenant_access") {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       if (body.mode === "set_duration") {
         const days = Number(body.days);
