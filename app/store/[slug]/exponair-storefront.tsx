@@ -60,6 +60,25 @@ export default function ExponairStorefront() {
   const submitReview=async(e:React.FormEvent<HTMLFormElement>)=>{e.preventDefault();setReviewBusy(true);setReviewStatus("");try{const response=await fetch("/api/exponair-reviews",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(reviewForm)});const data=await response.json();if(!response.ok)throw new Error(data.error||"Unable to submit your review.");setReviewStatus(data.message||"Thank you. Your review has been received for approval.");setReviewForm({name:"",eventType:"Kiddies' birthday party",rating:5,review:""});}catch(error){setReviewStatus(error instanceof Error?error.message:"Unable to submit your review. Please try again.");}finally{setReviewBusy(false);}};
 
   useEffect(()=>{
+    const root=document.querySelector(".exponair");
+    if(!root || !("IntersectionObserver" in window)) return;
+    const targets=root.querySelectorAll("section h2, section h3, section p:not(.expo-review-privacy):not(.expo-review-status)");
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        const el=entry.target as HTMLElement;
+        if(entry.isIntersecting){
+          el.classList.remove("expo-type-out");
+          el.classList.add("expo-type-in");
+        }else{
+          el.classList.remove("expo-type-in");
+          el.classList.add("expo-type-out");
+        }
+      });
+    },{threshold:0.18,rootMargin:"0px 0px -7% 0px"});
+    targets.forEach(el=>{el.classList.add("expo-type-target");observer.observe(el);});
+    return ()=>observer.disconnect();
+  },[]);
+  useEffect(()=>{
     const dismissedKey="exponair-brand-reveal-dismissed-v2";
     if(window.sessionStorage.getItem(dismissedKey)) return;
     setShowBrandReveal(true);
