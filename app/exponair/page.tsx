@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Exponair Events | Passionately Bringing Events to Life",
     description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
     type: "website",
-    locale: "en_NG",\n    images: [{ url: "/exponair-logo.png", alt: "Exponair Events Management Limited logo" }],
+    locale: "en_NG",\n    images: [{ url: "/exponair-logo.svg", alt: "Exponair Events Management Limited logo" }],
   },
 };
 
