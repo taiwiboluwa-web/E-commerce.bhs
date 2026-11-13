@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (slug === "atelier-nova") redirect("/store/exponair-events-management");
   const store = getDemoStorefront(slug);
   if (slug === "exponair-events-management") {
-    return { title: "Exponair Events Management Ltd | Plan Remarkable Events", description: "Thoughtfully planned events, corporate experiences, weddings and celebrations by Exponair Events Management Ltd." };
+    return { title: "Exponair Events Management Ltd | Kiddies Parties & Celebrations", description: "Creative kiddies party planning, decorations, rentals and memorable children’s celebrations for ages 1–10 in Lagos." };
   }
   return { title: store ? `${store.name} — Storefront Demo | BLUEHAVEN STUDIOS` : "Storefront Demo | BLUEHAVEN STUDIOS", description: store?.tagline ?? "BlueHaven Commerce storefront demonstration." };
 }
