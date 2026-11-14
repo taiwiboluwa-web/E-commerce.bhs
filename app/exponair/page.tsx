@@ -5,6 +5,7 @@ import { neon } from "@neondatabase/serverless";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://e-commerce-bhs.vercel.app"),
   title: "Exponair Events Management Limited | Event Planners, Kiddies' Parties & Styling in Lagos",
   description: "Passionately bringing events to life. Exponair plans kiddies' parties, adult celebrations, weddings, corporate events, event styling and rentals across Lagos, Nigeria.",
   keywords: [
@@ -24,7 +25,13 @@ export const metadata: Metadata = {
     description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
     type: "website",
     locale: "en_NG",
-    images: [{ url: "/exponair-logo.svg", alt: "Exponair Events Management Limited logo" }],
+    images: [{ url: "/exponair-logo.svg", width: 900, height: 420, alt: "Exponair Events Management Limited brand logo" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Exponair Events | Passionately Bringing Events to Life",
+    description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
+    images: [{ url: "/exponair-logo.svg", alt: "Exponair Events Management Limited brand logo" }],
   },
 };
 
