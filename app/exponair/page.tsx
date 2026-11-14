@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ExponairHomePage from "../store/[slug]/exponair-homepage";
+import ExponairStorefront from "../store/[slug]/exponair-storefront";
 import { neon } from "@neondatabase/serverless";
 
 export const dynamic = "force-dynamic";
@@ -50,5 +50,5 @@ export default async function ExponairPage() {
       }
     }
   }
-  return <ExponairHomePage />;
+  return <ExponairStorefront />;
 }
