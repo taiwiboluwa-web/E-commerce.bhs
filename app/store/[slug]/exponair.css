@@ -727,3 +727,32 @@
 .expo-service-picker>small{display:block;margin-top:12px;color:#827b70;font:500 9px 'Manrope',sans-serif}
 @media(max-width:680px){.expo-service-options{grid-template-columns:1fr 1fr;gap:7px}.expo-form .expo-service-option{padding:9px 8px;font-size:9px;gap:7px}}
 @media(max-width:390px){.expo-service-options{grid-template-columns:1fr}}
+
+/* Compact vertical rhythm for focused Exponair pages. */
+.exponair[data-page="services"] .expo-services,
+.exponair[data-page="packages"] .expo-packages,
+.exponair[data-page="gallery"] .expo-gallery,
+.exponair[data-page="faqs"] .expo-faq,
+.exponair[data-page="booking"] .expo-booking,
+.exponair[data-page="terms"] .expo-terms,
+.exponair[data-page="reviews"] .expo-reviews{padding-top:54px;padding-bottom:62px}
+.exponair[data-page="services"] .expo-section-head,
+.exponair[data-page="packages"] .expo-section-head,
+.exponair[data-page="gallery"] .expo-gallery-head{margin-bottom:30px}
+.exponair[data-page="services"] .expo-service-feature-grid,
+.exponair[data-page="packages"] .expo-package-grid{gap:18px}
+.exponair[data-page="gallery"] .expo-quote{padding-top:52px;padding-bottom:52px}
+.exponair[data-page="faqs"] .expo-faq{gap:7%}
+.exponair[data-page="booking"] .expo-booking{gap:6%}
+.exponair[data-page="terms"] .expo-terms-grid{gap:18px}
+.exponair[data-page="reviews"] .expo-reviews-layout{gap:22px}
+@media(max-width:680px){
+  .exponair[data-page="services"] .expo-services,
+  .exponair[data-page="packages"] .expo-packages,
+  .exponair[data-page="gallery"] .expo-gallery,
+  .exponair[data-page="faqs"] .expo-faq,
+  .exponair[data-page="booking"] .expo-booking,
+  .exponair[data-page="terms"] .expo-terms,
+  .exponair[data-page="reviews"] .expo-reviews{padding-top:34px;padding-bottom:42px}
+  .exponair[data-page="gallery"] .expo-quote{padding-top:38px;padding-bottom:38px}
+}
