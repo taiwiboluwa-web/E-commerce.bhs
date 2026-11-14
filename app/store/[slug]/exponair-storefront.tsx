@@ -31,7 +31,7 @@ const weekdays = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const formatDate = (d: Date) => d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
 
-function ExponairFlowerMark({ className = "" }: { className?: string }) {
+export function ExponairFlowerMark({ className = "" }: { className?: string }) {
   return <svg className={className} viewBox="0 0 120 128" role="img" aria-label="Exponair flower emblem">
     <path className="expo-petal expo-petal-one" d="M61 66 C31 37 40 12 58 3 C79 26 77 47 61 66Z" fill="#f4c400"/>
     <path className="expo-petal expo-petal-two" d="M64 66 C73 35 91 23 116 23 C108 48 88 62 64 66Z" fill="#f4c400"/>
@@ -42,7 +42,7 @@ function ExponairFlowerMark({ className = "" }: { className?: string }) {
   </svg>;
 }
 
-function ExponairWordmark({ compact = false }: { compact?: boolean }) {
+export function ExponairWordmark({ compact = false }: { compact?: boolean }) {
   return <span className={compact ? "expo-wordmark expo-wordmark-compact" : "expo-wordmark"}>
     <ExponairFlowerMark className="expo-flower-mark"/>
     <span className="expo-wordmark-copy"><strong>Exponair</strong><small>EVENTS MANAGEMENT LTD</small><em>Passionately bringing your events alive</em></span>
