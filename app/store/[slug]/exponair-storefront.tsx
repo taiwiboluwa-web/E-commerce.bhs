@@ -26,6 +26,7 @@ const faqs = [
   ["Can I change my event date or theme?", "Please communicate changes as early as possible. Changes are subject to availability and may affect the quotation or attract additional charges."],
   ["Do you offer rentals without full planning?", "Yes. Tell us which rental items or styling support you need and the team will confirm availability and a tailored quote."],
 ];
+const bookingServices = ["Event planning","Popcorn station","Candyfloss station","Ice cream station","Kiddies' treats"];
 const weekdays = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const formatDate = (d: Date) => d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
@@ -72,6 +73,7 @@ export default function ExponairStorefront() {
   const [month,setMonth]=useState(()=>new Date(new Date().getFullYear(),new Date().getMonth(),1));
   const [selectedDate,setSelectedDate]=useState("");
   const [form,setForm]=useState({name:"",phone:"",email:"",event:"Kiddies birthday party",guests:"",location:"",budget:"",package:"Big Smiles",details:""});
+  const [selectedServices,setSelectedServices]=useState<string[]>(bookingServices);
   const closeMenu=()=>setMenuOpen(false);
   const today=new Date();today.setHours(0,0,0,0);
   const calendarCells=useMemo(()=>{const first=new Date(month.getFullYear(),month.getMonth(),1).getDay();const count=new Date(month.getFullYear(),month.getMonth()+1,0).getDate();return [...Array(first).fill(null),...Array.from({length:count},(_,i)=>i+1)];},[month]);
@@ -80,7 +82,7 @@ export default function ExponairStorefront() {
     const message=[
       "Hello Exponair Events Management Limited, I'd like to request an event quotation.",
       "Name: "+form.name,"Phone: "+form.phone,"Email: "+(form.email||"Not provided"),
-      "Event type: "+form.event,"Preferred date: "+(chosenDate||"To be discussed"),
+      "Event type: "+form.event,"Services requested: "+(selectedServices.length?selectedServices.join(", "):"Not selected"),"Preferred date: "+(chosenDate||"To be discussed"),
       "Package: "+form.package,"Expected guests: "+(form.guests||"To be discussed"),
       "Venue / area: "+(form.location||"To be discussed"),"Budget: "+(form.budget||"Please advise"),
       "Event brief: "+(form.details||"Please contact me to discuss."),
@@ -155,6 +157,7 @@ export default function ExponairStorefront() {
             <label>Your full name *<input required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Name of contact person"/></label>
             <div className="expo-form-row"><label>Phone / WhatsApp *<input required type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="Your phone number"/></label><label>Email address<input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@example.com"/></label></div>
             <label>What are we celebrating? *<select required value={form.event} onChange={e=>setForm({...form,event:e.target.value})}><option>Kiddies birthday party</option><option>Children's themed party</option><option>Adult birthday or anniversary</option><option>Wedding / engagement / proposal</option><option>Corporate or school event</option><option>Event rentals and styling</option><option>Other special occasion</option></select></label>
+            <fieldset className="expo-service-picker"><legend>What would you like Exponair to provide?</legend><p>Select all the services you'd like included in your enquiry. You can change these selections at any time.</p><div className="expo-service-options">{bookingServices.map(service=><label className="expo-service-option" key={service}><input type="checkbox" checked={selectedServices.includes(service)} onChange={e=>setSelectedServices(current=>e.target.checked?[...current,service]:current.filter(item=>item!==service))}/><span className="expo-service-check" aria-hidden="true">{selectedServices.includes(service)?"✓":""}</span><span>{service}</span></label>)}</div><small>{selectedServices.length} of {bookingServices.length} services selected</small></fieldset>
             <div className="expo-form-row"><label>Package of interest<select value={form.package} onChange={e=>setForm({...form,package:e.target.value})}>{packages.map(p=><option key={p.name}>{p.name}</option>)}<option>Custom event brief</option></select></label><label>Estimated guests<input value={form.guests} onChange={e=>setForm({...form,guests:e.target.value})} placeholder="e.g. 40"/></label></div>
             <div className="expo-form-row"><label>Venue / Lagos area<input value={form.location} onChange={e=>setForm({...form,location:e.target.value})} placeholder="Venue or neighbourhood"/></label><label>Budget range<input value={form.budget} onChange={e=>setForm({...form,budget:e.target.value})} placeholder="Your estimated budget"/></label></div>
             <label>Tell us about the event<textarea rows={4} value={form.details} onChange={e=>setForm({...form,details:e.target.value})} placeholder="Theme, age group, event style, rentals, entertainment, ideas and anything else we should know..."/></label>
