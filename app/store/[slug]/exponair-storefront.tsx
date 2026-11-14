@@ -49,7 +49,7 @@ export function ExponairWordmark({ compact = false }: { compact?: boolean }) {
   </span>;
 }
 
-export default function ExponairStorefront() {
+export default function ExponairStorefront({ page = "home" }: { page?: "home" | "services" | "packages" | "gallery" | "faqs" | "booking" | "terms" | "reviews" }) {
   const [menuOpen,setMenuOpen]=useState(false);
   const [showBrandReveal,setShowBrandReveal]=useState(false);
   const [reviews,setReviews]=useState<Array<{id:string;customer_name:string;event_type:string;rating:number;review_text:string;created_at:string}>>([]);
@@ -90,7 +90,7 @@ export default function ExponairStorefront() {
     ].join("\n");
     window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
   };
-  const nav=[["Our story","/exponair/our-story"],["Kiddies' parties","/exponair/kiddies-parties"],["Celebrations","/exponair/celebrations"],["Weddings","/exponair/weddings"],["Corporate","/exponair/corporate"],["Rentals","/exponair/rentals"],["Packages","/exponair/packages"],["Reviews","/exponair/reviews"],["Journal","/exponair/journal"]];
+  const nav=[["Home","/exponair"],["Services","/exponair/services"],["Packages","/exponair/packages"],["Gallery","/exponair/gallery"],["FAQs","/exponair/faqs"],["Reviews","/exponair/reviews"]];
   return (
     <main className="exponair">
       {showBrandReveal&&<div className="expo-brand-reveal" role="status" aria-label="Exponair Events logo animation">
@@ -106,25 +106,26 @@ export default function ExponairStorefront() {
       <div className="expo-grain" aria-hidden="true"/>
       <div className="expo-announcement">LAGOS, NIGERIA <span>·</span> THOUGHTFULLY PLANNED. BEAUTIFULLY CELEBRATED.</div>
       <header className="expo-header" id="top">
-        <a className="expo-brand expo-brand-logo" href="#top" aria-label="Exponair home"><ExponairWordmark compact/></a>
+        <a className="expo-brand expo-brand-logo" href="/exponair" aria-label="Exponair home"><ExponairWordmark compact/></a>
         <nav className={menuOpen?"expo-nav is-open":"expo-nav"} aria-label="Main navigation">{nav.map(([label,href])=><a key={href} href={href} onClick={closeMenu}>{label}</a>)}</nav>
-        <a className="expo-header-cta" href="#booking">Plan your event </a>
+        <a className="expo-header-cta" href="/exponair/booking">Plan your event </a>
         <button className="expo-menu-toggle" onClick={()=>setMenuOpen(!menuOpen)} aria-label={menuOpen?"Close menu":"Open menu"}>{menuOpen?<X/>:<Menu/>}</button>
       </header>
 
+      {page === "home" && <>
       <section className="expo-hero">
         <div className="expo-hero-copy">
           <div className="expo-eyebrow"><span/> THE ART OF A GOOD CELEBRATION</div>
           <h1 className="expo-kinetic-title"><span className="expo-title-line">Passionately</span><span className="expo-title-line"><em>bringing events</em></span><span className="expo-title-line">to life<span className="expo-period">.</span></span></h1>
           <p className="expo-hero-lede">From wonder-filled kiddies' parties to elegant celebrations and corporate experiences, Exponair turns your ideas into moments worth remembering.</p>
-          <div className="expo-hero-actions"><a className="expo-button expo-button-dark" href="#booking">Let's plan something </a><a className="expo-text-link" href="#services">Discover our world</a></div>
+          <div className="expo-hero-actions"><a className="expo-button expo-button-dark" href="/exponair/booking">Let's plan something </a><a className="expo-text-link" href="/exponair/services">Discover our world</a></div>
           <div className="expo-hero-foot"><span>IMAGINE</span><i/><span>CREATE</span><i/><span>CELEBRATE</span></div>
         </div>
         <div className="expo-hero-visual"><div className="expo-image-frame"><div className="expo-hero-image" role="img" aria-label="An artfully styled celebration with colourful event décor"/><div className="expo-image-caption"><span>MADE FOR YOUR MOMENT</span><span>LAGOS · NIGERIA</span></div></div><div className="expo-stamp"><span>PLAY</span><b>·</b><span>STYLE</span><b>·</b><span>CELEBRATE</span></div><div className="expo-hero-number">E / 01</div><div className="expo-hero-orbit">THE DETAILS<br/>MAKE THE DAY</div></div>
         <div className="expo-scroll-note"><span/> SCROLL TO EXPLORE</div>
       </section>
 
-      <section className="expo-intro" id="about"><div className="expo-section-label"><span>01</span> THE EXPONAIR STORY</div><div className="expo-intro-content"><h2>Every occasion has a feeling.<br/><em>We make it unforgettable.</em></h2><div className="expo-intro-bottom"><p>Exponair Events Management Limited is a Lagos-based event planning, decoration, styling and rental company. We bring creative ideas, thoughtful details and professional coordination together to create celebrations that feel personal, beautiful and effortless for the people enjoying them.</p><a href="#booking" className="expo-circle-link">Meet your event partner </a></div></div></section>
+      <section className="expo-intro" id="about"><div className="expo-section-label"><span>01</span> THE EXPONAIR STORY</div><div className="expo-intro-content"><h2>Every occasion has a feeling.<br/><em>We make it unforgettable.</em></h2><div className="expo-intro-bottom"><p>Exponair Events Management Limited is a Lagos-based event planning, decoration, styling and rental company. We bring creative ideas, thoughtful details and professional coordination together to create celebrations that feel personal, beautiful and effortless for the people enjoying them.</p><a href="/exponair/booking" className="expo-circle-link">Meet your event partner </a></div></div></section>
 
       <section className="expo-experience" aria-label="The Exponair experience">
         <div className="expo-experience-heading"><span>THE EXPONAIR TOUCH</span><h2>More than a beautiful setup.<br/><em>A beautifully considered day.</em></h2></div>
@@ -136,21 +137,36 @@ export default function ExponairStorefront() {
         </div>
       </section>
 
+      </>}
+
+      {page === "services" && <>
       <section className="expo-services" id="services"><div className="expo-section-head"><div><div className="expo-section-label"><span>02</span> WHAT WE BRING TO LIFE</div><h2>One creative team.<br/><em>Many ways to celebrate.</em></h2></div><p>Whether you are planning a little one's big day or an occasion for the grown-ups, we shape the experience around your people, your purpose and your vision.</p></div>
-        <div className="expo-service-feature-grid">{serviceGroups.map((s)=><article className="expo-service-feature" id={s.id} key={s.id}><div className="expo-feature-image" style={{backgroundImage:"url('"+s.image+"')"}}/><div className="expo-feature-content"><span className="expo-feature-index">{s.number} / {s.eyebrow}</span><h3>{s.title}</h3><p>{s.text}</p><div className="expo-tags">{s.tags.map(t=><span key={t}>{t}</span>)}</div><a href="#booking">Enquire about this service </a></div></article>)}</div>
+        <div className="expo-service-feature-grid">{serviceGroups.map((s)=><article className="expo-service-feature" id={s.id} key={s.id}><div className="expo-feature-image" style={{backgroundImage:"url('"+s.image+"')"}}/><div className="expo-feature-content"><span className="expo-feature-index">{s.number} / {s.eyebrow}</span><h3>{s.title}</h3><p>{s.text}</p><div className="expo-tags">{s.tags.map(t=><span key={t}>{t}</span>)}</div><a href="/exponair/booking">Enquire about this service </a></div></article>)}</div>
       </section>
 
+      </>}
+
+      {page === "packages" && <>
       <section className="expo-packages" id="packages"><div className="expo-section-head"><div><div className="expo-section-label"><span>03</span> PACKAGES & PRICING</div><h2>Your vision.<br/><em>Your kind of magic.</em></h2></div><p>Our packages are a starting point, not a box. We tailor every quotation to the details of your event, your guest count and your budget.</p></div>
         <div className="expo-package-grid">{packages.map(p=><article className={p.featured?"expo-package featured":"expo-package"} key={p.name}><span className="expo-package-note">{p.note}</span><h3>{p.name}</h3><p>{p.detail}</p><div className="expo-package-price">Custom quotation</div><span className="expo-package-includes">A FEW THINGS INCLUDED</span><ul>{p.items.map(item=><li key={item}><Check size={14}/>{item}</li>)}</ul><a href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(["Hello Exponair! I would like to enquire about the *"+p.name+"* package.","","Package description: "+p.detail,"Included features:",...p.items.map(item=>"• "+item),"","Please share the availability and a tailored quotation for this package.","","I would also like to discuss the event date, venue, guest count and any additional services."].join("\n"))}`} target="_blank" rel="noreferrer">Enquire about this package </a></article>)}</div>
         <p className="expo-pricing-note">Pricing varies by event scope, location, guest count and selected services. No package price is assumed or published without Exponair's approval.</p>
       </section>
 
+      </>}
+
+      {page === "gallery" && <>
       <section className="expo-gallery" id="gallery"><div className="expo-gallery-head"><div><div className="expo-section-label"><span>04</span> THE ART OF THE EXPERIENCE</div><h2>Little details.<br/><em>Lasting impressions.</em></h2></div><p>Every colour, table setting and finishing touch should feel like it belongs to your story.</p></div><div className="expo-gallery-grid"><article className="expo-moment moment-tall"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>01 / KIDDIES' CELEBRATIONS</span><h3>A world of wonder<br/>for little guests.</h3></div></article><article className="expo-moment moment-wide"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1400&q=85')"}}/><div className="expo-moment-meta"><span>02 / SOCIAL OCCASIONS</span><h3>Make the moment<br/>feel like yours.</h3></div></article><article className="expo-moment moment-small"><div className="expo-moment-image" style={{backgroundImage:"url('https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=85')"}}/><div className="expo-moment-meta"><span>03 / CORPORATE EXPERIENCES</span><h3>Bring everyone<br/>together.</h3></div></article></div><p className="expo-gallery-note">Visual inspiration only. Exponair's own event photography will replace these images before the final public launch.</p></section>
 
       <section className="expo-quote"><span className="expo-quote-mark">“</span><blockquote className="expo-kinetic-quote"><span>Passionately bringing events</span><em>to life.</em></blockquote><span className="expo-quote-rule"/><span className="expo-quote-caption">THE EXPONAIR PROMISE</span></section>
 
-      <section className="expo-faq" id="journal"><div><div className="expo-section-label"><span>05</span> NOTES BEFORE THE BIG DAY</div><h2>Good to know.<br/><em>Good to plan.</em></h2><p>Helpful answers about our services, event enquiries and booking process.</p><div className="expo-journal-card"><span>THE EXPONAIR JOURNAL · COMING SOON</span><h3>Ideas, inspiration and little details for your next celebration.</h3><a href="#booking">Ask us for ideas </a></div></div><div className="expo-faq-list">{faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}><button onClick={()=>setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><i>{activeFaq===i?"−":"+"}</i></button>{activeFaq===i&&<p>{a}</p>}</article>)}</div></section>
+      </>}
 
+      {page === "faqs" && <>
+      <section className="expo-faq" id="journal"><div><div className="expo-section-label"><span>05</span> NOTES BEFORE THE BIG DAY</div><h2>Good to know.<br/><em>Good to plan.</em></h2><p>Helpful answers about our services, event enquiries and booking process.</p><div className="expo-journal-card"><span>THE EXPONAIR JOURNAL · COMING SOON</span><h3>Ideas, inspiration and little details for your next celebration.</h3><a href="/exponair/booking">Ask us for ideas </a></div></div><div className="expo-faq-list">{faqs.map(([q,a],i)=><article className={activeFaq===i?"expo-faq-item active":"expo-faq-item"} key={q}><button onClick={()=>setActiveFaq(activeFaq===i?null:i)}><span>0{i+1}</span><b>{q}</b><i>{activeFaq===i?"−":"+"}</i></button>{activeFaq===i&&<p>{a}</p>}</article>)}</div></section>
+
+      </>}
+
+      {page === "booking" && <>
       <section className="expo-booking" id="booking"><div className="expo-contact-copy"><div className="expo-section-label"><span>06</span> LET'S START WITH YOUR IDEA</div><h2>Tell us what<br/>you're <em>imagining.</em></h2><p>Share a few details about your event. We'll take it from there with a conversation, availability check and a tailored quotation.</p><div className="expo-contact-note"><span>WhatsApp: {phoneDisplay}</span><span>Mon – Sat · 9 am – 5 pm</span></div><a className="expo-email-link" href="mailto:helenojukotola@gmail.com">helenojukotola@gmail.com</a></div>
         <div className="expo-booking-panel"><div className="expo-calendar"><div className="expo-calendar-head"><div><span>YOUR PREFERRED EVENT DATE</span><strong>{monthNames[month.getMonth()]} {month.getFullYear()}</strong></div><div className="expo-calendar-controls"><button type="button" disabled={month.getFullYear()===today.getFullYear()&&month.getMonth()===today.getMonth()} onClick={()=>setMonth(new Date(month.getFullYear(),month.getMonth()-1,1))}>Prev</button><button type="button" onClick={()=>setMonth(new Date(month.getFullYear(),month.getMonth()+1,1))}>Next</button></div></div><div className="expo-calendar-grid">{weekdays.map(d=><span className="expo-calendar-weekday" key={d}>{d}</span>)}{calendarCells.map((day,i)=>{if(!day)return <span key={"blank-"+i}/>;const date=new Date(month.getFullYear(),month.getMonth(),day);const iso=[date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(day).padStart(2,"0")].join("-");const past=date<today;return <button type="button" key={iso} className={(selectedDate===iso?"selected ":"")+(past?"past":"")} disabled={past} onClick={()=>setSelectedDate(iso)} aria-pressed={selectedDate===iso}>{day}</button>;})}</div><p className="expo-calendar-note">Choose a preferred date. This is an enquiry only, not a live availability confirmation or a secured booking.</p><p className="expo-calendar-selected">{chosenDate?<>Preferred date: <strong>{chosenDate}</strong></>:"No date selected yet."}</p></div>
           <form className="expo-form" onSubmit={e=>{e.preventDefault();sendInquiry();}}><div className="expo-form-top"><span>YOUR EVENT BRIEF</span><span>* REQUIRED</span></div>
@@ -166,6 +182,9 @@ export default function ExponairStorefront() {
         </div>
       </section>
 
+      </>}
+
+      {page === "terms" && <>
       <section className="expo-terms" id="terms"><div className="expo-section-label"><span>07</span> BOOKING & PAYMENT POLICY</div><div className="expo-terms-head"><h2>Clear terms.<br/><em>Confident planning.</em></h2><p>Please review the booking terms before confirming an event with Exponair Events Management Limited.</p></div><div className="expo-terms-grid">
         <article><span>01 / SECURING YOUR DATE</span><h3>70% booking deposit</h3><p>A deposit of 70% of the total agreed quotation is required to secure a booking. Bookings remain unconfirmed until availability has been checked and the deposit has been received.</p></article>
         <article><span>02 / FINAL BALANCE</span><h3>30% before event day</h3><p>The outstanding 30% balance must be paid in full at least 24 hours before the scheduled event. Exponair may withhold service delivery if agreed payment terms have not been met.</p></article>
@@ -173,8 +192,11 @@ export default function ExponairStorefront() {
         <article><span>04 / CHANGES & AGREEMENT</span><h3>Keep us in the loop</h3><p>Changes to dates, venues, themes or agreed services should be communicated in advance. Changes affecting the original quotation may attract extra charges. Payment of the booking deposit constitutes acceptance of these terms.</p></article>
       </div></section>
 
-      <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="#booking">Start your enquiry </a></section>
+      </>}
 
+      <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="/exponair/booking">Start your enquiry </a></section>
+
+      {page === "reviews" && <>
       <section className="expo-reviews" id="reviews">
         <div className="expo-reviews-heading">
           <div><div className="expo-section-label"><span>08</span> KIND WORDS, REAL EXPERIENCES</div><h2>Celebrations worth<br/><em>talking about.</em></h2><p>Have you celebrated with Exponair? Tell us how it went. Your feedback helps other clients plan with confidence.</p></div>
@@ -197,10 +219,12 @@ export default function ExponairStorefront() {
         </div>
       </section>
 
+      </>}
+
       <footer className="expo-footer">
         <div className="expo-footer-grid">
           <div className="expo-footer-about">
-            <a className="expo-brand expo-brand-logo" href="#top" aria-label="Exponair home"><ExponairWordmark/></a>
+            <a className="expo-brand expo-brand-logo" href="/exponair" aria-label="Exponair home"><ExponairWordmark/></a>
             <p>Passionately bringing events to life. Thoughtful planning, creative styling and joyful experiences for celebrations big and small.</p>
             <div className="expo-footer-social">
               <a href="https://www.instagram.com/exponairevent/" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
@@ -211,7 +235,7 @@ export default function ExponairStorefront() {
           </div>
           <div className="expo-footer-column">
             <h3>QUICK LINKS</h3>
-            <a href="#top">Home</a><a href="#about">About</a><a href="#kiddies">Our services</a><a href="#kiddies">Kiddies' parties</a><a href="#adult">Adult celebrations</a><a href="#adult">Weddings & occasions</a><a href="#corporate">Corporate events</a><a href="#rentals">Event rentals</a><a href="#packages">Packages</a><a href="#journal">Journal</a><a href="#booking">Enquiries</a>
+            <a href="/exponair">Home</a><a href="/exponair">About</a><a href="/exponair/services">Our services</a><a href="/exponair/services">Kiddies' parties</a><a href="/exponair/services">Adult celebrations</a><a href="/exponair/services">Weddings & occasions</a><a href="/exponair/services">Corporate events</a><a href="/exponair/services">Event rentals</a><a href="/exponair/packages">Packages</a><a href="/exponair/faqs">Journal</a><a href="/exponair/booking">Enquiries</a>
           </div>
           <div className="expo-footer-column expo-footer-contact">
             <h3>CONTACT & LOCATION</h3>
@@ -219,7 +243,7 @@ export default function ExponairStorefront() {
             <a href="mailto:helenojukotola@gmail.com">helenojukotola@gmail.com</a>
             <a href="tel:+2348023387671">+234 802 338 7671</a>
             <p>Monday – Saturday<br/>9:00 am – 5:00 pm</p>
-            <a href="#terms">Booking terms & conditions</a>
+            <a href="/exponair/terms">Booking terms & conditions</a>
           </div>
         </div>
         <div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LIMITED · RC1517280. ALL RIGHTS RESERVED.</span><span>LAGOS, NIGERIA</span></div>
