@@ -18,20 +18,31 @@ export const metadata: Metadata = {
     "event rentals Lagos",
     "event styling and coordination Nigeria",
   ],
-  alternates: { canonical: "/exponair" },
+  alternates: { canonical: "https://e-commerce-bhs.vercel.app/exponair" },
   openGraph: {
     siteName: "Exponair Events Management Limited",
     title: "Exponair Events | Passionately Bringing Events to Life",
     description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
+    url: "https://e-commerce-bhs.vercel.app/exponair",
     type: "website",
     locale: "en_NG",
-    images: [{ url: "/exponair/opengraph-image", width: 1200, height: 630, alt: "Exponair Events Management Limited brand logo" }],
+    images: [{
+      url: "https://e-commerce-bhs.vercel.app/exponair/opengraph-image?v=20261114-2",
+      secureUrl: "https://e-commerce-bhs.vercel.app/exponair/opengraph-image?v=20261114-2",
+      width: 1200,
+      height: 630,
+      type: "image/png",
+      alt: "Exponair Events Management Limited logo and brand identity",
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Exponair Events | Passionately Bringing Events to Life",
     description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
-    images: [{ url: "/exponair/opengraph-image", alt: "Exponair Events Management Limited brand logo" }],
+    images: [{
+      url: "https://e-commerce-bhs.vercel.app/exponair/opengraph-image?v=20261114-2",
+      alt: "Exponair Events Management Limited logo and brand identity",
+    }],
   },
 };
 
