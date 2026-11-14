@@ -712,3 +712,18 @@
   overflow-wrap:anywhere;
   hyphens:auto;
 }
+
+/* Exponair multi-service booking enquiry */
+.expo-service-picker{border:0;border-top:1px solid rgba(36,34,31,.14);padding:22px 0 20px;margin:2px 0 18px;min-width:0}
+.expo-service-picker legend{padding:0;font:600 10px 'Manrope',sans-serif;color:var(--expo-ink);letter-spacing:.2px}
+.expo-service-picker>p{font:400 10px/1.7 'Manrope',sans-serif;color:#817a70;margin:8px 0 15px}
+.expo-service-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.expo-form .expo-service-option{position:relative;display:flex;align-items:center;gap:10px;min-height:44px;padding:9px 11px;margin:0;border:1px solid rgba(36,34,31,.14);border-radius:7px;background:rgba(255,255,255,.42);font:500 10px 'Manrope',sans-serif;color:#454139;cursor:pointer;transition:border-color .18s,background .18s}
+.expo-form .expo-service-option input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;margin:0}
+.expo-service-check{width:17px;height:17px;flex:0 0 17px;display:grid;place-items:center;border:1px solid #a49a8b;border-radius:4px;color:#fff;font:700 11px 'Manrope',sans-serif}
+.expo-form .expo-service-option:has(input:checked){border-color:#218454;background:#e9f3e9;color:#245c3e}
+.expo-form .expo-service-option:has(input:checked) .expo-service-check{background:#218454;border-color:#218454}
+.expo-form .expo-service-option:focus-within{outline:2px solid rgba(33,132,84,.22);outline-offset:2px}
+.expo-service-picker>small{display:block;margin-top:12px;color:#827b70;font:500 9px 'Manrope',sans-serif}
+@media(max-width:680px){.expo-service-options{grid-template-columns:1fr 1fr;gap:7px}.expo-form .expo-service-option{padding:9px 8px;font-size:9px;gap:7px}}
+@media(max-width:390px){.expo-service-options{grid-template-columns:1fr}}
