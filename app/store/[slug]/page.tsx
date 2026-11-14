@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { demoStorefronts, getDemoStorefront } from "@/lib/demo-storefronts";
-import ExponairStorefront from "./exponair-storefront";
+import ExponairHomePage from "./exponair-homepage";
 import "../../storefronts/demo-storefronts.css";
 import { neon } from "@neondatabase/serverless";
 
@@ -38,7 +38,7 @@ export default async function DemoStorePage({ params }: { params: Promise<{ slug
   }
   const store = getDemoStorefront(slug);
   if (!store) notFound();
-  if (slug === "exponair-events-management") return <ExponairStorefront />;
+  if (slug === "exponair-events-management") return <ExponairHomePage />;
 
   return <main className="demo-page" style={{"--shop-accent":store.accent} as React.CSSProperties}><div className="demo-inner">
     <header className="demo-top"><a className="demo-brand" href="/">BLUEHAVEN <span>STUDIOS</span></a><a href="/storefronts">All demo storefronts ↗</a></header>
