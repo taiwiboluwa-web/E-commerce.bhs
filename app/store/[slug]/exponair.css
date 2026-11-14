@@ -727,3 +727,53 @@
 .expo-service-picker>small{display:block;margin-top:12px;color:#827b70;font:500 9px 'Manrope',sans-serif}
 @media(max-width:680px){.expo-service-options{grid-template-columns:1fr 1fr;gap:7px}.expo-form .expo-service-option{padding:9px 8px;font-size:9px;gap:7px}}
 @media(max-width:390px){.expo-service-options{grid-template-columns:1fr}}
+
+
+/* Dedicated Exponair pages */
+.expo-subpage .expo-header{height:auto;min-height:88px;flex-wrap:wrap;padding:18px 6.5%;gap:14px}
+.expo-subpage-brand{display:flex;align-items:center;gap:12px}
+.expo-subpage-mark{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--expo-ink);font:500 30px 'Playfair Display',serif;color:var(--expo-accent)}
+.expo-subpage .expo-nav{order:3;width:100%;justify-content:center;flex-wrap:wrap;gap:12px 26px;padding:8px 0 2px}
+.expo-subpage .expo-nav a{font-size:10px;padding:5px 0;border-bottom:1px solid transparent}
+.expo-subpage .expo-nav a.active{color:var(--expo-accent);border-color:var(--expo-accent)}
+.expo-subpage-hero{padding:88px 10% 96px;display:grid;grid-template-columns:1fr .9fr;align-items:center;gap:8%;min-height:590px}
+.expo-subpage-copy h1{font:500 clamp(48px,6vw,78px)/1.08 'Playfair Display',serif;letter-spacing:-2px;margin:28px 0 22px}
+.expo-subpage-copy h1 em,.expo-subpage-details h2 em,.expo-journal-coming h2 em{font-weight:500;color:var(--expo-accent)}
+.expo-subpage-copy>p{font-size:13px;line-height:2;color:#6d685f;max-width:510px;margin:0 0 30px}
+.expo-subpage-copy .expo-button{gap:18px}
+.expo-subpage-image{min-height:440px;background-size:cover;background-position:center;position:relative}
+.expo-subpage-image:after{content:"";position:absolute;inset:12px;border:1px solid rgba(255,255,255,.6);pointer-events:none}
+.expo-subpage-details{padding:95px 13%;background:#e4dfd5;display:grid;grid-template-columns:.9fr 1.1fr;gap:9%;align-items:start}
+.expo-subpage-details h2{font:500 clamp(34px,4vw,54px)/1.2 'Playfair Display',serif;letter-spacing:-1px;margin:25px 0 0}
+.expo-subpage-points{border-top:1px solid var(--expo-line)}
+.expo-subpage-points>div{display:grid;grid-template-columns:42px 1fr 20px;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--expo-line)}
+.expo-subpage-points>div>span{font:italic 13px 'Playfair Display';color:var(--expo-accent)}
+.expo-subpage-points p{font-size:12px;line-height:1.7;color:#5f5a52;margin:0}
+.expo-subpage-points svg{color:var(--expo-accent)}
+.expo-subpage-packages{padding:80px 10%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.expo-subpage-packages article{padding:30px 26px;border:1px solid var(--expo-line);background:rgba(255,255,255,.22)}
+.expo-subpage-packages article:nth-child(2){background:#075b48;color:#f4f0e8}
+.expo-subpage-packages article>span,.expo-journal-coming>span{font-size:8px;letter-spacing:1.6px;color:var(--expo-accent)}
+.expo-subpage-packages article:nth-child(2)>span{color:#d5c3a5}
+.expo-subpage-packages h3{font:500 30px 'Playfair Display';margin:18px 0 12px}
+.expo-subpage-packages p{font-size:11px;line-height:1.8;opacity:.78}
+.expo-subpage-reviews{padding:85px 13%;max-width:1100px;margin:auto}
+.expo-subpage-reviews>article{padding:24px 0;border-bottom:1px solid var(--expo-line)}
+.expo-subpage-reviews>article>span{color:var(--expo-accent);letter-spacing:3px}
+.expo-subpage-reviews>article p{font:italic 22px/1.6 'Cormorant Garamond',serif;max-width:720px}
+.expo-subpage-reviews>article strong,.expo-subpage-reviews>article small{display:block;font-size:10px;margin-top:7px}
+.expo-subpage-reviews>article small{color:var(--expo-muted)}
+.expo-subpage-empty{font-size:13px;color:var(--expo-muted);padding:28px 0}
+.expo-subpage-reviews>.expo-text-link{display:inline-flex;margin-top:24px;gap:12px}
+.expo-journal-coming{padding:100px 20px;text-align:center;background:#e4dfd5}
+.expo-journal-coming h2{font:500 clamp(36px,5vw,58px)/1.2 'Playfair Display',serif;margin:24px 0}
+.expo-journal-coming p{font-size:12px;line-height:1.9;color:var(--expo-muted);max-width:480px;margin:0 auto 28px}
+.expo-journal-coming .expo-button{gap:14px}
+.expo-subpage-cta{padding:55px 10%;display:flex;justify-content:space-between;align-items:center;gap:24px;background:#272521;color:#eee9df}
+.expo-subpage-cta>div>span{font-size:8px;letter-spacing:1.7px;color:#c9a77f}
+.expo-subpage-cta h2{font:500 clamp(28px,3vw,40px) 'Playfair Display';margin:12px 0 0}
+.expo-subpage-cta>a{display:flex;align-items:center;gap:14px;border-bottom:1px solid #c9a77f;padding:0 0 9px;font-size:10px}
+.expo-subpage .expo-footer{padding:24px 7% 18px}
+.expo-subpage .expo-footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:900px){.expo-subpage-hero{padding:65px 7%;grid-template-columns:1fr 1fr;gap:5%}.expo-subpage-image{min-height:360px}.expo-subpage-details{padding:75px 7%;gap:5%}.expo-subpage .expo-nav{gap:10px 18px}}
+@media(max-width:640px){.expo-subpage .expo-header{padding:15px 5%;}.expo-subpage .expo-header-cta{font-size:9px}.expo-subpage .expo-nav{justify-content:flex-start;gap:7px 15px}.expo-subpage .expo-nav a{font-size:9px}.expo-subpage-hero{padding:50px 7% 62px;grid-template-columns:1fr;gap:30px}.expo-subpage-copy h1{font-size:clamp(42px,12vw,60px)}.expo-subpage-image{min-height:310px}.expo-subpage-details{padding:60px 7%;grid-template-columns:1fr;gap:30px}.expo-subpage-packages{padding:50px 7%;grid-template-columns:1fr}.expo-subpage-reviews{padding:60px 7%}.expo-subpage-cta{padding:42px 7%;align-items:flex-start;flex-direction:column}.expo-subpage .expo-footer-bottom{font-size:8px}}
