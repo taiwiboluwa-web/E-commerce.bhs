@@ -25,13 +25,13 @@ export const metadata: Metadata = {
     description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
     type: "website",
     locale: "en_NG",
-    images: [{ url: "/exponair-logo.svg", width: 900, height: 420, alt: "Exponair Events Management Limited brand logo" }],
+    images: [{ url: "/exponair/opengraph-image", width: 1200, height: 630, alt: "Exponair Events Management Limited brand logo" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Exponair Events | Passionately Bringing Events to Life",
     description: "Kiddies' parties, social celebrations, weddings, corporate events and event rentals in Lagos.",
-    images: [{ url: "/exponair-logo.svg", alt: "Exponair Events Management Limited brand logo" }],
+    images: [{ url: "/exponair/opengraph-image", alt: "Exponair Events Management Limited brand logo" }],
   },
 };
 
