@@ -92,7 +92,7 @@ export default function ExponairStorefront({ page = "home" }: { page?: "home" | 
   };
   const nav=[["Home","/exponair"],["Services","/exponair/services"],["Packages","/exponair/packages"],["Gallery","/exponair/gallery"],["FAQs","/exponair/faqs"],["Reviews","/exponair/reviews"]];
   return (
-    <main className="exponair">
+    <main className="exponair" data-page={page}>
       {showBrandReveal&&<div className="expo-brand-reveal" role="status" aria-label="Exponair Events logo animation">
         <div className="expo-reveal-lockup">
           <ExponairFlowerMark className="expo-reveal-flower"/>
@@ -194,7 +194,7 @@ export default function ExponairStorefront({ page = "home" }: { page?: "home" | 
 
       </>}
 
-      <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="/exponair/booking">Start your enquiry </a></section>
+      {page === "home" && <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="/exponair/booking">Start your enquiry </a></section>}
 
       {page === "reviews" && <>
       <section className="expo-reviews" id="reviews">
