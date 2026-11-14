@@ -211,7 +211,7 @@ export default function ExponairStorefront() {
           </div>
           <div className="expo-footer-column">
             <h3>QUICK LINKS</h3>
-            <a href="#top">Home</a><a href="#about">About</a><a href="#services">Our services</a><a href="#kiddies">Kiddies' parties</a><a href="#adult">Adult celebrations</a><a href="#weddings">Weddings & occasions</a><a href="#corporate">Corporate events</a><a href="#rentals">Event rentals</a><a href="#packages">Packages</a><a href="#gallery">Gallery</a><a href="#booking">Enquiries</a>
+            <a href="#top">Home</a><a href="/exponair/our-story">About</a><a href="#services">Our services</a><a href="#kiddies">Kiddies' parties</a><a href="/exponair/celebrations">Adult celebrations</a><a href="/exponair/weddings">Weddings & occasions</a><a href="/exponair/corporate">Corporate events</a><a href="/exponair/rentals">Event rentals</a><a href="/exponair/packages">Packages</a><a href="#gallery">Gallery</a><a href="#booking">Enquiries</a>
           </div>
           <div className="expo-footer-column expo-footer-contact">
             <h3>CONTACT & LOCATION</h3>
