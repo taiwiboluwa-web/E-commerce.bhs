@@ -7,9 +7,9 @@ import "./exponair.css";
 const WHATSAPP = "2348023387671";
 const phoneDisplay = "+234 802 338 7671";
 const packages = [
-  { name: "Little Moments", note: "Beautifully simple", detail: "For intimate celebrations and thoughtful first birthdays.", items: ["Planning consultation", "Event timeline", "On-the-day coordination"] },
-  { name: "Big Smiles", note: "The signature experience", detail: "For themed birthdays with personalised styling and activities.", items: ["Everything in Little Moments", "Theme and décor direction", "Games and activity schedule", "Vendor coordination"], featured: true },
-  { name: "The Grand Celebration", note: "A full-service affair", detail: "For larger celebrations with a complete creative and coordination team.", items: ["Full event planning support", "Bespoke styling direction", "Entertainment and rental coordination", "Event-day management"] },
+  { name: "Basic Package", note: "The essentials, beautifully handled", detail: "For intimate celebrations and thoughtful first birthdays.", items: ["Planning consultation", "Event timeline", "On-the-day coordination"] },
+  { name: "Premium Package", note: "The signature experience", detail: "For themed birthdays with personalised styling and activities.", items: ["Everything in Basic Package", "Theme and décor direction", "Games and activity schedule", "Vendor coordination"], featured: true },
+  { name: "Luxury Package", note: "A full-service affair", detail: "For larger celebrations with a complete creative and coordination team.", items: ["Full event planning support", "Bespoke styling direction", "Entertainment and rental coordination", "Event-day management"] },
 ];
 const serviceGroups = [
   { id:"kiddies", number:"01", title:"Kiddies' parties", eyebrow:"A LITTLE MAGIC, A LOT OF JOY", text:"Thoughtfully imagined celebrations for children aged 1–10. From first birthdays to big milestone parties, we bring their favourite worlds to life.", tags:["Themed birthdays","Customised décor","Games & entertainment","Treat tables","Party coordination"], image:"https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=85" },
@@ -72,7 +72,7 @@ export default function ExponairStorefront() {
   const [activeFaq,setActiveFaq]=useState<number|null>(0);
   const [month,setMonth]=useState(()=>new Date(new Date().getFullYear(),new Date().getMonth(),1));
   const [selectedDate,setSelectedDate]=useState("");
-  const [form,setForm]=useState({name:"",phone:"",email:"",event:"Kiddies birthday party",guests:"",location:"",budget:"",package:"Big Smiles",details:""});
+  const [form,setForm]=useState({name:"",phone:"",email:"",event:"Kiddies birthday party",guests:"",location:"",budget:"",package:"Premium Package",details:""});
   const [selectedServices,setSelectedServices]=useState<string[]>(bookingServices);
   const closeMenu=()=>setMenuOpen(false);
   const today=new Date();today.setHours(0,0,0,0);
