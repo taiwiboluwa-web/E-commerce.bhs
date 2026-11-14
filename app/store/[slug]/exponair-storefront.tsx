@@ -90,7 +90,7 @@ export default function ExponairStorefront() {
     ].join("\n");
     window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
   };
-  const nav=[["Our story","#about"],["Kiddies' parties","#kiddies"],["Celebrations","#adult"],["Weddings","#weddings"],["Corporate","#corporate"],["Rentals","#rentals"],["Packages","#packages"],["Reviews","#reviews"],["Journal","#journal"]];
+  const nav=[["Our story","/exponair/our-story"],["Kiddies' parties","/exponair/kiddies-parties"],["Celebrations","/exponair/celebrations"],["Weddings","/exponair/weddings"],["Corporate","/exponair/corporate"],["Rentals","/exponair/rentals"],["Packages","/exponair/packages"],["Reviews","/exponair/reviews"],["Journal","/exponair/journal"]];
   return (
     <main className="exponair">
       {showBrandReveal&&<div className="expo-brand-reveal" role="status" aria-label="Exponair Events logo animation">
@@ -211,7 +211,7 @@ export default function ExponairStorefront() {
           </div>
           <div className="expo-footer-column">
             <h3>QUICK LINKS</h3>
-            <a href="#top">Home</a><a href="/exponair/our-story">About</a><a href="#services">Our services</a><a href="#kiddies">Kiddies' parties</a><a href="/exponair/celebrations">Adult celebrations</a><a href="/exponair/weddings">Weddings & occasions</a><a href="/exponair/corporate">Corporate events</a><a href="/exponair/rentals">Event rentals</a><a href="/exponair/packages">Packages</a><a href="#gallery">Gallery</a><a href="#booking">Enquiries</a>
+            <a href="#top">Home</a><a href="/exponair/our-story">About</a><a href="/exponair/kiddies-parties">Our services</a><a href="/exponair/kiddies-parties">Kiddies' parties</a><a href="/exponair/celebrations">Adult celebrations</a><a href="/exponair/weddings">Weddings & occasions</a><a href="/exponair/corporate">Corporate events</a><a href="/exponair/rentals">Event rentals</a><a href="/exponair/packages">Packages</a><a href="/exponair/journal">Journal</a><a href="#booking">Enquiries</a>
           </div>
           <div className="expo-footer-column expo-footer-contact">
             <h3>CONTACT & LOCATION</h3>
