@@ -63,12 +63,21 @@ export default function ExponairStorefront({ page = "home" }: { page?: "home" | 
   // Keep storefront copy as native text nodes. Character-wrapping animations
   // caused mobile browsers to clip or omit glyphs during responsive reflow.
   useEffect(()=>{
+    // The branded intro belongs only to the Exponair home route.
+    // Other Exponair sections must never display it.
+    if(page !== "home"){
+      setShowBrandReveal(false);
+      return;
+    }
     const dismissedKey="exponair-brand-reveal-dismissed-v2";
-    if(window.sessionStorage.getItem(dismissedKey)) return;
+    if(window.sessionStorage.getItem(dismissedKey)){
+      setShowBrandReveal(false);
+      return;
+    }
     setShowBrandReveal(true);
     const timer=window.setTimeout(()=>setShowBrandReveal(false),4200);
     return ()=>window.clearTimeout(timer);
-  },[]);
+  },[page]);
   const [activeFaq,setActiveFaq]=useState<number|null>(0);
   const [month,setMonth]=useState(()=>new Date(new Date().getFullYear(),new Date().getMonth(),1));
   const [selectedDate,setSelectedDate]=useState("");
