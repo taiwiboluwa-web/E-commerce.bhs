@@ -203,7 +203,7 @@ export default function ExponairStorefront({ page = "home" }: { page?: "home" | 
 
       </>}
 
-      {page === "home" && <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make it a moment.</h2></div><a href="/exponair/booking">Start your enquiry </a></section>}
+      {page === "home" && <section className="expo-contact-strip"><div><span>HAVE A DATE IN MIND?</span><h2>Let's make your memorable moments extra special.</h2></div><a href="/exponair/booking">Start your enquiry </a></section>}
 
       {page === "reviews" && <>
       <section className="expo-reviews" id="reviews">
