@@ -33,14 +33,14 @@ export default async function SPClothingStorefront() {
     <header className="sp-header">
       <a className="sp-logo" href="/sp-clothing-services"><span className="sp-logo-mark">SP</span><span><b>SP CLOTHING</b><small>SERVICES</small></span></a>
       <nav><a href="#collection">Collection</a><a href="#story">Our approach</a><a href="#services">What we do</a></nav>
-      <a className="sp-header-cta" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Get in touch <span>↗</span></a>
+      <a className="sp-header-cta" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Get in touch <span></span></a>
     </header>
     <section className="sp-hero">
       <div className="sp-hero-copy">
         <p className="sp-eyebrow"><i/> THE SP EDIT · LAGOS</p>
         <h1>Dress like<br/>you <em>mean it.</em></h1>
         <p className="sp-hero-text">Thoughtful pieces. Confident silhouettes. A little more intention in everything you wear.</p>
-        <a className="sp-primary" href="#collection">Explore the collection <span>↗</span></a>
+        <a className="sp-primary" href="#collection">Explore the collection <span></span></a>
         <div className="sp-hero-foot"><span>01 / 03</span><span>STYLE THAT SPEAKS FOR YOU</span></div>
       </div>
       <div className="sp-hero-image"><div className="sp-image-label">THE NEW<br/><i>POINT OF VIEW</i></div><span className="sp-image-index">SP — 001</span></div>
@@ -55,23 +55,23 @@ export default async function SPClothingStorefront() {
       <div className="sp-products">
         {products.map((product,index)=><article className="sp-product" key={product.id}>
           <a className="sp-product-image" href={"mailto:Sampraiserock@gmail.com?subject="+encodeURIComponent("Enquiry: "+product.name)} style={{backgroundImage:"url('"+(product.image_url||fallbackProducts[index%fallbackProducts.length].image_url)+"')"}}>
-            <span>{(product.category||"THE SP EDIT").toUpperCase()}</span><i>↗</i>
+            <span>{(product.category||"THE SP EDIT").toUpperCase()}</span><i></i>
           </a>
           <div className="sp-product-meta"><h3>{product.name}</h3><b>{money(product.price_minor)}</b></div>
           <p>{product.description||"A considered piece from the SP Clothing Services collection."}</p>
-          <a className="sp-product-link" href={"mailto:Sampraiserock@gmail.com?subject="+encodeURIComponent("Enquiry: "+product.name)}>Enquire about this piece <span>↗</span></a>
+          <a className="sp-product-link" href={"mailto:Sampraiserock@gmail.com?subject="+encodeURIComponent("Enquiry: "+product.name)}>Enquire about this piece <span></span></a>
         </article>)}
       </div>
       <p className="sp-demo-note">SAMPLE STOREFRONT · Product names, prices and imagery are demonstration content and can be replaced by the SP Clothing Services team.</p>
     </section>
-    <section className="sp-services" id="services"><div><span className="sp-section-index">03 / HOW WE CAN HELP</span><h2>Made for your<br/><em>kind of style.</em></h2></div><div className="sp-service-list"><article><span>01</span><div><h3>Ready-to-wear</h3><p>Easy-to-style pieces for your everyday rotation.</p></div><b>↗</b></article><article><span>02</span><div><h3>Custom tailoring</h3><p>Personalised looks shaped around your fit and preference.</p></div><b>↗</b></article><article><span>03</span><div><h3>Occasion wear</h3><p>Distinctive looks for the moments worth dressing up for.</p></div><b>↗</b></article></div></section>
-    <section className="sp-contact"><span className="sp-section-index">THE NEXT LOOK STARTS HERE</span><h2>Let's make it<br/><em>feel like you.</em></h2><a className="sp-primary" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Start a conversation <span>↗</span></a></section>
+    <section className="sp-services" id="services"><div><span className="sp-section-index">03 / HOW WE CAN HELP</span><h2>Made for your<br/><em>kind of style.</em></h2></div><div className="sp-service-list"><article><span>01</span><div><h3>Ready-to-wear</h3><p>Easy-to-style pieces for your everyday rotation.</p></div><b></b></article><article><span>02</span><div><h3>Custom tailoring</h3><p>Personalised looks shaped around your fit and preference.</p></div><b></b></article><article><span>03</span><div><h3>Occasion wear</h3><p>Distinctive looks for the moments worth dressing up for.</p></div><b></b></article></div></section>
+    <section className="sp-contact"><span className="sp-section-index">THE NEXT LOOK STARTS HERE</span><h2>Let's make it<br/><em>feel like you.</em></h2><a className="sp-primary" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Start a conversation <span></span></a></section>
     <footer className="sp-footer">
       <div className="sp-footer-main">
         <div className="sp-footer-brand">
           <a className="sp-logo sp-footer-logo" href="/sp-clothing-services"><span className="sp-logo-mark">SP</span><span><b>SP CLOTHING</b><small>SERVICES</small></span></a>
           <p>Thoughtful fashion, considered details and personal style. Discover pieces made to help you feel confidently yourself.</p>
-          <a className="sp-footer-contact-cta" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Let's talk about your next look <span>↗</span></a>
+<div className="sp-social-icons" aria-label="Social media platforms"><span aria-label="Instagram" title="Instagram">◎</span><span aria-label="Facebook" title="Facebook">f</span><span aria-label="TikTok" title="TikTok">♪</span><span aria-label="WhatsApp" title="WhatsApp">◔</span></div>
         </div>
         <div className="sp-footer-links">
           <h3>QUICK LINKS</h3>
@@ -87,13 +87,13 @@ export default async function SPClothingStorefront() {
           <p className="sp-footer-location">Lagos, Nigeria</p>
           <a href="mailto:Sampraiserock@gmail.com">Sampraiserock@gmail.com</a>
           <p className="sp-footer-hours">For appointments and orders<br/>please get in touch by email.</p>
-          <a className="sp-footer-terms" href="mailto:Sampraiserock@gmail.com?subject=Order%20enquiry">Orders & enquiries <span>↗</span></a>
+          <a className="sp-footer-terms" href="mailto:Sampraiserock@gmail.com?subject=Order%20enquiry">Orders & enquiries <span></span></a>
         </div>
       </div>
       <div className="sp-footer-bottom">
         <span>© {new Date().getFullYear()} SP CLOTHING SERVICES. ALL RIGHTS RESERVED.</span>
         <span>MADE WITH INTENTION.</span>
-        <a href="/sp-clothing-services/admin">STORE OWNER LOGIN ↗</a>
+        <a href="/sp-clothing-services/admin">STORE OWNER LOGIN </a>
       </div>
     </footer>
   </main>;

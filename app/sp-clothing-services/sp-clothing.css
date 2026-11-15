@@ -45,3 +45,5 @@
  .sp-footer-bottom>span,.sp-footer-bottom>a{font-size:7px}
 }
 @media(max-width:420px){.sp-footer-main{grid-template-columns:1fr}.sp-footer-brand{grid-column:auto}.sp-footer-links h3,.sp-footer-contact h3{margin-bottom:18px}}
+
+.sp-social-icons{display:flex;gap:12px;margin-top:25px}.sp-social-icons>span{width:42px;height:42px;border:1px solid #ffffff38;border-radius:50%;display:grid;place-items:center;color:#d7d4cb;font-size:19px;font-weight:500}.sp-social-icons>span:hover{border-color:#d5ad54;color:#d5ad54}.sp-footer-contact-cta{display:none!important}
