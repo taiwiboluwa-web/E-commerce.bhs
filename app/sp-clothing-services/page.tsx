@@ -64,28 +64,28 @@ export default async function SPClothingStorefront() {
       <div className="sp-section-head"><div><span className="sp-section-index">02 / THE COLLECTION</span><h2>Find your <em>next favourite.</em></h2></div><span className="sp-item-count">{products.length.toString().padStart(2,"0")} PIECES IN THE EDIT</span></div>
       <div className="sp-products">
         {products.map((product,index)=><article className="sp-product" key={product.id}>
-          <a className="sp-product-image" href={"mailto:{content.contact_email}?subject="+encodeURIComponent("Enquiry: "+product.name)} style={{backgroundImage:"url('"+(product.image_url||fallbackProducts[index%fallbackProducts.length].image_url)+"')"}}>
+          <a className="sp-product-image" href={`mailto:${content.contact_email}?subject=${encodeURIComponent("Enquiry: "+product.name)}`} style={{backgroundImage:"url('"+(product.image_url||fallbackProducts[index%fallbackProducts.length].image_url)+"')"}}>
             <span>{(product.category||"THE SP EDIT").toUpperCase()}</span><i></i>
           </a>
           <div className="sp-product-meta"><h3>{product.name}</h3><b>{product.sale_price_minor !== null && product.sale_price_minor !== undefined && Number(product.sale_price_minor) < Number(product.price_minor) && (!product.sale_starts_at || new Date(product.sale_starts_at) <= new Date()) && (!product.sale_ends_at || new Date(product.sale_ends_at) >= new Date()) ? <><span className="sp-sale-price">{money(product.sale_price_minor)}</span><del>{money(product.price_minor)}</del></> : money(product.price_minor)}</b></div>
           <p>{product.description||"A considered piece from the SP Clothing Services collection."}</p>
-          <a className="sp-product-link" href={"mailto:{content.contact_email}?subject="+encodeURIComponent("Enquiry: "+product.name)}>Enquire about this piece <span></span></a>
+          <a className="sp-product-link" href={`mailto:${content.contact_email}?subject=${encodeURIComponent("Enquiry: "+product.name)}`}>Enquire about this piece <span></span></a>
         </article>)}
       </div>
       <p className="sp-demo-note">SAMPLE STOREFRONT · Product names, prices and imagery are demonstration content and can be replaced by the SP Clothing Services team.</p>
     </section>
     <section className="sp-services" id="services"><div><span className="sp-section-index">03 / HOW WE CAN HELP</span><h2>Made for your<br/><em>kind of style.</em></h2></div><div className="sp-service-list"><article><span>01</span><div><h3>{content.service_1_title}</h3><p>{content.service_1_body}</p></div><b></b></article><article><span>02</span><div><h3>{content.service_2_title}</h3><p>{content.service_2_body}</p></div><b></b></article><article><span>03</span><div><h3>{content.service_3_title}</h3><p>{content.service_3_body}</p></div><b></b></article></div></section>
-    <section className="sp-contact"><span className="sp-section-index">THE NEXT LOOK STARTS HERE</span><h2>Let's make it<br/><em>feel like you.</em></h2><a className="sp-primary" href="mailto:{content.contact_email}?subject=SP%20Clothing%20Services%20Enquiry">Start a conversation <span></span></a></section>
+    <section className="sp-contact"><span className="sp-section-index">THE NEXT LOOK STARTS HERE</span><h2>Let's make it<br/><em>feel like you.</em></h2><a className="sp-primary" href={`mailto:${content.contact_email}?subject=SP%20Clothing%20Services%20Enquiry`}>Start a conversation <span></span></a></section>
     <footer className="sp-footer">
       <div className="sp-footer-main">
         <div className="sp-footer-brand">
           <a className="sp-logo sp-footer-logo" href="/sp-clothing-services"><span className="sp-logo-mark">SP</span><span><b>SP CLOTHING</b><small>SERVICES</small></span></a>
           <p>Thoughtful fashion, considered details and personal style. Discover pieces made to help you feel confidently yourself.</p>
 <div className="sp-social-icons" aria-label="Social media platforms">
-            <span aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" className="sp-icon-fill"/></svg></span>
-            <span aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h3l.5-4H14V7c0-1.2.4-2 2-2h2V1.4C17.2 1.2 16.1 1 15 1c-3.3 0-5 2-5 5.4V9H7v4h3v8z"/></svg></span>
-            <span aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.4 2.5 1.8 4 4 4.2v3.2a8 8 0 0 1-4-1.3v6.1a6.2 6.2 0 1 1-6.2-6.2c.4 0 .8 0 1.2.1v3.3a3 3 0 1 0 1.8 2.8V3z"/></svg></span>
-            <span aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z"/><path d="M9 8.5c.3-.5.6-.5.9-.5l.7 1.7-.7.9c.6 1.2 1.5 2.1 2.8 2.7l.8-.8 1.8.8c.2.1.3.5.1.9-.3.7-1.2 1.2-2 1.1-2.5-.4-5.8-3.3-6.1-5.8-.1-.4.6-.9 1.7-1Z"/></svg></span>
+            <a href={content.instagram_url || undefined} aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" className="sp-icon-fill"/></svg></a>
+            <a href={content.facebook_url || undefined} aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h3l.5-4H14V7c0-1.2.4-2 2-2h2V1.4C17.2 1.2 16.1 1 15 1c-3.3 0-5 2-5 5.4V9H7v4h3v8z"/></svg></span>
+            <a href={content.tiktok_url || undefined} aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.4 2.5 1.8 4 4 4.2v3.2a8 8 0 0 1-4-1.3v6.1a6.2 6.2 0 1 1-6.2-6.2c.4 0 .8 0 1.2.1v3.3a3 3 0 1 0 1.8 2.8V3z"/></svg></span>
+            <a href={content.whatsapp_url || undefined} aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z"/><path d="M9 8.5c.3-.5.6-.5.9-.5l.7 1.7-.7.9c.6 1.2 1.5 2.1 2.8 2.7l.8-.8 1.8.8c.2.1.3.5.1.9-.3.7-1.2 1.2-2 1.1-2.5-.4-5.8-3.3-6.1-5.8-.1-.4.6-.9 1.7-1Z"/></svg></span>
           </div>
         </div>
         <div className="sp-footer-links">
@@ -94,15 +94,15 @@ export default async function SPClothingStorefront() {
           <a href="#story">Our approach</a>
           <a href="#collection">Shop the collection</a>
           <a href="#services">Our services</a>
-          <a href="mailto:{content.contact_email}?subject=Custom%20tailoring%20enquiry">Custom tailoring</a>
-          <a href="mailto:{content.contact_email}?subject=SP%20Clothing%20Services%20Enquiry">Enquiries</a>
+          <a href={`mailto:${content.contact_email}?subject=Custom%20tailoring%20enquiry`}>Custom tailoring</a>
+          <a href={`mailto:${content.contact_email}?subject=SP%20Clothing%20Services%20Enquiry`}>Enquiries</a>
         </div>
         <div className="sp-footer-contact">
           <h3>CONTACT & LOCATION</h3>
           <p className="sp-footer-location">Lagos, Nigeria</p>
-          <a href={`mailto:${content.contact_email}`}>Sampraiserock@gmail.com</a>
+          <a href={`mailto:${content.contact_email}`}>{content.contact_email}</a>
           <p className="sp-footer-hours">For appointments and orders<br/>please get in touch by email.</p>
-          <a className="sp-footer-terms" href="mailto:{content.contact_email}?subject=Order%20enquiry">Orders & enquiries <span></span></a>
+          <a className="sp-footer-terms" href={`mailto:${content.contact_email}?subject=Order%20enquiry`}>Orders & enquiries <span></span></a>
         </div>
       </div>
       <div className="sp-footer-bottom">
