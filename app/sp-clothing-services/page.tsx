@@ -47,7 +47,7 @@ export default async function SPClothingStorefront() {
     <div className="sp-ribbon">LAGOS, NIGERIA <span>—</span> {content.ribbon_message}</div>
     <header className="sp-header">
       <a className="sp-logo" href="/sp-clothing-services"><span className="sp-logo-mark">SP</span><span><b>SP CLOTHING</b><small>SERVICES</small></span></a>
-      <nav><a href="#collection">Collection</a><a href="#story">Our approach</a><a href="#services">What we do</a></nav>
+      <nav><a href="#collection">Collection</a><a href="#style-studio">Style your look</a><a href="#story">Our approach</a><a href="#services">What we do</a></nav>
       <a className="sp-header-cta" href={`mailto:${content.contact_email}?subject=SP%20Clothing%20Services%20Enquiry`}>Get in touch <span></span></a>
     </header>
     <section className="sp-hero">
