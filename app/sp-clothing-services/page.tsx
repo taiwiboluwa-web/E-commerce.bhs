@@ -66,7 +66,35 @@ export default async function SPClothingStorefront() {
     </section>
     <section className="sp-services" id="services"><div><span className="sp-section-index">03 / HOW WE CAN HELP</span><h2>Made for your<br/><em>kind of style.</em></h2></div><div className="sp-service-list"><article><span>01</span><div><h3>Ready-to-wear</h3><p>Easy-to-style pieces for your everyday rotation.</p></div><b>↗</b></article><article><span>02</span><div><h3>Custom tailoring</h3><p>Personalised looks shaped around your fit and preference.</p></div><b>↗</b></article><article><span>03</span><div><h3>Occasion wear</h3><p>Distinctive looks for the moments worth dressing up for.</p></div><b>↗</b></article></div></section>
     <section className="sp-contact"><span className="sp-section-index">THE NEXT LOOK STARTS HERE</span><h2>Let's make it<br/><em>feel like you.</em></h2><a className="sp-primary" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Start a conversation <span>↗</span></a></section>
-    <footer className="sp-footer"><a className="sp-logo" href="#top"><span className="sp-logo-mark">SP</span><span><b>SP CLOTHING</b><small>SERVICES</small></span></a><span>© {new Date().getFullYear()} SP CLOTHING SERVICES</span><a href="mailto:Sampraiserock@gmail.com">Sampraiserock@gmail.com ↗</a></footer>
-    <a className="sp-admin-shortcut" href="/sp-clothing-services/admin">Store owner? Admin login</a>
+    <footer className="sp-footer">
+      <div className="sp-footer-main">
+        <div className="sp-footer-brand">
+          <a className="sp-logo sp-footer-logo" href="/sp-clothing-services"><span className="sp-logo-mark">SP</span><span><b>SP CLOTHING</b><small>SERVICES</small></span></a>
+          <p>Thoughtful fashion, considered details and personal style. Discover pieces made to help you feel confidently yourself.</p>
+          <a className="sp-footer-contact-cta" href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Let's talk about your next look <span>↗</span></a>
+        </div>
+        <div className="sp-footer-links">
+          <h3>QUICK LINKS</h3>
+          <a href="/sp-clothing-services">Home</a>
+          <a href="#story">Our approach</a>
+          <a href="#collection">Shop the collection</a>
+          <a href="#services">Our services</a>
+          <a href="mailto:Sampraiserock@gmail.com?subject=Custom%20tailoring%20enquiry">Custom tailoring</a>
+          <a href="mailto:Sampraiserock@gmail.com?subject=SP%20Clothing%20Services%20Enquiry">Enquiries</a>
+        </div>
+        <div className="sp-footer-contact">
+          <h3>CONTACT & LOCATION</h3>
+          <p className="sp-footer-location">Lagos, Nigeria</p>
+          <a href="mailto:Sampraiserock@gmail.com">Sampraiserock@gmail.com</a>
+          <p className="sp-footer-hours">For appointments and orders<br/>please get in touch by email.</p>
+          <a className="sp-footer-terms" href="mailto:Sampraiserock@gmail.com?subject=Order%20enquiry">Orders & enquiries <span>↗</span></a>
+        </div>
+      </div>
+      <div className="sp-footer-bottom">
+        <span>© {new Date().getFullYear()} SP CLOTHING SERVICES. ALL RIGHTS RESERVED.</span>
+        <span>MADE WITH INTENTION.</span>
+        <a href="/sp-clothing-services/admin">STORE OWNER LOGIN ↗</a>
+      </div>
+    </footer>
   </main>;
 }
