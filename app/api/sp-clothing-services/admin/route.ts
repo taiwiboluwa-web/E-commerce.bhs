@@ -84,3 +84,30 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (error) { console.error("SP product delete failed", error); return fail("Could not remove this product.", 503); }
 }
+
+export async function PUT(req: NextRequest) {
+  if (!hasSPAdminSession(req)) return fail("Please sign in to manage this storefront.", 401);
+  try {
+    const body = await req.json();
+    const allowed = ["hero_title","hero_emphasis","hero_description","story_title","story_emphasis","story_body","service_1_title","service_1_body","service_2_title","service_2_body","service_3_title","service_3_body","contact_email","instagram_url","facebook_url","tiktok_url","whatsapp_url"];
+    const content: Record<string,string> = {};
+    for (const key of allowed) {
+      const value = body?.[key];
+      if (value !== undefined) {
+        if (typeof value !== "string" || value.length > 500) return fail("Check the storefront content fields.");
+        content[key] = value.trim();
+      }
+    }
+    const sql = database(); const tenant = await tenantId(sql);
+    if (!tenant) return fail("Storefront not found.", 404);
+    await sql.query(
+      "INSERT INTO public.storefront_settings(tenant_id,content) VALUES($1::uuid,$2::jsonb) ON CONFLICT(tenant_id) DO UPDATE SET content=public.storefront_settings.content || EXCLUDED.content,updated_at=now()",
+      [tenant, JSON.stringify(content)]
+    );
+    const rows = await sql.query("SELECT content FROM public.storefront_settings WHERE tenant_id=$1::uuid", [tenant]) as any[];
+    return NextResponse.json({ settings: rows[0]?.content || {} });
+  } catch (error) {
+    console.error("SP storefront content update failed", error);
+    return fail("Could not save storefront content.", 503);
+  }
+}
