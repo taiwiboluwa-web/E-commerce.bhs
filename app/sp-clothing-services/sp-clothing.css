@@ -49,3 +49,13 @@
 .sp-social-icons{display:flex;gap:12px;margin-top:25px}.sp-social-icons>span{width:42px;height:42px;border:1px solid #ffffff38;border-radius:50%;display:grid;place-items:center;color:#d7d4cb;font-size:19px;font-weight:500}.sp-social-icons>span:hover{border-color:#d5ad54;color:#d5ad54}.sp-footer-contact-cta{display:none!important}
 
 .sp-social-icons{display:flex;align-items:center;gap:12px;margin-top:25px}.sp-social-icons>span{width:42px;height:42px;border:1px solid #ffffff38;border-radius:50%;display:grid;place-items:center;color:#d7d4cb}.sp-social-icons svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.sp-social-icons span[aria-label="Facebook"] svg,.sp-social-icons span[aria-label="TikTok"] svg{fill:currentColor;stroke:none}.sp-social-icons .sp-icon-fill{fill:currentColor;stroke:none}.sp-social-icons>span:hover{border-color:#d5ad54;color:#d5ad54}.sp-footer-contact-cta{display:none!important}
+
+/* Hero image rotation uses only images from the published SP product catalogue */
+.sp-hero-image{background:#0b5961!important;overflow:hidden}
+.sp-hero-photo{position:absolute;inset:0;background-position:center 28%;background-size:cover;background-repeat:no-repeat;animation:spHeroFade 1.1s ease both}
+.sp-hero-photo-empty{background:linear-gradient(145deg,#064c57,#16716e)}
+@keyframes spHeroFade{from{opacity:.35;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+.sp-hero-image:after{pointer-events:none}
+.sp-hero-progress{position:absolute;z-index:2;left:25px;bottom:28px;display:flex;gap:5px;max-width:60%}
+.sp-hero-progress span{display:block;width:17px;height:2px;background:#ffffff65;transition:width .35s,background .35s}
+.sp-hero-progress span.active{width:30px;background:#fff}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { neon } from "@neondatabase/serverless";
 import "./sp-clothing.css";
+import SPHeroCarousel from "./SPHeroCarousel";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -43,7 +44,7 @@ export default async function SPClothingStorefront() {
         <a className="sp-primary" href="#collection">Explore the collection <span></span></a>
         <div className="sp-hero-foot"><span>01 / 03</span><span>STYLE THAT SPEAKS FOR YOU</span></div>
       </div>
-      <div className="sp-hero-image"><div className="sp-image-label">THE NEW<br/><i>POINT OF VIEW</i></div><span className="sp-image-index">SP — 001</span></div>
+      <SPHeroCarousel images={products.filter((product) => product.image_url && /^https:\/\//i.test(product.image_url)).map((product) => ({ id: product.id, name: product.name, image_url: product.image_url as string }))} />
     </section>
     <section className="sp-intro" id="story">
       <span className="sp-section-index">01 / THE SP APPROACH</span>
