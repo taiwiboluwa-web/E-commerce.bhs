@@ -89,7 +89,7 @@ export async function PUT(req: NextRequest) {
   if (!hasSPAdminSession(req)) return fail("Please sign in to manage this storefront.", 401);
   try {
     const body = await req.json();
-    const allowed = ["hero_title","hero_emphasis","hero_description","story_title","story_emphasis","story_body","service_1_title","service_1_body","service_2_title","service_2_body","service_3_title","service_3_body","contact_email","instagram_url","facebook_url","tiktok_url","whatsapp_url"];
+    const allowed = ["ribbon_message","hero_eyebrow","hero_title","hero_emphasis","hero_description","hero_cta_label","story_title","story_emphasis","story_body","collection_title","collection_emphasis","services_title","services_emphasis","service_1_title","service_1_body","service_2_title","service_2_body","service_3_title","service_3_body","contact_kicker","contact_title","contact_emphasis","contact_cta_label","footer_description","footer_location","footer_hours","footer_tagline","contact_email","instagram_url","facebook_url","tiktok_url","whatsapp_url"];
     const content: Record<string,string> = {};
     for (const key of allowed) {
       const value = body?.[key];
