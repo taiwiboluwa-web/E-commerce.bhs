@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { neon } from "@neondatabase/serverless";
 import "./sp-clothing.css";
 import SPHeroCarousel from "./SPHeroCarousel";
+import SPStyleStudio from "./SPStyleStudio";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -78,6 +79,7 @@ export default async function SPClothingStorefront() {
       </div>
       <p className="sp-demo-note">SAMPLE STOREFRONT · Product names, prices and imagery are demonstration content and can be replaced by the SP Clothing Services team.</p>
     </section>
+    <SPStyleStudio products={products.map(({id,name,description,price_minor,image_url,category})=>({id,name,description,price_minor,image_url,category}))} />
     <section className="sp-services" id="services"><div><span className="sp-section-index">03 / HOW WE CAN HELP</span><h2>{content.services_title}<br/><em>{content.services_emphasis}</em></h2></div><div className="sp-service-list"><article><span>01</span><div><h3>{content.service_1_title}</h3><p>{content.service_1_body}</p></div><b></b></article><article><span>02</span><div><h3>{content.service_2_title}</h3><p>{content.service_2_body}</p></div><b></b></article><article><span>03</span><div><h3>{content.service_3_title}</h3><p>{content.service_3_body}</p></div><b></b></article></div></section>
     <section className="sp-contact"><span className="sp-section-index">{content.contact_kicker}</span><h2>{content.contact_title}<br/><em>{content.contact_emphasis}</em></h2><a className="sp-primary" href={`mailto:${content.contact_email}?subject=SP%20Clothing%20Services%20Enquiry`}>{content.contact_cta_label} <span></span></a></section>
     <footer className="sp-footer">
