@@ -18,8 +18,9 @@ export async function GET(req: NextRequest) {
   try {
     const sql = database(); const tenant = await tenantId(sql);
     if (!tenant) return fail("Storefront not found.", 404);
-    const products = await sql.query("SELECT id,name,slug,description,price_minor,image_url,category,stock_quantity,is_published,created_at FROM public.products WHERE tenant_id=$1::uuid AND deleted_at IS NULL ORDER BY created_at DESC", [tenant]) as any[];
-    return NextResponse.json({ products });
+    const products = await sql.query("SELECT id,name,slug,description,price_minor,sale_price_minor,sale_starts_at,sale_ends_at,sale_label,image_url,category,stock_quantity,is_published,created_at FROM public.products WHERE tenant_id=$1::uuid AND deleted_at IS NULL ORDER BY created_at DESC", [tenant]) as any[];
+    const settingsRows = await sql.query("SELECT content FROM public.storefront_settings WHERE tenant_id=$1::uuid LIMIT 1", [tenant]) as any[];
+    return NextResponse.json({ products, settings: settingsRows[0]?.content || {} });
   } catch (error) { console.error("SP admin catalogue read failed", error); return fail("Could not load the product catalogue.", 503); }
 }
 export async function POST(req: NextRequest) {
@@ -27,13 +28,21 @@ export async function POST(req: NextRequest) {
   try {
     const b = await req.json(); const name = String(b.name || "").trim(); const description = String(b.description || "").trim();
     const category = String(b.category || "Ready to wear").trim(); const price = Number(b.price); const stock = Number(b.stock); const image = String(b.image_url || "").trim();
+    const salePrice = b.sale_price === "" || b.sale_price == null ? null : Number(b.sale_price);
+    const saleLabel = String(b.sale_label || "").trim().slice(0, 60);
+    const saleStarts = b.sale_starts_at ? new Date(b.sale_starts_at) : null;
+    const saleEnds = b.sale_ends_at ? new Date(b.sale_ends_at) : null;
+    if (salePrice !== null && (!Number.isFinite(salePrice) || salePrice < 0 || salePrice >= price)) return fail("Sale price must be lower than the regular price.");
+    if (saleStarts && !Number.isFinite(saleStarts.getTime())) return fail("Enter a valid sale start date.");
+    if (saleEnds && !Number.isFinite(saleEnds.getTime())) return fail("Enter a valid sale end date.");
+    if (saleStarts && saleEnds && saleEnds <= saleStarts) return fail("Sale end must be after its start.");
     if (name.length < 2 || name.length > 140) return fail("Enter a product name between 2 and 140 characters.");
     if (!Number.isFinite(price) || price < 0 || price > 100000000) return fail("Enter a valid product price.");
     if (!Number.isInteger(stock) || stock < 0 || stock > 10000000) return fail("Enter a valid stock quantity.");
     if (image && !/^https:\/\//i.test(image)) return fail("Product image URL must begin with https://.");
     const sql = database(); const tenant = await tenantId(sql); if (!tenant) return fail("Storefront not found.", 404);
     const slug = (slugify(name) || "product") + "-" + Date.now().toString(36);
-    const rows = await sql.query("INSERT INTO public.products(tenant_id,name,slug,description,price_minor,currency,stock_quantity,is_published,image_url,category) VALUES($1::uuid,$2,$3,$4,$5,'NGN',$6,true,$7,$8) RETURNING id,name,slug,description,price_minor,image_url,category,stock_quantity,is_published", [tenant, name, slug, description, Math.round(price * 100), stock, image || null, category]) as any[];
+    const rows = await sql.query("INSERT INTO public.products(tenant_id,name,slug,description,price_minor,currency,stock_quantity,is_published,image_url,category,sale_price_minor,sale_starts_at,sale_ends_at,sale_label) VALUES($1::uuid,$2,$3,$4,$5,'NGN',$6,true,$7,$8,$9,$10,$11,$12) RETURNING id,name,slug,description,price_minor,sale_price_minor,sale_starts_at,sale_ends_at,sale_label,image_url,category,stock_quantity,is_published", [tenant, name, slug, description, Math.round(price * 100), stock, image || null, category, salePrice === null ? null : Math.round(salePrice * 100), saleStarts, saleEnds, saleLabel || null]) as any[];
     return NextResponse.json({ product: rows[0] }, { status: 201 });
   } catch (error) { console.error("SP product create failed", error); return fail("Could not add this product. Please try again.", 503); }
 }
@@ -49,9 +58,17 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ product: rows[0] });
     }
     const name = String(b.name || "").trim(); const price = Number(b.price); const stock = Number(b.stock); const image = String(b.image_url || "").trim();
+    const salePrice = b.sale_price === "" || b.sale_price == null ? null : Number(b.sale_price);
+    const saleLabel = String(b.sale_label || "").trim().slice(0, 60);
+    const saleStarts = b.sale_starts_at ? new Date(b.sale_starts_at) : null;
+    const saleEnds = b.sale_ends_at ? new Date(b.sale_ends_at) : null;
     if (name.length < 2 || name.length > 140 || !Number.isFinite(price) || price < 0 || price > 100000000 || !Number.isInteger(stock) || stock < 0 || stock > 10000000) return fail("Check the product name, price and stock quantity.");
     if (image && !/^https:\/\//i.test(image)) return fail("Product image URL must begin with https://.");
-    const rows = await sql.query("UPDATE public.products SET name=$1,description=$2,price_minor=$3,category=$4,stock_quantity=$5,image_url=$6,updated_at=now() WHERE id=$7::uuid AND tenant_id=$8::uuid AND deleted_at IS NULL RETURNING id,name,slug,description,price_minor,image_url,category,stock_quantity,is_published", [name, String(b.description || "").trim(), Math.round(price * 100), String(b.category || "Ready to wear"), stock, image || null, id, tenant]) as any[];
+    if (salePrice !== null && (!Number.isFinite(salePrice) || salePrice < 0 || salePrice >= price)) return fail("Sale price must be lower than the regular price.");
+    if (saleStarts && !Number.isFinite(saleStarts.getTime())) return fail("Enter a valid sale start date.");
+    if (saleEnds && !Number.isFinite(saleEnds.getTime())) return fail("Enter a valid sale end date.");
+    if (saleStarts && saleEnds && saleEnds <= saleStarts) return fail("Sale end must be after its start.");
+    const rows = await sql.query("UPDATE public.products SET name=$1,description=$2,price_minor=$3,category=$4,stock_quantity=$5,image_url=$6,sale_price_minor=$7,sale_starts_at=$8,sale_ends_at=$9,sale_label=$10,updated_at=now() WHERE id=$11::uuid AND tenant_id=$12::uuid AND deleted_at IS NULL RETURNING id,name,slug,description,price_minor,sale_price_minor,sale_starts_at,sale_ends_at,sale_label,image_url,category,stock_quantity,is_published", [name, String(b.description || "").trim(), Math.round(price * 100), String(b.category || "Ready to wear"), stock, image || null, salePrice === null ? null : Math.round(salePrice * 100), saleStarts, saleEnds, saleLabel || null, id, tenant]) as any[];
     if (!rows.length) return fail("Product not found.", 404);
     return NextResponse.json({ product: rows[0] });
   } catch (error) { console.error("SP product update failed", error); return fail("Could not update this product.", 503); }
