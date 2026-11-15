@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (!(file instanceof File)) return NextResponse.json({ error: "Choose an image to upload." }, { status: 400 });
     if (file.size > 100 * 1024 * 1024) return NextResponse.json({ error: "Image must be 100 MB or smaller." }, { status: 413 });
     const sql = neon(process.env.DATABASE_URL);
-    const rows = await sql.query("SELECT id FROM public.tenants WHERE slug='sp-clothing-services' AND deleted_at IS NULL LIMIT 1");
+    const rows = await sql.query("SELECT id FROM public.tenants WHERE slug='sp-clothing-services' AND deleted_at IS NULL LIMIT 1") as any[];
     if (!rows.length) return NextResponse.json({ error: "Storefront not found." }, { status: 404 });
     const result = await storeTenantImage({ tenantId: String(rows[0].id), buffer: Buffer.from(await file.arrayBuffer()), contentType: file.type });
     return NextResponse.json({ url: result.fallbackUrl, assetId: result.assetId, originalBytes: result.quotaBytes });

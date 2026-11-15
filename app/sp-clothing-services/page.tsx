@@ -24,7 +24,7 @@ export default async function SPClothingStorefront() {
   try {
     if (process.env.DATABASE_URL) {
       const sql = neon(process.env.DATABASE_URL);
-      const rows = await sql.query("SELECT p.id,p.name,p.description,p.price_minor,p.image_url,p.category,p.stock_quantity FROM public.products p JOIN public.tenants t ON t.id=p.tenant_id WHERE t.slug='sp-clothing-services' AND t.status='active' AND t.deleted_at IS NULL AND p.deleted_at IS NULL AND p.is_published=true ORDER BY p.created_at DESC");
+      const rows = await sql.query("SELECT p.id,p.name,p.description,p.price_minor,p.image_url,p.category,p.stock_quantity FROM public.products p JOIN public.tenants t ON t.id=p.tenant_id WHERE t.slug='sp-clothing-services' AND t.status='active' AND t.deleted_at IS NULL AND p.deleted_at IS NULL AND p.is_published=true ORDER BY p.created_at DESC") as any[];
       if (rows.length) products = rows as Product[];
     }
   } catch (error) { console.error("SP Clothing catalogue unavailable",error); }
