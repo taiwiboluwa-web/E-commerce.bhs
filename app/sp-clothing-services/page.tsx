@@ -3,6 +3,7 @@ import { neon } from "@neondatabase/serverless";
 import "./sp-clothing.css";
 import SPHeroCarousel from "./SPHeroCarousel";
 import SPStyleStudio from "./SPStyleStudio";
+import SPCart from "./SPCart";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -67,16 +68,7 @@ export default async function SPClothingStorefront() {
     </section>
     <section className="sp-collection" id="collection">
       <div className="sp-section-head"><div><span className="sp-section-index">02 / THE COLLECTION</span><h2>{content.collection_title} <em>{content.collection_emphasis}</em></h2></div><span className="sp-item-count">{products.length.toString().padStart(2,"0")} PIECES IN THE EDIT</span></div>
-      <div className="sp-products">
-        {products.map((product,index)=><article className="sp-product" key={product.id}>
-          <a className="sp-product-image" href={`mailto:${content.contact_email}?subject=${encodeURIComponent("Enquiry: "+product.name)}`} style={{backgroundImage:"url('"+(product.image_url||fallbackProducts[index%fallbackProducts.length].image_url)+"')"}}>
-            <span>{(product.category||"THE SP EDIT").toUpperCase()}</span><i></i>
-          </a>
-          <div className="sp-product-meta"><h3>{product.name}</h3><b>{product.sale_price_minor !== null && product.sale_price_minor !== undefined && Number(product.sale_price_minor) < Number(product.price_minor) && (!product.sale_starts_at || new Date(product.sale_starts_at) <= new Date()) && (!product.sale_ends_at || new Date(product.sale_ends_at) >= new Date()) ? <><span className="sp-sale-price">{money(product.sale_price_minor)}</span><del>{money(product.price_minor)}</del></> : money(product.price_minor)}</b></div>
-          <p>{product.description||"A considered piece from the SP Clothing Services collection."}</p>
-          <a className="sp-product-link" href={`mailto:${content.contact_email}?subject=${encodeURIComponent("Enquiry: "+product.name)}`}>Enquire about this piece <span></span></a>
-        </article>)}
-      </div>
+      <SPCart products={products.map((product) => ({...product}))} contactEmail={content.contact_email} />
       <p className="sp-demo-note">SAMPLE STOREFRONT · Product names, prices and imagery are demonstration content and can be replaced by the SP Clothing Services team.</p>
     </section>
     <SPStyleStudio products={products.map(({id,name,description,price_minor,image_url,category})=>({id,name,description,price_minor,image_url,category}))} />
