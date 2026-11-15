@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 type Product = { id:string; name:string; description:string|null; price_minor:number|string; sale_price_minor:number|string|null; sale_starts_at:string|null; sale_ends_at:string|null; sale_label:string|null; image_url:string|null; category:string|null; stock_quantity:number };
 type StoreContent = Record<string,string>;
 const defaultContent:StoreContent = {
- ribbon_message:"MADE WITH INTENTION. WORN WITH CONFIDENCE.",hero_eyebrow:"{content.hero_eyebrow}",hero_cta_label:"Explore the collection",
+ ribbon_message:"MADE WITH INTENTION. WORN WITH CONFIDENCE.",hero_eyebrow:"THE SP EDIT · LAGOS",hero_cta_label:"Explore the collection",
  collection_title:"Find your",collection_emphasis:"next favourite.",services_title:"Made for your",services_emphasis:"kind of style.",
  contact_kicker:"THE NEXT LOOK STARTS HERE",contact_title:"Let's make it",contact_emphasis:"feel like you.",contact_cta_label:"Start a conversation",
  footer_description:"Thoughtful fashion, considered details and personal style. Discover pieces made to help you feel confidently yourself.",footer_location:"Lagos, Nigeria",footer_hours:"For appointments and orders\nplease get in touch by email.",footer_tagline:"MADE WITH INTENTION.",
