@@ -59,3 +59,9 @@
 .sp-hero-progress{position:absolute;z-index:2;left:25px;bottom:28px;display:flex;gap:5px;max-width:60%}
 .sp-hero-progress span{display:block;width:17px;height:2px;background:#ffffff65;transition:width .35s,background .35s}
 .sp-hero-progress span.active{width:30px;background:#fff}
+
+
+/* Product sale pricing */
+.sp-sale-price{display:inline-block;color:#a64b36;font-weight:700;margin-right:.45rem}
+.sp-product-meta del,.sp-admin-product-copy del{color:#8b8580;font-size:.86em;font-weight:400}
+.sp-sale-badge{display:inline-flex;align-items:center;padding:.35rem .55rem;background:#a64b36;color:#fff;font-size:.62rem;letter-spacing:.1em}
