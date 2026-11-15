@@ -83,9 +83,9 @@ export default async function SPClothingStorefront() {
           <p>Thoughtful fashion, considered details and personal style. Discover pieces made to help you feel confidently yourself.</p>
 <div className="sp-social-icons" aria-label="Social media platforms">
             <a href={content.instagram_url || undefined} aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" className="sp-icon-fill"/></svg></a>
-            <a href={content.facebook_url || undefined} aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h3l.5-4H14V7c0-1.2.4-2 2-2h2V1.4C17.2 1.2 16.1 1 15 1c-3.3 0-5 2-5 5.4V9H7v4h3v8z"/></svg></span>
-            <a href={content.tiktok_url || undefined} aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.4 2.5 1.8 4 4 4.2v3.2a8 8 0 0 1-4-1.3v6.1a6.2 6.2 0 1 1-6.2-6.2c.4 0 .8 0 1.2.1v3.3a3 3 0 1 0 1.8 2.8V3z"/></svg></span>
-            <a href={content.whatsapp_url || undefined} aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z"/><path d="M9 8.5c.3-.5.6-.5.9-.5l.7 1.7-.7.9c.6 1.2 1.5 2.1 2.8 2.7l.8-.8 1.8.8c.2.1.3.5.1.9-.3.7-1.2 1.2-2 1.1-2.5-.4-5.8-3.3-6.1-5.8-.1-.4.6-.9 1.7-1Z"/></svg></span>
+            <a href={content.facebook_url || undefined} aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h3l.5-4H14V7c0-1.2.4-2 2-2h2V1.4C17.2 1.2 16.1 1 15 1c-3.3 0-5 2-5 5.4V9H7v4h3v8z"/></svg></a>
+            <a href={content.tiktok_url || undefined} aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3c.4 2.5 1.8 4 4 4.2v3.2a8 8 0 0 1-4-1.3v6.1a6.2 6.2 0 1 1-6.2-6.2c.4 0 .8 0 1.2.1v3.3a3 3 0 1 0 1.8 2.8V3z"/></svg></a>
+            <a href={content.whatsapp_url || undefined} aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z"/><path d="M9 8.5c.3-.5.6-.5.9-.5l.7 1.7-.7.9c.6 1.2 1.5 2.1 2.8 2.7l.8-.8 1.8.8c.2.1.3.5.1.9-.3.7-1.2 1.2-2 1.1-2.5-.4-5.8-3.3-6.1-5.8-.1-.4.6-.9 1.7-1Z"/></svg></a>
           </div>
         </div>
         <div className="sp-footer-links">
