@@ -257,7 +257,7 @@ export default function ExponairStorefront({ page = "home" }: { page?: "home" | 
             <a href="/exponair/terms">Booking terms & conditions</a>
           </div>
         </div>
-        <div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LIMITED · RC1517280. ALL RIGHTS RESERVED.</span><span>LAGOS, NIGERIA</span></div>
+        <div className="expo-footer-bottom"><span>© {new Date().getFullYear()} EXPONAIR EVENTS MANAGEMENT LIMITED · RC1517280. ALL RIGHTS RESERVED.</span><div className="expo-footer-utility"><span>LAGOS, NIGERIA</span><a className="expo-admin-access" href="/exponair/admin" aria-label="Exponair team admin access">Admin access</a></div></div>
       </footer>
       <a className="expo-whatsapp-float" href="https://wa.me/2348023387671?text=Hello%20Exponair%2C%20I%27d%20like%20to%20enquire%20about%20an%20event." target="_blank" rel="noreferrer"><span className="expo-whatsapp-mark" aria-hidden="true"><MessageCircle size={17} strokeWidth={1.8}/></span><span className="expo-whatsapp-label">Chat with Exponair</span><span className="expo-whatsapp-status" aria-hidden="true"/></a>
     </main>
