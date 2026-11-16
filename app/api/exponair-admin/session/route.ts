@@ -3,7 +3,7 @@ import { createExponairSession, EXPONAIR_SESSION_COOKIE, verifyExponairPassword 
 
 export const runtime = "nodejs";
 export async function POST(req: NextRequest) {
-  if (!process.env.EXPONAIR_ADMIN_PASSWORD) return NextResponse.json({error:"Exponair admin access is not configured."},{status:503});
+  if (!process.env.EXPONAIR_ADMIN_PASSWORD_HASH) return NextResponse.json({error:"Exponair admin access is not configured."},{status:503});
   try {
     const body = await req.json();
     if (typeof body.password !== "string" || !verifyExponairPassword(body.password))
