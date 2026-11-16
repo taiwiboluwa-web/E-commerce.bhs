@@ -81,6 +81,9 @@ export async function POST(req:NextRequest){
    if(!size||size>MAX_BYTES)throw new Error("Uploaded object size is invalid.");
    const kind=ALLOWED[mime],publicKey="exponair/"+objectKey.split("/").slice(-1)[0];
    await client.send(new (await import("@aws-sdk/client-s3")).CopyObjectCommand({Bucket:OPTIMIZED,Key:publicKey,CopySource:encodeURIComponent(ORIGINALS+"/"+objectKey).replace(/%2F/g,"/"),ContentType:mime,MetadataDirective:"REPLACE",CacheControl:"public, max-age=31536000, immutable"}));
+   // Originals are staging only. Remove the staged source once the delivery copy is safely stored.
+   // Quota remains based on original_size_bytes, not the optimized object size.
+   await client.send(new (await import("@aws-sdk/client-s3")).DeleteObjectCommand({Bucket:ORIGINALS,Key:objectKey}));
    const endpoint=process.env.AWS_ENDPOINT_URL_S3!.replace(/\/$/,"");
    const publicUrl=endpoint+"/"+OPTIMIZED+"/"+publicKey.split("/").map(encodeURIComponent).join("/");
    const title=String(body.title||"").trim().slice(0,120),category=String(body.category||"Events").trim().slice(0,80);
@@ -94,10 +97,12 @@ export async function POST(req:NextRequest){
     const rows=await sql().query("WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) UPDATE public.exponair_gallery g SET published=$2,updated_at=now() FROM tenant_context WHERE g.id=$3::uuid AND g.tenant_id=$1::uuid RETURNING g.id,g.published",[tenantId,Boolean(body.published),id]);
     return NextResponse.json({ok:true,item:rows[0]});
    }
-   const rows=await sql().query("WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) SELECT g.media_asset_id,g.object_key FROM tenant_context CROSS JOIN public.exponair_gallery g WHERE g.id=$2::uuid AND g.tenant_id=$1::uuid",[tenantId,id]);
+   const rows=await sql().query("WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) SELECT g.media_asset_id,g.object_key,m.original_object_key FROM tenant_context CROSS JOIN public.exponair_gallery g JOIN public.media_assets m ON m.id=g.media_asset_id AND m.tenant_id=g.tenant_id WHERE g.id=$2::uuid AND g.tenant_id=$1::uuid",[tenantId,id]);
    if(!rows[0])return NextResponse.json({error:"Media item not found."},{status:404});
    const item=rows[0];
-   await clientDelete(item.object_key);
+   // Delete every stored copy before removing the gallery record or releasing quota.
+   await clientDelete(OPTIMIZED,String(item.object_key));
+   if(item.original_object_key)await clientDelete(ORIGINALS,String(item.original_object_key));
    await sql().query("DELETE FROM public.exponair_gallery WHERE id=$1::uuid AND tenant_id=$2::uuid",[id,tenantId]);
    await sql().query("SELECT public.release_media_upload($1::uuid,$2::uuid,'deleted')",[item.media_asset_id,tenantId]);
    return NextResponse.json({ok:true});
@@ -110,4 +115,4 @@ export async function POST(req:NextRequest){
   return NextResponse.json({error:status===413?"Storage limit reached. Delete an existing file or increase storage capacity before uploading.":message},{status});
  }
 }
-async function clientDelete(key:string){const {DeleteObjectCommand}=await import("@aws-sdk/client-s3");await storage().send(new DeleteObjectCommand({Bucket:OPTIMIZED,Key:key}));}
+async function clientDelete(bucket:string,key:string){const {DeleteObjectCommand}=await import("@aws-sdk/client-s3");await storage().send(new DeleteObjectCommand({Bucket:bucket,Key:key}));}
