@@ -756,3 +756,10 @@
   .exponair[data-page="reviews"] .expo-reviews{padding-top:34px;padding-bottom:42px}
   .exponair[data-page="gallery"] .expo-quote{padding-top:38px;padding-bottom:38px}
 }
+
+
+/* Discreet Exponair team access in the footer */
+.expo-footer-utility{display:flex;align-items:center;gap:18px}
+.expo-admin-access{color:#c9b77c!important;font:600 8px/1.5 "Manrope",sans-serif;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(201,183,124,.35);padding-bottom:3px;white-space:nowrap;transition:color .2s,border-color .2s}
+.expo-admin-access:hover{color:#fff!important;border-color:#fff}
+@media(max-width:680px){.expo-footer-bottom{align-items:flex-start;flex-direction:column;gap:12px}.expo-footer-utility{width:100%;justify-content:space-between;gap:12px}.expo-admin-access{font-size:8px}}
