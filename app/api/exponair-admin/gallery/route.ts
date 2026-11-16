@@ -45,7 +45,7 @@ export async function GET(req:NextRequest){
   const tenantId=await exponairTenant();
   const rows=await sql().query("WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) SELECT g.id,g.title,g.category,g.media_kind,g.mime_type,g.public_url,g.poster_url,g.created_at,g.published FROM tenant_context CROSS JOIN public.exponair_gallery g WHERE g.tenant_id=$1::uuid "+(admin?"":"AND g.published=true")+" ORDER BY g.created_at DESC",[tenantId]);
   const capacity=await sql().query("SELECT * FROM public.get_tenant_storage_capacity($1::uuid)",[tenantId]);
-  return NextResponse.json({items:rows,storage:capacity[0]||{capacity_bytes:2147483648,used_bytes:0,available_bytes:2147483648}});
+  return NextResponse.json(admin?{items:rows,storage:capacity[0]||{capacity_bytes:2147483648,used_bytes:0,available_bytes:2147483648}}:{items:rows});
  }catch(e){console.error("Exponair gallery read failed",e);return NextResponse.json({error:"Gallery data is temporarily unavailable."},{status:503});}
 }
 
@@ -65,6 +65,12 @@ export async function POST(req:NextRequest){
    const objectKey=tenantId+"/exponair/"+key;
    const uploadUrl=signedPutUrl(ORIGINALS,objectKey,mime);
    return NextResponse.json({assetId,objectKey,uploadUrl,kind,mimeType:mime});
+  }
+  if(action==="cancel"){
+   const assetId=String(body.assetId||"");
+   if(!/^[0-9a-f-]{36}$/i.test(assetId))return NextResponse.json({error:"Invalid upload reservation."},{status:400});
+   await sql().query("SELECT public.release_media_upload($1::uuid,$2::uuid,'failed')",[assetId,tenantId]);
+   return NextResponse.json({ok:true});
   }
   if(action==="complete"){
    const assetId=String(body.assetId||""),objectKey=String(body.objectKey||""),mime=String(body.mimeType||"");
