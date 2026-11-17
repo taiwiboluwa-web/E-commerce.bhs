@@ -83,13 +83,88 @@ export default function BigBStorefront() {
   const busy = useRef(false);
 
   useEffect(() => {
-    // Every fresh visit begins in the warm cream identity, then the ink spill
-    // reveals the dark experience. The intro is intentionally replayed on refresh.
-    document.documentElement.dataset.theme = "light";
-    document.documentElement.style.colorScheme = "light";
+    // The page always settles into dark mode. A real transparent WebGL ink
+    // layer starts as warm cream and organically clears to reveal the page.
+    document.documentElement.dataset.theme = "dark";
+    document.documentElement.style.colorScheme = "dark";
     window.localStorage.setItem("bigbs-theme", "dark");
-    const intro = window.setTimeout(() => { void toggleTheme(); }, 420);
-    return () => window.clearTimeout(intro);
+    setTheme("dark");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const gl = canvas.getContext("webgl2", { alpha: true, antialias: false, premultipliedAlpha: false });
+    if (!gl) return;
+
+    const introFragment = `#version 300 es
+    precision highp float;
+    out vec4 outColor;
+    uniform vec2 uResolution;
+    uniform float uProgress;
+    uniform float uTime;
+    float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+    float noise(vec2 p){
+      vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
+      return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);
+    }
+    float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p=mat2(1.6,-1.2,1.2,1.6)*p+3.7;a*=.5;}return v;}
+    void main(){
+      vec2 uv=gl_FragCoord.xy/uResolution;
+      vec2 p=(uv-.5)*vec2(uResolution.x/uResolution.y,1.);
+      float n=fbm(uv*5.5+vec2(uTime*.045,-uTime*.03));
+      float marbling=fbm(uv*vec2(21.,16.)+n*2.8);
+      float radius=mix(1.72,0.0,uProgress);
+      float edge=length(p)-radius+(n-.5)*.22+(marbling-.5)*.09;
+      float alpha=1.0-smoothstep(-.035,.035,edge);
+      float veins=smoothstep(.76,.94,marbling)*.13;
+      vec3 cream=mix(vec3(.965,.949,.914),vec3(.82,.79,.73),veins);
+      float droplets=step(.988,noise(uv*vec2(150.,110.)+uTime))*(1.0-smoothstep(0.,.18,abs(edge)));
+      alpha=max(alpha,droplets*.72);
+      outColor=vec4(cream,alpha);
+    }`;
+    let frame = 0;
+    let program: WebGLProgram | null = null;
+    let vao: WebGLVertexArrayObject | null = null;
+    let disposed = false;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(window.innerWidth * dpr);
+    canvas.height = Math.round(window.innerHeight * dpr);
+    canvas.style.display = "block";
+    canvas.style.opacity = "1";
+    try {
+      program = makeProgram(gl);
+      vao = gl.createVertexArray();
+      gl.bindVertexArray(vao);
+      gl.useProgram(program);
+      gl.uniform2f(gl.getUniformLocation(program, "uResolution"), canvas.width, canvas.height);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      const started = performance.now();
+      const draw = (now: number) => {
+        if (disposed) return;
+        const progress = Math.min(1, (now - started) / 2450);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(gl.getUniformLocation(program!, "uProgress"), 1 - Math.pow(1 - progress, 2.2));
+        gl.uniform1f(gl.getUniformLocation(program!, "uTime"), (now - started) / 1000);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        if (progress < 1) frame = requestAnimationFrame(draw);
+        else {
+          canvas.style.display = "none";
+          gl.deleteProgram(program!);
+          if (vao) gl.deleteVertexArray(vao);
+        }
+      };
+      frame = requestAnimationFrame(draw);
+    } catch (error) {
+      canvas.style.display = "none";
+      console.error("BIG B'S opening ink reveal:", error);
+    }
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   const toggleTheme = useCallback(async (event?: { clientX: number; clientY: number }) => {
