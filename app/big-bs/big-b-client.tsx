@@ -113,7 +113,7 @@ export default function BigBStorefront() {
       vec2 p=(uv-.5)*vec2(uResolution.x/uResolution.y,1.);
       float n=fbm(uv*5.5+vec2(uTime*.045,-uTime*.03));
       float marbling=fbm(uv*vec2(21.,16.)+n*2.8);
-      float radius=mix(1.72,0.0,uProgress);
+      float radius=mix(1.72,-.45,uProgress);
       float edge=length(p)-radius+(n-.5)*.22+(marbling-.5)*.09;
       float alpha=1.0-smoothstep(-.035,.035,edge);
       float veins=smoothstep(.76,.94,marbling)*.13;
