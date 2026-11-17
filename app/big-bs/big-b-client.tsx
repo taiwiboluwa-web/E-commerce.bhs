@@ -4,258 +4,304 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Instagram, Linkedin, Menu, Moon, Sparkles, Sun, X } from "lucide-react";
 
 type Theme = "dark" | "light";
+type IntroPhase = "pending" | "done";
 
-const vertex = `#version 300 es
+/* ------------------------------------------------------------------ *
+ * Cinematic cream ink opening (BIG B'S only)
+ *
+ * The server renders a cream overlay on top of an already-dark page, so the
+ * first paint is always cream and the dark site can never flash. Once fonts and
+ * the window load event are ready, a WebGL2 shader draws warm cream ink with
+ * marbled veins over the page and lets it recede through domain-warped,
+ * ridged-noise boundaries, uncovering the real dark DOM underneath.
+ * ------------------------------------------------------------------ */
+
+const INTRO_MS = 2900;
+const READY_TIMEOUT_MS = 1400;
+const WATCHDOG_MS = 9000;
+
+const vertexSource = `#version 300 es
 precision highp float;
-out vec2 vUv;
 void main(){
-  vec2 p = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
-  vUv = p * 0.5;
-  gl_Position = vec4(p - 1.0, 0.0, 1.0);
+  vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
 }`;
 
-const fragment = `#version 300 es
+const fragmentSource = `#version 300 es
 precision highp float;
-in vec2 vUv;
-out vec4 outColor;
-uniform sampler2D uOld;
-uniform sampler2D uNew;
-uniform vec2 uResolution;
-uniform vec2 uOrigin;
-uniform float uProgress;
+uniform vec2 uRes;
 uniform float uTime;
-float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123); }
-float noise(vec2 p){
-  vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f);
-  return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);
+uniform float uEase;
+uniform float uVein;
+out vec4 outColor;
+
+vec2 hash22(vec2 p){
+  vec3 p3 = fract(vec3(p.xyx) * vec3(.1031, .1030, .0973));
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.xx + p3.yz) * p3.zy) * 2.0 - 1.0;
+}
+float gnoise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+  float a = dot(hash22(i), f);
+  float b = dot(hash22(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0));
+  float c = dot(hash22(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0));
+  float d = dot(hash22(i + vec2(1.0, 1.0)), f - vec2(1.0, 1.0));
+  return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 float fbm(vec2 p){
-  float v=0.0,a=.5;
-  for(int i=0;i<5;i++){v+=a*noise(p);p=mat2(1.6,-1.2,1.2,1.6)*p+3.7;a*=.5;}
-  return v;
+  float v = 0.0, a = 0.5;
+  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+  for (int i = 0; i < 5; i++) { v += a * gnoise(p); p = m * p + vec2(1.7, 9.2); a *= 0.5; }
+  return clamp(v * 0.9 + 0.5, 0.0, 1.0);
 }
+float smin(float a, float b, float k){
+  float h = max(k - abs(a - b), 0.0) / k;
+  return min(a, b) - h * h * k * 0.25;
+}
+
 void main(){
-  vec2 uv=vUv;
-  vec2 p=(uv-uOrigin)*vec2(uResolution.x/uResolution.y,1.0);
-  float n=fbm(uv*7.0+vec2(uTime*.055,-uTime*.035));
-  float fibres=fbm(uv*vec2(23.0,17.0)+n*3.2);
-  float marbling=sin((fibres*2.0+n*1.8)*19.0+uTime*.35)*.5+.5;
-  float radius=uProgress*1.85;
-  float edge=length(p)-radius+(n-.5)*.24+(marbling-.5)*.065;
-  float front=1.0-smoothstep(-.055,.055,edge);
-  float band=exp(-pow(edge/.105,2.0));
-  vec3 oldColor=texture(uOld,uv).rgb;
-  vec3 newColor=texture(uNew,uv).rgb;
-  vec3 ink=mix(vec3(.025,.025,.028),vec3(.96,.94,.89),marbling);
-  vec3 color=mix(oldColor,newColor,front);
-  color=mix(color,ink,band*.72*(1.0-front*.18));
-  float droplets=step(.985,noise(uv*vec2(190.0,130.0)+uTime))*(1.0-smoothstep(0.0,.22,abs(edge)))*.42;
-  color=mix(color,ink,droplets);
-  outColor=vec4(color,1.0);
+  vec2 uv = gl_FragCoord.xy / uRes;
+  float aspect = uRes.x / uRes.y;
+  vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
+  float t = uTime;
+  vec2 q = p * 1.7;
+
+  // Inigo-style domain warping: the ink flows as it spreads.
+  vec2 w1 = vec2(fbm(q + vec2(0.0, t * 0.10)), fbm(q + vec2(5.2, 1.3) - vec2(t * 0.08, 0.0)));
+  vec2 w2 = vec2(fbm(q + 3.2 * w1 + vec2(1.7, 9.2) + t * 0.06), fbm(q + 3.2 * w1 + vec2(8.3, 2.8) - t * 0.05));
+  float f = fbm(q + 3.6 * w2);
+
+  // Ridged noise pulls long tendrils out of the receding boundary.
+  float rid = 1.0 - abs(fbm(q * 2.2 + w2 * 2.4 + vec2(t * 0.04, -t * 0.03)) * 2.0 - 1.0);
+  rid *= rid;
+
+  // Three uneven spill points that merge into one organic body.
+  float d0 = length(p - vec2(0.03 * aspect, 0.04));
+  float d1 = length(p - vec2(-0.34 * aspect, 0.30)) + 0.12;
+  float d2 = length(p - vec2(0.36 * aspect, -0.27)) + 0.22;
+  float d = smin(smin(d0, d1, 0.35), d2, 0.35);
+
+  float field = d + (f - 0.5) * 0.95 + (w2.x - 0.5) * 0.55 - (rid - 0.35) * 0.30;
+  float corner = length(vec2(aspect * 0.5, 0.5));
+  float R = mix(-0.30, corner + 0.35, uEase);
+  float edge = field - R;               // > 0 : ink still covers, < 0 : dark page revealed
+
+  float aa = clamp(fwidth(edge), 0.0006, 0.012);
+  float ink = smoothstep(-aa, aa, edge);
+
+  // Stray ink islands that shrink and vanish behind the front.
+  float n2 = fbm(q * 3.1 + w1 * 2.0 + 11.0);
+  float thr = mix(0.60, 1.10, uEase);
+  float island = smoothstep(thr, thr + 0.03, n2) * smoothstep(-0.55, -0.10, edge);
+  ink = max(ink, island);
+
+  // Cream palette (#F2EEE5, #F5F3EF, #E9E3D8) with warm marbled veins.
+  vec3 cream = vec3(0.949, 0.933, 0.898);
+  vec3 ivory = vec3(0.961, 0.953, 0.937);
+  vec3 stone = vec3(0.914, 0.890, 0.847);
+  vec3 deep  = vec3(0.835, 0.800, 0.735);
+  vec3 col = mix(cream, ivory, smoothstep(0.35, 0.78, f));
+  col = mix(col, stone, smoothstep(0.42, 0.86, w2.x) * 0.60);
+  float vein = 1.0 - smoothstep(0.0, 0.07, abs(sin((f * 4.2 + w2.y * 2.4) * 6.2831853 + t * 0.2)));
+  col = mix(col, deep, vein * 0.30 * uVein);
+
+  // Darker ink lip just inside the boundary, and a faint sheen spilling onto the dark side.
+  float lip = smoothstep(0.0, 0.005, edge) * (1.0 - smoothstep(0.010, 0.045, edge));
+  col = mix(col, vec3(0.70, 0.65, 0.56), lip * 0.38 * uVein);
+  float sheen = exp(min(edge, 0.0) / 0.022) * 0.20 * step(edge, 0.0) * (1.0 - ink);
+
+  // Guaranteed clean finish: any last wisps dissolve in the closing stretch.
+  float tail = 1.0 - smoothstep(0.86, 1.0, uEase);
+  float a = clamp(max(ink, sheen), 0.0, 1.0) * tail;
+  outColor = vec4(col * a, a);
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, source: string) {
   const shader = gl.createShader(type);
   if (!shader) throw new Error("Unable to create ink shader.");
-  gl.shaderSource(shader, source); gl.compileShader(shader);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     const message = gl.getShaderInfoLog(shader) || "Ink shader compilation failed.";
-    gl.deleteShader(shader); throw new Error(message);
+    gl.deleteShader(shader);
+    throw new Error(message);
   }
   return shader;
 }
 
-function makeProgram(gl: WebGL2RenderingContext) {
+function buildProgram(gl: WebGL2RenderingContext) {
+  const vs = compile(gl, gl.VERTEX_SHADER, vertexSource);
+  const fs = compile(gl, gl.FRAGMENT_SHADER, fragmentSource);
   const program = gl.createProgram();
   if (!program) throw new Error("Unable to create ink renderer.");
-  gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, vertex));
-  gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, fragment));
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
   gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || "Ink renderer link failed.");
+  gl.deleteShader(vs);
+  gl.deleteShader(fs);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    const message = gl.getProgramInfoLog(program) || "Ink renderer link failed.";
+    gl.deleteProgram(program);
+    throw new Error(message);
+  }
   return program;
 }
 
+// Near-linear travel with a gentle ease so the reveal fills the whole 2 to 3 seconds.
+const easeReveal = (x: number) => x * 0.65 + x * x * (3 - 2 * x) * 0.35;
+
+function pageReady() {
+  return new Promise<void>(resolve => {
+    let settled = false;
+    const done = () => { if (!settled) { settled = true; resolve(); } };
+    window.setTimeout(done, READY_TIMEOUT_MS);
+    const fonts = document.fonts?.ready ?? Promise.resolve();
+    const loaded = document.readyState === "complete"
+      ? Promise.resolve()
+      : new Promise<void>(res => window.addEventListener("load", () => res(), { once: true }));
+    void Promise.all([fonts, loaded]).then(done, done);
+  });
+}
+
 export default function BigBStorefront() {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [inkReady, setInkReady] = useState(true);
+  const [phase, setPhase] = useState<IntroPhase>("pending");
+  const overlayRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const busy = useRef(false);
 
   useEffect(() => {
-    // The page always settles into dark mode. A real transparent WebGL ink
-    // layer starts as warm cream and organically clears to reveal the page.
-    document.documentElement.dataset.theme = "dark";
-    document.documentElement.style.colorScheme = "dark";
-    window.localStorage.setItem("bigbs-theme", "dark");
-    setTheme("dark");
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // The opening never reads a saved theme: every visit starts cream and ends dark.
+    const overlay = overlayRef.current;
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const gl = canvas.getContext("webgl2", { alpha: true, antialias: false, premultipliedAlpha: false });
-    if (!gl) return;
+    if (!overlay || !canvas) { setPhase("done"); return; }
 
-    const introFragment = `#version 300 es
-    precision highp float;
-    out vec4 outColor;
-    uniform vec2 uResolution;
-    uniform float uProgress;
-    uniform float uTime;
-    float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
-    float noise(vec2 p){
-      vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
-      return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);
-    }
-    float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p=mat2(1.6,-1.2,1.2,1.6)*p+3.7;a*=.5;}return v;}
-    void main(){
-      vec2 uv=gl_FragCoord.xy/uResolution;
-      vec2 p=(uv-.5)*vec2(uResolution.x/uResolution.y,1.);
-      float n=fbm(uv*5.5+vec2(uTime*.045,-uTime*.03));
-      float marbling=fbm(uv*vec2(21.,16.)+n*2.8);
-      float radius=mix(1.72,-.45,uProgress);
-      float edge=length(p)-radius+(n-.5)*.22+(marbling-.5)*.09;
-      float alpha=1.0-smoothstep(-.035,.035,edge);
-      float veins=smoothstep(.76,.94,marbling)*.13;
-      vec3 cream=mix(vec3(.965,.949,.914),vec3(.82,.79,.73),veins);
-      float droplets=step(.988,noise(uv*vec2(150.,110.)+uTime))*(1.0-smoothstep(0.,.18,abs(edge)));
-      alpha=max(alpha,droplets*.72);
-      outColor=vec4(cream,alpha);
-    }`;
+    let cancelled = false;
     let frame = 0;
-    let program: WebGLProgram | null = null;
-    let vao: WebGLVertexArrayObject | null = null;
-    let disposed = false;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    canvas.width = Math.round(window.innerWidth * dpr);
-    canvas.height = Math.round(window.innerHeight * dpr);
-    canvas.style.display = "block";
-    canvas.style.opacity = "1";
-    try {
-      program = gl.createProgram();
-      if (!program) throw new Error("Unable to create the opening ink renderer.");
-      gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, vertex));
-      gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, introFragment));
-      gl.linkProgram(program);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || "Opening ink renderer link failed.");
-      vao = gl.createVertexArray();
+    let disposeGl: (() => void) | null = null;
+    const timers: number[] = [];
+
+    const finish = () => {
+      if (cancelled) return;
+      disposeGl?.();
+      disposeGl = null;
+      setPhase("done");
+    };
+    const softFade = (ms: number) => {
+      if (cancelled) return;
+      canvas.style.display = "none";
+      overlay.style.background = "#f2eee5";
+      overlay.style.transition = `opacity ${ms}ms ease`;
+      void overlay.offsetWidth;
+      overlay.style.opacity = "0";
+      timers.push(window.setTimeout(finish, ms + 60));
+    };
+
+    const startInk = () => {
+      const gl = canvas.getContext("webgl2", { alpha: true, antialias: false, premultipliedAlpha: true, depth: false, stencil: false, powerPreference: "high-performance" });
+      if (!gl) throw new Error("WebGL2 is unavailable.");
+      const program = buildProgram(gl);
+      const vao = gl.createVertexArray();
       gl.bindVertexArray(vao);
       gl.useProgram(program);
-      gl.uniform2f(gl.getUniformLocation(program, "uResolution"), canvas.width, canvas.height);
-      gl.enable(gl.BLEND);
-      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-      const started = performance.now();
-      const draw = (now: number) => {
-        if (disposed) return;
-        const progress = Math.min(1, (now - started) / 2450);
+      const uRes = gl.getUniformLocation(program, "uRes");
+      const uTime = gl.getUniformLocation(program, "uTime");
+      const uEase = gl.getUniformLocation(program, "uEase");
+      const uVein = gl.getUniformLocation(program, "uVein");
+
+      const resize = () => {
+        const w = Math.max(1, window.innerWidth);
+        const h = Math.max(1, window.innerHeight);
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const budget = w < 820 ? 650_000 : 1_150_000;
+        const scale = Math.min(1, Math.sqrt(budget / (w * h * dpr * dpr)));
+        canvas.width = Math.max(2, Math.round(w * dpr * scale));
+        canvas.height = Math.max(2, Math.round(h * dpr * scale));
         gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.uniform1f(gl.getUniformLocation(program!, "uProgress"), 1 - Math.pow(1 - progress, 2.2));
-        gl.uniform1f(gl.getUniformLocation(program!, "uTime"), (now - started) / 1000);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-        if (progress < 1) frame = requestAnimationFrame(draw);
-        else {
-          canvas.style.display = "none";
-          gl.deleteProgram(program!);
-          if (vao) gl.deleteVertexArray(vao);
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+      };
+      const onLost = (event: Event) => { event.preventDefault(); cancelAnimationFrame(frame); softFade(700); };
+      resize();
+      window.addEventListener("resize", resize);
+      canvas.addEventListener("webglcontextlost", onLost);
+
+      disposeGl = () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener("resize", resize);
+        canvas.removeEventListener("webglcontextlost", onLost);
+        if (!gl.isContextLost()) {
+          gl.deleteVertexArray(vao);
+          gl.deleteProgram(program);
+          gl.getExtension("WEBGL_lose_context")?.loseContext();
         }
       };
+
+      let started = 0;
+      const draw = (now: number) => {
+        if (cancelled) return;
+        if (!started) started = now;
+        const elapsed = now - started;
+        const x = Math.min(1, elapsed / INTRO_MS);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(uTime, 1.5 + elapsed / 1000);
+        gl.uniform1f(uEase, easeReveal(x));
+        gl.uniform1f(uVein, Math.min(1, elapsed / 350));
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        // Only hand the background over to the canvas once a full cream frame exists.
+        if (overlay.style.background !== "transparent") overlay.style.background = "transparent";
+        if (x < 1) frame = requestAnimationFrame(draw);
+        else finish();
+      };
       frame = requestAnimationFrame(draw);
-    } catch (error) {
-      canvas.style.display = "none";
-      console.error("BIG B'S opening ink reveal:", error);
-    }
+    };
+
+    void pageReady().then(() => {
+      if (cancelled) return;
+      timers.push(window.setTimeout(() => softFade(500), WATCHDOG_MS));
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { softFade(700); return; }
+      try { startInk(); }
+      catch (error) { console.error("BIG B'S opening ink reveal fell back to a soft fade:", error); softFade(900); }
+    });
+
     return () => {
-      disposed = true;
+      cancelled = true;
       cancelAnimationFrame(frame);
+      timers.forEach(id => window.clearTimeout(id));
+      disposeGl?.();
     };
   }, []);
 
-  const toggleTheme = useCallback(async (event?: { clientX: number; clientY: number }) => {
-    if (busy.current) return;
-    busy.current = true;
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.dataset.theme = next; document.documentElement.style.colorScheme = next;
-      setTheme(next); window.localStorage.setItem("bigbs-theme", next); busy.current = false; return;
-    }
-    const canvas = canvasRef.current;
-    const button = document.getElementById("bigb-theme-toggle");
-    const x = event?.clientX ?? (button?.getBoundingClientRect().left ?? window.innerWidth - 54) + 22;
-    const y = event?.clientY ?? (button?.getBoundingClientRect().top ?? 20) + 22;
-    try {
-      const [{ default: html2canvas }, { gsap }] = await Promise.all([import("html2canvas"), import("gsap")]);
-      const oldSnapshot = await html2canvas(document.body, { backgroundColor: theme === "dark" ? "#08090b" : "#f5f3ef", scale: Math.min(window.devicePixelRatio || 1, 1.5), useCORS: true, logging: false, width: window.innerWidth, height: window.innerHeight, x: window.scrollX, y: window.scrollY, windowWidth: window.innerWidth, windowHeight: window.innerHeight });
-      document.documentElement.dataset.theme = next;
-      document.documentElement.style.colorScheme = next;
-      setTheme(next);
-      window.localStorage.setItem("bigbs-theme", next);
-      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-      const newSnapshot = await html2canvas(document.body, { backgroundColor: next === "dark" ? "#08090b" : "#f5f3ef", scale: Math.min(window.devicePixelRatio || 1, 1.5), useCORS: true, logging: false, width: window.innerWidth, height: window.innerHeight, x: window.scrollX, y: window.scrollY, windowWidth: window.innerWidth, windowHeight: window.innerHeight });
-      if (!canvas) throw new Error("Ink canvas is unavailable.");
-      const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, premultipliedAlpha: false });
-      if (!gl) throw new Error("WebGL2 is unavailable.");
-      canvas.width = window.innerWidth * Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.height = window.innerHeight * Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.style.display = "block";
-      const program = makeProgram(gl);
-      gl.useProgram(program);
-      const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
-      const textures = [oldSnapshot, newSnapshot].map((source, index) => {
-        const texture = gl.createTexture(); gl.activeTexture(index === 0 ? gl.TEXTURE0 : gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
-        gl.uniform1i(gl.getUniformLocation(program, index === 0 ? "uOld" : "uNew"), index); return texture;
-      });
-      const origin = gl.getUniformLocation(program, "uOrigin");
-      gl.uniform2f(origin, x / window.innerWidth, 1 - y / window.innerHeight);
-      gl.uniform2f(gl.getUniformLocation(program, "uResolution"), canvas.width, canvas.height);
-      const progress = { value: 0 };
-      const started = performance.now();
-      const draw = () => {
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.uniform1f(gl.getUniformLocation(program, "uProgress"), progress.value);
-        gl.uniform1f(gl.getUniformLocation(program, "uTime"), (performance.now() - started) / 1000);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-      };
-      draw();
-      await new Promise<void>(resolve => gsap.to(progress, { value: 1.45, duration: 2.2, ease: "power3.out", onUpdate: draw, onComplete: resolve }));
-      await new Promise<void>(resolve => gsap.to(canvas, { opacity: 0, duration: .15, onComplete: resolve }));
-      canvas.style.display = "none"; canvas.style.opacity = "1";
-      textures.forEach(texture => gl.deleteTexture(texture)); gl.deleteProgram(program); if (vao) gl.deleteVertexArray(vao);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
-    } catch (error) {
-      document.documentElement.dataset.theme = next; setTheme(next); window.localStorage.setItem("bigbs-theme", next);
-      if (canvas) canvas.style.display = "none";
-      setInkReady(false);
-      window.setTimeout(() => setInkReady(true), 1200);
-      console.error("BIG B'S ink transition fallback:", error);
-    } finally { busy.current = false; }
-  }, [theme]);
+  // Manual switching is a separate, plain interaction that only exists once the intro is finished.
+  const toggleTheme = useCallback(() => {
+    if (phase !== "done") return;
+    setTheme(current => (current === "dark" ? "light" : "dark"));
+  }, [phase]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
-      if (event.key.toLowerCase() !== "t" || event.repeat || event.metaKey || event.ctrlKey || event.altKey || target?.isContentEditable || ["INPUT","TEXTAREA","SELECT"].includes(target?.tagName || "")) return;
-      void toggleTheme();
+      if (event.key.toLowerCase() !== "t" || event.repeat || event.metaKey || event.ctrlKey || event.altKey || target?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target?.tagName || "")) return;
+      toggleTheme();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [toggleTheme]);
 
   const closeMenu = () => setMenuOpen(false);
-  return <main className="bigb-shell">
-    <canvas ref={canvasRef} className="bigb-ink-canvas" aria-hidden="true" />
-    <header className="bigb-header" data-ink-live>
+  return <>
+    {phase === "pending" && <div ref={overlayRef} className="bigb-intro" aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 2000, background: "#f2eee5", pointerEvents: "none" }}><canvas ref={canvasRef} /></div>}
+    <noscript><style>{".bigb-intro{display:none!important}"}</style></noscript>
+    <main className="bigb-shell" data-theme={theme}>
+    <header className="bigb-header">
       <a className="bigb-wordmark" href="#home" aria-label="BIG B'S home"><span className="bigb-mark">B<span>.</span></span><span className="bigb-wordmark-text">BIG B'S EVOLUTION<small>IDEAS · PEOPLE · EVOLUTION</small></span></a>
       <nav className={menuOpen ? "bigb-nav is-open" : "bigb-nav"} aria-label="Main navigation">
         <a href="#about" onClick={closeMenu}>Our story</a><a href="#work" onClick={closeMenu}>What we do</a><a href="#initiatives" onClick={closeMenu}>Initiatives</a><a href="#founder" onClick={closeMenu}>The founder</a>
         <a className="bigb-nav-cta" href="#connect" onClick={closeMenu}>Let's connect </a>
       </nav>
       <div className="bigb-header-actions">
-        <button id="bigb-theme-toggle" className="bigb-theme-toggle" type="button" aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"} aria-pressed={theme === "dark"} onClick={e => void toggleTheme({ clientX: e.clientX || e.currentTarget.getBoundingClientRect().left + 22, clientY: e.clientY || e.currentTarget.getBoundingClientRect().top + 22 })}>{theme === "dark" ? <Sun size={18}/> : <Moon size={18}/>}</button>
+        <button id="bigb-theme-toggle" className="bigb-theme-toggle" type="button" disabled={phase !== "done"} aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"} aria-pressed={theme === "dark"} onClick={toggleTheme}>{theme === "dark" ? <Sun size={18}/> : <Moon size={18}/>}</button>
         <button className="bigb-menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X size={19}/> : <Menu size={19}/>}</button>
       </div>
     </header>
@@ -296,6 +342,6 @@ export default function BigBStorefront() {
     <section className="bigb-cta" id="connect"><div className="bigb-cta-orb"/><div className="bigb-section-label"><span>05</span> / YOUR NEXT STEP</div><h2>Have an idea?<br/><em>Let's make it move.</em></h2><p>Whether you have a project, a question, a skill to share or simply want to connect with other students, there's room to start here.</p><a className="bigb-button bigb-button-primary" href="https://wa.me/?text=Hello%20BIG%20B%27S%2C%20I%27d%20like%20to%20connect." target="_blank" rel="noreferrer">Start a conversation </a></section>
 
     <footer className="bigb-footer"><a className="bigb-wordmark" href="#home"><span className="bigb-mark">B<span>.</span></span><span className="bigb-wordmark-text">BIG B'S EVOLUTION<small>IDEAS · PEOPLE · EVOLUTION</small></span></a><span className="bigb-footer-line">A STUDENT-LED BRAND BUILT FOR WHAT'S NEXT.</span><div className="bigb-footer-social"><a href="#connect" aria-label="Instagram"><Instagram size={17}/></a><a href="#connect" aria-label="LinkedIn"><Linkedin size={17}/></a></div><div className="bigb-footer-bottom"><span>© {new Date().getFullYear()} BIG B'S EVOLUTION. ALL RIGHTS RESERVED.</span><span>FROM VOICES TO ACTION.</span><a href="https://wa.me/?text=Hello%20BlueHaven%20Studios" target="_blank" rel="noreferrer">POWERED BY BLUEHAVEN STUDIOS </a></div></footer>
-    <div className={inkReady ? "bigb-ink-hint" : "bigb-ink-hint is-visible"}>PRESS T OR USE THE SUN / MOON TO SWITCH THEME</div>
-  </main>;
+    <div className="bigb-ink-hint">PRESS T OR USE THE SUN / MOON TO SWITCH THEME</div>
+  </main></>;
 }
