@@ -177,6 +177,21 @@ export default function BigBStorefront() {
     const canvas = canvasRef.current;
     if (!overlay || !canvas) { setPhase("done"); return; }
 
+    // /big-bs?intro=debug forces the ink (ignoring reduced motion) and prints which path ran.
+    const debug = new URLSearchParams(window.location.search).get("intro") === "debug";
+    let banner: HTMLDivElement | null = null;
+    const note = (message: string) => {
+      document.documentElement.dataset.bigbIntro = message;
+      if (!debug) return;
+      if (!banner) {
+        banner = document.createElement("div");
+        banner.style.cssText = "position:fixed;left:12px;bottom:12px;z-index:3000;max-width:90vw;padding:8px 12px;background:#ffde59;color:#171719;font:700 12px/1.4 monospace;border-radius:4px;pointer-events:none";
+        document.body.appendChild(banner);
+        timers.push(window.setTimeout(() => banner?.remove(), 12000));
+      }
+      banner.textContent = "intro: " + message;
+    };
+
     let cancelled = false;
     let frame = 0;
     let disposeGl: (() => void) | null = null;
@@ -221,7 +236,7 @@ export default function BigBStorefront() {
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.uniform2f(uRes, canvas.width, canvas.height);
       };
-      const onLost = (event: Event) => { event.preventDefault(); cancelAnimationFrame(frame); softFade(700); };
+      const onLost = (event: Event) => { event.preventDefault(); cancelAnimationFrame(frame); note("fallback: webgl context lost"); softFade(700); };
       resize();
       window.addEventListener("resize", resize);
       canvas.addEventListener("webglcontextlost", onLost);
@@ -254,15 +269,20 @@ export default function BigBStorefront() {
         if (x < 1) frame = requestAnimationFrame(draw);
         else finish();
       };
+      note("ink running (webgl2 ok)");
       frame = requestAnimationFrame(draw);
     };
 
     void pageReady().then(() => {
       if (cancelled) return;
       timers.push(window.setTimeout(() => softFade(500), WATCHDOG_MS));
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { softFade(700); return; }
+      if (!debug && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { note("soft fade: reduced motion is on"); softFade(700); return; }
       try { startInk(); }
-      catch (error) { console.error("BIG B'S opening ink reveal fell back to a soft fade:", error); softFade(900); }
+      catch (error) {
+        console.error("BIG B'S opening ink reveal fell back to a soft fade:", error);
+        note("fallback: " + (error instanceof Error ? error.message.slice(0, 160) : "unknown error"));
+        softFade(900);
+      }
     });
 
     return () => {
