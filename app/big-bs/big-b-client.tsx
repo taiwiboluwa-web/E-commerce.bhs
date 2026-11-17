@@ -104,13 +104,13 @@ export default function BigBStorefront() {
     const y = event?.clientY ?? (button?.getBoundingClientRect().top ?? 20) + 22;
     try {
       const [{ default: html2canvas }, { gsap }] = await Promise.all([import("html2canvas"), import("gsap")]);
-      const oldSnapshot = await html2canvas(document.body, { backgroundColor: theme === "dark" ? "#071d13" : "#f7f8f3", scale: Math.min(window.devicePixelRatio || 1, 1.5), useCORS: true, logging: false, width: window.innerWidth, height: window.innerHeight, x: window.scrollX, y: window.scrollY, windowWidth: window.innerWidth, windowHeight: window.innerHeight });
+      const oldSnapshot = await html2canvas(document.body, { backgroundColor: theme === "dark" ? "#08090b" : "#f5f3ef", scale: Math.min(window.devicePixelRatio || 1, 1.5), useCORS: true, logging: false, width: window.innerWidth, height: window.innerHeight, x: window.scrollX, y: window.scrollY, windowWidth: window.innerWidth, windowHeight: window.innerHeight });
       document.documentElement.dataset.theme = next;
       document.documentElement.style.colorScheme = next;
       setTheme(next);
       window.localStorage.setItem("bigbs-theme", next);
       await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-      const newSnapshot = await html2canvas(document.body, { backgroundColor: next === "dark" ? "#071d13" : "#f7f8f3", scale: Math.min(window.devicePixelRatio || 1, 1.5), useCORS: true, logging: false, width: window.innerWidth, height: window.innerHeight, x: window.scrollX, y: window.scrollY, windowWidth: window.innerWidth, windowHeight: window.innerHeight });
+      const newSnapshot = await html2canvas(document.body, { backgroundColor: next === "dark" ? "#08090b" : "#f5f3ef", scale: Math.min(window.devicePixelRatio || 1, 1.5), useCORS: true, logging: false, width: window.innerWidth, height: window.innerHeight, x: window.scrollX, y: window.scrollY, windowWidth: window.innerWidth, windowHeight: window.innerHeight });
       if (!canvas) throw new Error("Ink canvas is unavailable.");
       const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, premultipliedAlpha: false });
       if (!gl) throw new Error("WebGL2 is unavailable.");
@@ -167,7 +167,7 @@ export default function BigBStorefront() {
   return <main className="bigb-shell">
     <canvas ref={canvasRef} className="bigb-ink-canvas" aria-hidden="true" />
     <header className="bigb-header" data-ink-live>
-      <a className="bigb-wordmark" href="#home" aria-label="BIG B'S home"><span className="bigb-mark">B<span>.</span></span><span className="bigb-wordmark-text">BIG B'S<small>IDEAS · PEOPLE · EVOLUTION</small></span></a>
+      <a className="bigb-wordmark" href="#home" aria-label="BIG B'S home"><span className="bigb-mark">B<span>.</span></span><span className="bigb-wordmark-text">BIG B'S EVOLUTION<small>IDEAS · PEOPLE · EVOLUTION</small></span></a>
       <nav className={menuOpen ? "bigb-nav is-open" : "bigb-nav"} aria-label="Main navigation">
         <a href="#about" onClick={closeMenu}>Our story</a><a href="#work" onClick={closeMenu}>What we do</a><a href="#initiatives" onClick={closeMenu}>Initiatives</a><a href="#founder" onClick={closeMenu}>The founder</a>
         <a className="bigb-nav-cta" href="#connect" onClick={closeMenu}>Let's connect </a>
@@ -213,7 +213,7 @@ export default function BigBStorefront() {
 
     <section className="bigb-cta" id="connect"><div className="bigb-cta-orb"/><div className="bigb-section-label"><span>05</span> / YOUR NEXT STEP</div><h2>Have an idea?<br/><em>Let's make it move.</em></h2><p>Whether you have a project, a question, a skill to share or simply want to connect with other students, there's room to start here.</p><a className="bigb-button bigb-button-primary" href="https://wa.me/?text=Hello%20BIG%20B%27S%2C%20I%27d%20like%20to%20connect." target="_blank" rel="noreferrer">Start a conversation </a></section>
 
-    <footer className="bigb-footer"><a className="bigb-wordmark" href="#home"><span className="bigb-mark">B<span>.</span></span><span className="bigb-wordmark-text">BIG B'S<small>IDEAS · PEOPLE · EVOLUTION</small></span></a><span className="bigb-footer-line">A STUDENT-LED BRAND BUILT FOR WHAT'S NEXT.</span><div className="bigb-footer-social"><a href="#connect" aria-label="Instagram"><Instagram size={17}/></a><a href="#connect" aria-label="LinkedIn"><Linkedin size={17}/></a></div><div className="bigb-footer-bottom"><span>© {new Date().getFullYear()} BIG B'S. ALL RIGHTS RESERVED.</span><span>FROM VOICES TO ACTION.</span><a href="https://wa.me/?text=Hello%20BlueHaven%20Studios" target="_blank" rel="noreferrer">POWERED BY BLUEHAVEN STUDIOS </a></div></footer>
+    <footer className="bigb-footer"><a className="bigb-wordmark" href="#home"><span className="bigb-mark">B<span>.</span></span><span className="bigb-wordmark-text">BIG B'S EVOLUTION<small>IDEAS · PEOPLE · EVOLUTION</small></span></a><span className="bigb-footer-line">A STUDENT-LED BRAND BUILT FOR WHAT'S NEXT.</span><div className="bigb-footer-social"><a href="#connect" aria-label="Instagram"><Instagram size={17}/></a><a href="#connect" aria-label="LinkedIn"><Linkedin size={17}/></a></div><div className="bigb-footer-bottom"><span>© {new Date().getFullYear()} BIG B'S EVOLUTION. ALL RIGHTS RESERVED.</span><span>FROM VOICES TO ACTION.</span><a href="https://wa.me/?text=Hello%20BlueHaven%20Studios" target="_blank" rel="noreferrer">POWERED BY BLUEHAVEN STUDIOS </a></div></footer>
     <div className={inkReady ? "bigb-ink-hint" : "bigb-ink-hint is-visible"}>PRESS T OR USE THE SUN / MOON TO SWITCH THEME</div>
   </main>;
 }
