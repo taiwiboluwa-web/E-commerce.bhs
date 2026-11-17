@@ -132,7 +132,12 @@ export default function BigBStorefront() {
     canvas.style.display = "block";
     canvas.style.opacity = "1";
     try {
-      program = makeProgram(gl);
+      program = gl.createProgram();
+      if (!program) throw new Error("Unable to create the opening ink renderer.");
+      gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, vertex));
+      gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, introFragment));
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || "Opening ink renderer link failed.");
       vao = gl.createVertexArray();
       gl.bindVertexArray(vao);
       gl.useProgram(program);
