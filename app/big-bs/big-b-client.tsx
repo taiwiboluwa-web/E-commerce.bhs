@@ -42,14 +42,14 @@ void main(){
   float marbling=sin((fibres*2.0+n*1.8)*19.0+uTime*.35)*.5+.5;
   float radius=uProgress*1.85;
   float edge=length(p)-radius+(n-.5)*.24+(marbling-.5)*.065;
-  float front=smoothstep(.055,-.055,edge);
+  float front=1.0-smoothstep(-.055,.055,edge);
   float band=exp(-pow(edge/.105,2.0));
   vec3 oldColor=texture(uOld,uv).rgb;
   vec3 newColor=texture(uNew,uv).rgb;
   vec3 ink=mix(vec3(.025,.025,.028),vec3(.93,.93,.91),marbling);
   vec3 color=mix(oldColor,newColor,front);
   color=mix(color,ink,band*.72*(1.0-front*.18));
-  float droplets=step(.985,noise(uv*vec2(190.0,130.0)+uTime))*smoothstep(.22,.0,abs(edge))*.42;
+  float droplets=step(.985,noise(uv*vec2(190.0,130.0)+uTime))*(1.0-smoothstep(0.0,.22,abs(edge)))*.42;
   color=mix(color,ink,droplets);
   outColor=vec4(color,1.0);
 }`;
@@ -94,6 +94,10 @@ export default function BigBStorefront() {
     if (busy.current) return;
     busy.current = true;
     const next: Theme = theme === "dark" ? "light" : "dark";
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.dataset.theme = next; document.documentElement.style.colorScheme = next;
+      setTheme(next); window.localStorage.setItem("bigbs-theme", next); busy.current = false; return;
+    }
     const canvas = canvasRef.current;
     const button = document.getElementById("bigb-theme-toggle");
     const x = event?.clientX ?? (button?.getBoundingClientRect().left ?? window.innerWidth - 54) + 22;
