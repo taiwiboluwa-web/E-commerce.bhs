@@ -46,7 +46,7 @@ void main(){
   float band=exp(-pow(edge/.105,2.0));
   vec3 oldColor=texture(uOld,uv).rgb;
   vec3 newColor=texture(uNew,uv).rgb;
-  vec3 ink=mix(vec3(.025,.025,.028),vec3(.93,.93,.91),marbling);
+  vec3 ink=mix(vec3(.025,.025,.028),vec3(.96,.94,.89),marbling);
   vec3 color=mix(oldColor,newColor,front);
   color=mix(color,ink,band*.72*(1.0-front*.18));
   float droplets=step(.985,noise(uv*vec2(190.0,130.0)+uTime))*(1.0-smoothstep(0.0,.22,abs(edge)))*.42;
@@ -76,18 +76,20 @@ function makeProgram(gl: WebGL2RenderingContext) {
 }
 
 export default function BigBStorefront() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [menuOpen, setMenuOpen] = useState(false);
   const [inkReady, setInkReady] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const busy = useRef(false);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("bigbs-theme");
-    const initial: Theme = saved === "light" ? "light" : "dark";
-    setTheme(initial);
-    document.documentElement.dataset.theme = initial;
-    document.documentElement.style.colorScheme = initial;
+    // Every fresh visit begins in the warm cream identity, then the ink spill
+    // reveals the dark experience. The intro is intentionally replayed on refresh.
+    document.documentElement.dataset.theme = "light";
+    document.documentElement.style.colorScheme = "light";
+    window.localStorage.setItem("bigbs-theme", "dark");
+    const intro = window.setTimeout(() => { void toggleTheme(); }, 420);
+    return () => window.clearTimeout(intro);
   }, []);
 
   const toggleTheme = useCallback(async (event?: { clientX: number; clientY: number }) => {
