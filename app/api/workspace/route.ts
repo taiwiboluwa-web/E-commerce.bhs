@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "node:crypto";
 import { neon } from "@neondatabase/serverless";
-import { compactTenantOriginalImages } from "../../../lib/media";
+import { compactTenantOriginalImages, deleteTenantMediaObjects } from "../../../lib/media";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -81,7 +81,48 @@ export async function PATCH(req: NextRequest) {
     const sql = db();
     let result: any[] = [];
     const id = String(body.id || "");
-    if (body.action === "tenant_storage_compress") {
+    if (body.action === "tenant_delete") {
+      if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
+      const tenantRows = await sql.query(
+        "SELECT id FROM public.tenants WHERE id=$1::uuid AND deleted_at IS NULL",
+        [id]
+      );
+      if (!tenantRows.length) return fail("This storefront no longer exists.", 404);
+
+      // Remove stored originals and generated derivatives first. If object storage fails,
+      // keep the tenant and its database records intact so deletion can be retried safely.
+      const assets = await sql.query(
+        "WITH tenant_context AS MATERIALIZED (SELECT set_config('app.tenant_id',$1,true)) SELECT a.original_object_key,a.optimized_manifest FROM tenant_context CROSS JOIN public.media_assets a WHERE a.tenant_id=$1::uuid",
+        [id]
+      );
+      await deleteTenantMediaObjects(assets);
+
+      // Purge dependent records in FK-safe order, then the tenant itself.
+      await sql.transaction([
+        sql.query("SELECT set_config('app.tenant_id',$1,true)", [id]),
+        sql.query("DELETE FROM public.order_items WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.orders WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.products WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.sessions WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.subscriptions WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.payment_transactions WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.platform_feature_controls WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.tenant_storage_events WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.media_assets WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.tenant_storage_addons WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.tenant_storage_accounts WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.storefront_settings WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.client_applications WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.audit_events WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.users WHERE tenant_id=$1::uuid", [id]),
+        sql.query("DELETE FROM public.tenants WHERE id=$1::uuid", [id])
+      ]);
+      await sql.query(
+        "INSERT INTO public.audit_events(action,entity_type,entity_id,metadata) VALUES('tenant_deleted','workspace',$1,$2::jsonb)",
+        [id, JSON.stringify({ actor: "platform_owner", result: "permanently_deleted" })]
+      );
+      return NextResponse.json({ ok: true, deleted: true, id });
+    } else if (body.action === "tenant_storage_compress") {
       if (!/^[0-9a-f-]{36}$/i.test(id)) return fail("Invalid storefront.");
       const compacted = await compactTenantOriginalImages(id);
       await sql.query("INSERT INTO public.audit_events(action,entity_type,entity_id,metadata) VALUES($1,$2,$3,$4::jsonb)", ["tenant_storage_compress","tenant",id,JSON.stringify({actor:"platform_owner",...compacted})]);
