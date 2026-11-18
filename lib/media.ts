@@ -118,6 +118,39 @@ export async function deleteStoredImageObjects(input: {
 }
 
 
+/** Permanently remove every object owned by a tenant before its database records are purged. */
+export async function deleteTenantMediaObjects(assets: Array<{
+  original_object_key: string | null;
+  optimized_manifest: unknown;
+}>): Promise<void> {
+  if (!assets.length) return;
+  const client = getStorageClient();
+  const optimizedKeys = new Set<string>();
+  const originalKeys = new Set<string>();
+  const collect = (value: unknown) => {
+    if (Array.isArray(value)) {
+      value.forEach(collect);
+      return;
+    }
+    if (!value || typeof value !== "object") return;
+    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+      if (typeof child === "string" && /^(avifKey|webpKey|objectKey|fileKey|thumbnailKey|posterKey|optimizedKey)$/i.test(key) && child.trim()) {
+        optimizedKeys.add(child);
+      } else {
+        collect(child);
+      }
+    }
+  };
+  for (const asset of assets) {
+    if (asset.original_object_key) originalKeys.add(asset.original_object_key);
+    collect(asset.optimized_manifest);
+  }
+  await Promise.all([
+    ...[...originalKeys].map((Key) => client.send(new DeleteObjectCommand({ Bucket: ORIGINALS_BUCKET, Key }))),
+    ...[...optimizedKeys].map((Key) => client.send(new DeleteObjectCommand({ Bucket: OPTIMIZED_BUCKET, Key }))),
+  ]);
+}
+
 /** Remove private originals after derivatives exist; client quota remains based on original upload size. */
 export async function compactTenantOriginalImages(tenantId: string): Promise<{ processed: number; physicalBytesBefore: number; physicalBytesAfter: number; savedBytes: number }> {
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not configured.");
