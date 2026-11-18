@@ -137,3 +137,20 @@
 
 /* Platform-owner storage allocation controls */
 .wm-storage-control{display:grid;gap:7px;min-width:150px}.wm-storage-control b{font-size:13px;color:#f5f3ef}.wm-storage-control label{display:grid;gap:5px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#a6a6ae}.wm-storage-control input{width:100%;min-width:110px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:#111116;color:#f5f3ef;padding:8px 9px;font:inherit;letter-spacing:normal;text-transform:none}.wm-storage-control button{border:1px solid rgba(255,201,0,.35);border-radius:9px;background:rgba(255,201,0,.1);color:#ffc900;padding:8px 10px;font-size:11px;font-weight:700;cursor:pointer}.wm-storage-control button:disabled{opacity:.55;cursor:wait}
+
+
+/* Permanent storefront deletion */
+.wm-delete-store{border:1px solid rgba(255,112,112,.28);background:rgba(255,88,88,.08);color:#ffaaaa;border-radius:9px;padding:9px 12px;font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+.wm-delete-store:hover{background:rgba(255,88,88,.16);border-color:rgba(255,112,112,.55)}
+.wm-delete-store:disabled{opacity:.5;cursor:not-allowed}
+.wm-delete-backdrop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(10px)}
+.wm-delete-dialog{width:min(100%,480px);padding:26px;border:1px solid rgba(255,255,255,.14);border-radius:20px;background:#141418;box-shadow:0 28px 100px rgba(0,0,0,.55)}
+.wm-delete-kicker{font-size:9px;font-weight:900;letter-spacing:.16em;color:#ff9d9d}
+.wm-delete-dialog h3{margin:10px 0 8px;color:#f5f3ef;font-size:22px;letter-spacing:-.04em}
+.wm-delete-dialog p{margin:0;color:rgba(245,243,239,.62);font-size:12px;line-height:1.7}
+.wm-delete-summary{display:grid;gap:4px;margin:18px 0;padding:13px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.035)}
+.wm-delete-summary b{color:#f5f3ef;font-size:13px}.wm-delete-summary small{color:rgba(245,243,239,.42);font-size:11px}
+.wm-delete-actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:20px}
+.wm-delete-actions button{min-height:42px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);color:#f5f3ef;font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+.wm-delete-actions .wm-delete-confirm{border-color:transparent;background:#e54848;color:#fff}
+.wm-delete-actions button:disabled{opacity:.55;cursor:not-allowed}
